@@ -2,6 +2,7 @@
   "id": "1-1",
   "name": "Two Paths",
   "role": "introduce",
+  "par": 7,
   "designNote": "Teaches that both move together; no desync yet.",
   "heads": ["########",
             "#S....G#",

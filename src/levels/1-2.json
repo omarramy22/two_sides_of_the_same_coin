@@ -1,0 +1,18 @@
+{
+  "id": "1-2",
+  "name": "Wait for Me",
+  "role": "develop",
+  "par": 12,
+  "designNote": "Aha: walking into a wall is how one of them waits. Sol must walk the long way round while Lune stands still.",
+  "heads": ["########",
+            "#S.....#",
+            "#^^^^^.#",
+            "#G.....#",
+            "########"],
+  "tails": ["########",
+            "#L#....#",
+            "#.#....#",
+            "#G.....#",
+            "########"],
+  "hints": ["Don't step into the dark.", "Lune can wait against her wall while Sol walks around.", null]
+}

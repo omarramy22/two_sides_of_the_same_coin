@@ -1,0 +1,14 @@
+{
+  "id": "2-1",
+  "name": "Door Switch",
+  "role": "introduce",
+  "par": 7,
+  "designNote": "Aha: when Lune stands on her plate, Sol's door shuts. One side's gain is the other side's loss.",
+  "heads": ["#########",
+            "#S..A..G#",
+            "#########"],
+  "tails": ["#########",
+            "#L.a...G#",
+            "#########"],
+  "hints": ["Watch Sol's door when Lune steps on the plate.", "Keep walking. The door opens again once Lune steps off.", null]
+}

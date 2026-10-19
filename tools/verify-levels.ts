@@ -25,7 +25,7 @@ function ablations(f: LevelFile): { label: string; file: LevelFile }[] {
     if (c === 'C' || c === '^') {
       const v = [...grids]; v[wi] = g.slice(0, i) + '.' + g.slice(i + 1);
       out.push({ label: `${c === 'C' ? 'crate' : 'pit'} ${name}(${at(i)})`, file: build(v) });
-    } else if (c === '\\') {
+    } else if (c === '|') {
       const v = grids.map((x) => x.slice(0, i) + '.' + x.slice(i + 1));
       out.push({ label: `seesaw (${at(i)})`, file: build(v) });
     } else if (isGate(c)) {

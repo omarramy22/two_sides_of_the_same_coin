@@ -94,7 +94,7 @@ describe('pushing (§4.1)', () => {
   it('cannot push into a closed gate or a raised seesaw end', () => {
     const lv = lvl(['SCA.G', 'a....'], ['L...G', '.....']);
     expect(run(lv, ['right']).pos[0]).toBe(lv.start.pos[0]);
-    const lv2 = lvl(['SC\\.G'], ['L./.G']);
+    const lv2 = lvl(['SC|.G'], ['L./.G']);
     expect(run(lv2, ['right']).pos[0]).toBe(lv2.start.pos[0]);
   });
 });
@@ -155,33 +155,33 @@ describe('plates and gates (§5)', () => {
 
 describe('seesaws (§6)', () => {
   // Lune walks on row 1, so she never touches the twin unless a test says so.
-  const lv = lvl(['S\\.G', '....'], ['./.G', 'L...']);
+  const lv = lvl(['S|.G', '....'], ['./.G', 'L...']);
   it('stomping the raised end flips the pair; the stomper stays put', () => {
     const ev: GameEvent[] = [];
     const s = tick(lv, lv.start, 'right', ev);
     expect(s.pos[0]).toBe(lv.start.pos[0]);
-    expect([s.tiles[0][1], s.tiles[1][1]]).toEqual(['/', '\\']);
+    expect([s.tiles[0][1], s.tiles[1][1]]).toEqual(['/', '|']);
     expect(ev.some((e) => e.type === 'stomp')).toBe(true);
     expect(run(lv, ['right', 'right']).pos[0]).toBe(1); // Sol can now walk on
   });
   it('a character entering the lowered twin the same tick jams the flip', () => {
-    const lv2 = lvl(['S\\.G'], ['L/.G']);
+    const lv2 = lvl(['S|.G'], ['L/.G']);
     const ev: GameEvent[] = [];
     const s = tick(lv2, lv2.start, 'right', ev);
     expect(s.pos[1]).toBe(1);
-    expect(s.tiles[0][1]).toBe('\\');
+    expect(s.tiles[0][1]).toBe('|');
     expect(ev.some((e) => e.type === 'stompJam')).toBe(true);
   });
   it('a crate on the lowered end locks the seesaw', () => {
     const s0: State = { ...lv.start, objs: [lv.start.objs[0], ' C      '] };
     const s = tick(lv, s0, 'right');
-    expect(s.tiles[0][1]).toBe('\\');
+    expect(s.tiles[0][1]).toBe('|');
     expect(s.objs[1][1]).toBe('C');
   });
   it('a pushed crate cannot stomp', () => {
-    const lv = lvl(['SC\\.G'], ['L./.G']);
+    const lv = lvl(['SC|.G'], ['L./.G']);
     const s = run(lv, ['right']);
-    expect(s.tiles[0][2]).toBe('\\');
+    expect(s.tiles[0][2]).toBe('|');
   });
 });
 

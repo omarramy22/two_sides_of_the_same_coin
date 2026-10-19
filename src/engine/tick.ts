@@ -32,7 +32,7 @@ export function gateJammed(lv: Level, s: State, w: W, i: number): boolean {
 
 function solid(lv: Level, s: State, w: W, i: number): boolean {
   const c = s.tiles[w][i];
-  return c === '#' || c === '\\' || (isGate(c) && !gateOpen(lv, s, w, i));
+  return c === '#' || c === '|' || (isGate(c) && !gateOpen(lv, s, w, i));
 }
 
 export function isWon(s: State): boolean {
@@ -66,7 +66,7 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
       ev?.push({ type: 'push', world: w, at: to });
       continue;
     }
-    if (s.tiles[w][to] === '\\') { stomps.push([w, to]); continue; }
+    if (s.tiles[w][to] === '|') { stomps.push([w, to]); continue; }
     if (solid(lv, s, w, to)) { ev?.push({ type: 'bump', world: w, at: s.pos[w] }); continue; }
     pos[w] = to;
     ev?.push({ type: 'move', world: w, at: to });
@@ -77,7 +77,7 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
     const o = (1 - w) as W;
     if (pos[o] === i || objs[o][i] !== ' ') { ev?.push({ type: 'stompJam', world: w, at: i }); continue; }
     tiles[w][i] = '/';
-    tiles[o][i] = '\\';
+    tiles[o][i] = '|';
     ev?.push({ type: 'stomp', world: w, at: i });
   }
 

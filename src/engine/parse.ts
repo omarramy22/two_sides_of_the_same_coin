@@ -4,7 +4,7 @@ import type { Level, LevelFile, Role, W } from './types';
 const RESERVED = 'CGLMOQS';
 const ROLES: Role[] = ['introduce', 'develop', 'twist', 'combine', 'capstone', 'finale'];
 // Glyphs implemented so far (Ch1-2). Later chapters extend this.
-const BASIC = '#.SLGC^/\\';
+const BASIC = '#.SLGC^/|';
 
 export const isPlate = (c: string) => c >= 'a' && c <= 'z' && !RESERVED.includes(c.toUpperCase());
 export const isGate = (c: string) => c >= 'A' && c <= 'Z' && !RESERVED.includes(c);
@@ -35,9 +35,9 @@ export function parseLevel(f: LevelFile): Level {
         (plates[c] ??= []).push(i);
       } else if (isGate(c)) gates.add(c.toLowerCase());
       else if (!BASIC.includes(c)) fail(`unknown glyph "${c}"`);
-      if (c === '/' || c === '\\') {
+      if (c === '/' || c === '|') {
         const twin = grids[1 - wi][i];
-        if (twin !== (c === '/' ? '\\' : '/')) fail(`seesaw at ${i % w},${Math.floor(i / w)} needs a '/' and '\\' twin pair`);
+        if (twin !== (c === '/' ? '|' : '/')) fail(`seesaw at ${i % w},${Math.floor(i / w)} needs a '/' and '|' twin pair`);
       }
     });
   });

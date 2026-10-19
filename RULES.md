@@ -47,7 +47,7 @@ Where it differs from SPEC.md, the difference is listed in §11 and needs sign-o
 | `a`…`z` | pressure plate for link *x* | 2 |
 | `A`…`Z` | gate for link *X* | 2 |
 | `/` | seesaw end, lowered (floor) | 2 |
-| `\` | seesaw end, raised (wall) | 2 |
+| `|` | seesaw end, raised (wall) | 2 |
 | `*` | lantern | 3 |
 | `=` | mirage: solid only while **lit** in its own world | 3 |
 | `-` | shadow bridge: solid only while **shadowed** in its own world | 3 |
@@ -59,6 +59,8 @@ Where it differs from SPEC.md, the difference is listed in §11 and needs sign-o
 | `Q` | light altar (Shadow → Light-bearer) | 5 |
 | `$` | wish altar (finale) | 6 |
 | `M` | mirror shrine | 6 |
+| `@` | Tarnish, awake (§5a) | 1 |
+| `?` | Tarnish, asleep (§5a) | 1 |
 
 **Reserved letters:** `C G L M O Q S` (both cases) are never link letters. Links use the other 19 letters.
 
@@ -67,7 +69,7 @@ Where it differs from SPEC.md, the difference is listed in §11 and needs sign-o
 1. Both worlds have the same width and height; every row in a world has the same length.
 2. Exactly one `S` in H, none in T. Exactly one `L` in T, none in H. Exactly one `G` per world (`$` replaces `G` in a `finale` level).
 3. Every plate letter *x* has at least one gate `X` (in either world) and all plates *x* are in **one** world (the link's *owner* world). Every gate `X` has at least one plate *x*.
-4. Seesaws: a coordinate holding a seesaw holds one in **both** worlds, exactly one `/` and one `\`.
+4. Seesaws: a coordinate holding a seesaw holds one in **both** worlds, exactly one `/` and one `|`.
 5. Basins: the basin mask is identical in both worlds, and each basin coordinate is `~` in exactly one world and `_` in the other.
 6. Each sluice is orthogonally adjacent to exactly one basin region (§8) in its own world.
 7. Only reserved glyphs appear.
@@ -79,13 +81,13 @@ Everything the solver hashes. Anything not listed is either static (from the lev
 | Field | Notes |
 |---|---|
 | `pos[H]`, `pos[T]` | character positions |
-| `objects[H]`, `objects[T]` | crate and lantern positions (sets) |
+| `objects[H]`, `objects[T]` | crate, lantern and Tarnish (awake/asleep) positions |
 | `terrain changes` | pits filled, cracked floors broken, rafts created, altars used |
 | `seesaw[coord]` | which world's end is raised |
 | `water[coord]` | which world each basin coordinate is flooded in |
 | `coin[c]`, `weightless[c]`, `lightBearer[c]` | per character |
 | `mirror` | Lune's left/right is flipped |
-| `fallen[c]` | set by §4 step 7; a fallen state is terminal |
+| `fallen[c]` | set when a character falls (§4 step 7) or is caught (§5a); terminal |
 
 Derived, never stored: gate open/closed/jammed (§5), light and shadow (§7), plate pressed.
 Turn count is **not** part of the state (it's in the undo history).
@@ -97,17 +99,20 @@ Turn count is **not** part of the state (it's in the undo history).
 1. **Intent.** Sol's direction is `dir`. Lune's direction is `dir`, with left↔right swapped if `mirror` is set.
 2. **Movement**, each world independently, all checks against the **start-of-tick** state (gates, light, water, seesaws as they were before this input):
    - Target is the board edge → bump.
-   - Target has an object → **push** (§4.1). If the push fails, bump.
+   - Target has an awake Tarnish → the character moves there and is **caught** (§5a).
+   - Target has a sleeping Tarnish → bump (it can't be pushed).
+   - Target has a crate or lantern → **push** (§4.1). If the push fails, bump.
    - Target is a raised seesaw end → **stomp** if weighted (§6), else bump.
    - Target is wall, closed gate, flooded basin (no raft) → bump.
    - Otherwise the character moves. Entering a pit, a void bridge, or (if weighted) cracked floor is allowed; it leads to a fall in step 7. Entering weighted onto `%` turns it into `^` now.
    - After both worlds have moved, in this order: **mirror shrines** (each character that *entered* an `M` this tick toggles `mirror`; two entries in one tick cancel out); **altars** (§9).
-3. **Plates.** Plate *x* is pressed if a crate, a lantern, or a weighted character is on it. Link *x* is **active** if any plate *x* is pressed.
+   - Then the **Tarnish** act (§5a): flip on alignment, otherwise the awake ones step; then catches.
+3. **Plates.** Plate *x* is pressed if a crate, a lantern, a Tarnish (awake or asleep) or a weighted character is on it. Link *x* is **active** if any plate *x* is pressed.
 4. **Links.** Gates are re-derived (§5). Stomps queued in step 2 are applied (§6). Both use **post-movement** occupancy.
 5. **Light** is re-derived (§7).
 6. **Water** flows one step (§8).
 7. **Falls.** A character falls if its tile is a pit `^` or a void bridge. An object on a void bridge falls and is removed.
-8. **Win.** Neither character has fallen, and Sol and Lune are both on their goal (`G`). In a finale level the condition is §9.3 instead.
+8. **Win.** Neither character has fallen or been caught, and Sol and Lune are both on their goal (`G`). In a finale level the condition is §9.3 instead.
 
 A bump still uses the turn: both characters always spend the same input. This is how desync works. Water still flows on a turn where both characters bump; bumping is how you wait.
 
@@ -135,6 +140,25 @@ A gate that wants to close but has a character or object on it **stays open and 
 Timing examples (plate *a* in Heads, gate `A` in Tails):
 - Sol steps **onto** *a* while Lune steps into `A`. Movement (step 2) sees `A` open, so Lune enters. Step 4: `A` wants to close but Lune is on it, so it jams.
 - Sol steps **off** *a* while Lune walks at `A`. Movement sees `A` closed, so Lune bumps; `A` opens at step 4. A gate that opens this tick can't be walked through this tick.
+
+## 5a. The Tarnish (enemies)
+
+Rusted wish-coins that hunt the half-coin pendants. Each body lives in one world and is **awake** (`@`) or **asleep** (`?`). Levels pair them across worlds by convention (one awake, its twin asleep), but the engine treats every body independently.
+
+**Alignment flip.** If, after the characters move (step 2), Sol and Lune stand on the same coordinates and did **not** at the start of the tick, every Tarnish in both worlds flips: awake ↔ asleep. On a flip tick **no Tarnish steps**. Staying aligned doesn't flip again; you have to separate and re-align.
+
+**Stepping** (when there's no flip). Each awake Tarnish, in reading order (Heads first, then Tails; top-to-bottom, left-to-right as at the start of the tick), takes one step toward its own world's character:
+- Let `dx`, `dy` be the distance to the character. The **primary** axis is the one with the larger `|d|` (a tie means horizontal); the other axis is secondary.
+- Try the primary step, then the secondary step (only on an axis with `d ≠ 0`). Take the first one that isn't blocked; if both are blocked, stay.
+- **Blocked by:** board edge, wall, closed gate, raised seesaw end (all as at the start of the tick), crates, lanterns, and other Tarnish (at their current positions, so earlier movers have already moved). Tarnish never push or stomp.
+- **Pits:** a Tarnish that steps into a pit falls in and **fills it** (the tile becomes floor), exactly like a crate. That's the lure.
+- It's greedy on purpose: predictable, and lurable around corners.
+
+**Caught.** At the end of step 2, a character sharing a tile with an awake Tarnish is caught (`fallen` is set; the game offers a rewind). Walking into an awake Tarnish counts.
+
+**Asleep** Tarnish are solid and harmless: characters bump into them, crates can't be pushed into them, other Tarnish are blocked by them. Like any body they still press plates and still jam gates and seesaws.
+
+Why the flip fits the theme: lining the halves up is the closest the coin gets to whole, so its light calms one side's Tarnish and wakes the other side's. Calming a threat for one side is never free.
 
 ## 6. Seesaws
 
@@ -202,7 +226,7 @@ The finale is won when, at the end of a tick, Sol is on H's `$` and Lune is on T
 The solver is BFS over `tick` (A* only if a level needs it). Fallen states are pruned.
 
 1. **Solvable**, and the optimal move count is stored as `par`. Fail if not.
-2. **Ablation.** For each interactive element (crate, lantern, plate, gate, seesaw pair, sluice, altar, shrine, pit, cracked tile), replace it with floor and re-solve. A plate letter is ablated with all its plates at once. The element **matters** if the level becomes unsolvable **or par changes**. Fail if neither. If par only changes for a different reason than intended, the human reviews the table.
+2. **Ablation.** For each interactive element (crate, lantern, Tarnish, plate, gate, seesaw pair, sluice, altar, shrine, pit, cracked tile), replace it with floor and re-solve. A plate letter is ablated with all its plates at once. The element **matters** if the level becomes unsolvable **or par changes**. Fail if neither. If par only changes for a different reason than intended, the human reviews the table.
 3. **Anti-mash.** Seeded RNG, 2,000 uniform random walks of up to 300 moves (a fall ends the attempt). Allowed solve rate by `role`: `introduce` any; `develop` ≤ 10%; everything else ≤ 1%. Fail above that.
 4. **Metrics table per chapter:** par, states explored, desync moves in the optimal solution (a move where exactly one character changes position), number of optimal solutions (counted up to 1,000).
 5. Checks 1–3 fail the build.
@@ -210,7 +234,7 @@ The solver is BFS over `tick` (A* only if a level needs it). Fallen states are p
 ## 11. Differences from SPEC.md (need your sign-off)
 
 1. **Legend letter clash.** `S L G C O M` are all inside `A–Z`, the gate range. Fix: reserve `C G L M O Q S` and use the other 19 letters for links.
-2. **Seesaws can't flip as written.** The raised end is a wall, so weight can never get onto it. Fix: the *stomp* (§6): walking into a raised end presses it down, raising its twin unless something is on the twin. Seesaws become cross-world twins, `/` lowered and `\` raised.
+2. **Seesaws can't flip as written.** The raised end is a wall, so weight can never get onto it. Fix: the *stomp* (§6): walking into a raised end presses it down, raising its twin unless something is on the twin. Seesaws become cross-world twins, `/` lowered and `|` raised (not `\`, which would need escaping in level JSON).
 3. **Light was underspecified** (which world lanterns live in, beam shape, both worlds lit). Fix: lanterns in either world, cross-shaped beams, eclipse cancels (§7). Separate glyphs `=` mirage and `-` shadow bridge instead of one `=`.
 4. **"Raised" in the jam rule** now means a rising seesaw end (§6).
 5. **Water: "blocks walking" vs. "falls in deep water".** Fix: water blocks walking and never floods onto a character, so drowning can't happen. Falls are only pits, broken cracked floor and void bridges. Water is modelled as one unit per basin coordinate, so the conservation law holds per tile and the rule fits in one sentence.

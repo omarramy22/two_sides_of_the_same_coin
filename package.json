@@ -6,13 +6,18 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "verify-levels": "tsx tools/verify-levels.ts",
+    "shots": "tsx tools/screenshots.ts"
   },
   "dependencies": {
     "pixi.js": "^8.22.0",
     "tone": "^15.1.22"
   },
   "devDependencies": {
+    "@types/node": "^20.19.43",
+    "playwright": "^1.64.1",
+    "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "vite": "^6.4.4",
     "vitest": "^4.1.12"

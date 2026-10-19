@@ -41,6 +41,14 @@ Someone tosses a coin into an old wishing well. On the way down the coin splits 
 
 The coin is falling. Each chapter is a deeper layer of the well. The two must reach each other before the coin hits the bottom; only a whole coin grants the wish. The story is told **without text**, through environment art, character animation and short illustrated vignettes (3 panels) between chapters. The final vignette shows who made the wish: two people at the well, previously turned away from each other, now side by side. It's left ambiguous (siblings? friends?) and mirrors the game's theme.
 
+### 2.1.1 The Tarnish (enemies; added after Phase 0 review)
+The well is full of old coins from wishes that were never granted. Over the years they rusted into **the Tarnish**: small, hungry coin-creatures that want a whole wish. A split coin is easy prey, so they hunt the **half-coin pendants**. Each Tarnish has a twin in the other world, and they obey the coin's law: **when the two halves line up (Sol and Lune on the same coordinates), the coin's light flips every Tarnish: the awake ones fall asleep and the sleeping ones wake.** Calming a threat for one side wakes one for the other.
+- Turn-based: each awake Tarnish takes one step toward its world's character after every input. Being caught triggers the gentle rewind, never a game over.
+- You can't fight them. You outsmart them: lure them into pits (they fill the pit), block them with crates, shut gates on them, or align the halves to put them to sleep.
+- Introduced in Chapter 1 and given a new twist by each later chapter's mechanic (shut in by gates, frozen by light, swimming in basins, drawn to whoever still carries a coin).
+- Finale payoff: when the coin is whole again on the Rim, the Tarnish shine back into ordinary coins. That is the wish being granted.
+- Exact rules live in `RULES.md` §5a.
+
 ### 2.2 The one rule everything comes from
 > **The coin is balanced. Whatever one side gains, the other side loses.**
 
@@ -219,6 +227,7 @@ Settings: master/music/SFX volume and mute. Audio starts only after the first us
 
 ## 7. UX & UI
 
+- **Opening intro (added after Phase 0 review):** a wordless 20–30 s animated sequence of storybook panels in the game's art style. A hand tosses a coin into the well, it splits as it falls, Sol and Lune wake in their halves, and Tarnish eyes glint in the dark below. Plays once on first launch, skippable (any key/tap), replayable from the menu. Doubles as the opening of the submission trailer. Built in Phase 5.
 - **Title screen:** the well seen from above with a coin glinting at the bottom; the logo is engraved on a coin that slowly spins. One button: *Play*. Settings and Credits are small.
 - **Level select:** a **coin collector's album**. Each chapter is a page and each level is a coin medallion (guilloché border). It shows stars: 1 = solved, 2 = within par+30%, 3 = par ("Perfect Coin"). Unsolved levels show a silhouette.
 - **In-game HUD:** minimal. Move counter, par, and icons for undo, restart, hint and menu. Nothing covers the board.
@@ -270,7 +279,7 @@ Scripts: `dev`, `build`, `test`, `verify-levels`, `art`, `art:sheet`, `shots` (s
 
 **Phase 4: Chapters 2–6.** Repeat per chapter: mechanic in engine with tests → greybox levels → `verify-levels` passes, with the metrics table reviewed for curve → art → music theme → SFX → screenshots self-review. **STOP after each chapter.**
 
-**Phase 5: Story & finale.** Chapter vignettes (3 illustrated panels each, same art pipeline), the Rim finale sequence, ending, credits. **STOP.**
+**Phase 5: Story & finale.** Opening intro (§7), chapter vignettes (3 illustrated panels each, same art pipeline), the Rim finale sequence, ending, credits. **STOP.**
 
 **Phase 6: Ship.** Full verification, a performance pass (profile on throttled CPU), a cross-browser check (Chromium; Firefox/Safari if available), mobile layout screenshots, and a final `shots` review of every level. Produce the **submission kit**: itch.io zip, a 30–45 s gameplay GIF/video captured with Playwright, 6 hero screenshots, and a 150-word pitch plus a short "design story" paragraph (the conservation law, melodic inversion, solver-verified levels) for the judges. **STOP.**
 

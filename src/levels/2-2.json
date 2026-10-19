@@ -1,0 +1,14 @@
+{
+  "id": "2-2",
+  "name": "Seesaw",
+  "role": "introduce",
+  "par": 8,
+  "designNote": "Aha: a seesaw end can't rise under someone. Sol's first stomp fails while Lune stands on the low end; once she steps off, it flips.",
+  "heads": ["#########",
+            "#S..|..G#",
+            "#########"],
+  "tails": ["#########",
+            "#L../..G#",
+            "#########"],
+  "hints": ["Push into the raised end to press it down.", "It won't flip while Lune stands on the other end.", null]
+}
