@@ -185,6 +185,78 @@ describe('seesaws (§6)', () => {
   });
 });
 
+describe('the Tarnish (§5a)', () => {
+  it('an awake Tarnish steps toward its own character after the characters move', () => {
+    const lv = lvl(['S...@G'], ['L....G']);
+    const s = tick(lv, lv.start, 'up'); // both bump; Tarnish steps left
+    expect(s.objs[0]).toBe('   @  ');
+  });
+  it('greedy: larger axis first, tie means horizontal, falls back to the other axis', () => {
+    const lv = lvl(['S....', '.....', '...@G'], ['L....', '.....', '....G']);
+    expect(tick(lv, lv.start, 'up').objs[0].indexOf('@')).toBe(at(lv, 2, 2)); // |dx|=3 > |dy|=2
+    const lv2 = lvl(['S....', '..#..', '..@.G'], ['L....', '.....', '....G']);
+    // dx=-2, dy=-2: tie, horizontal first -> (1,2)
+    expect(tick(lv2, lv2.start, 'up').objs[0].indexOf('@')).toBe(at(lv2, 1, 2));
+    const lv3 = lvl(['S....', '.....', '.#@.G'], ['L....', '.....', '....G']);
+    // horizontal blocked by wall, so vertical
+    expect(tick(lv3, lv3.start, 'up').objs[0].indexOf('@')).toBe(at(lv3, 2, 1));
+  });
+  it('blocked by crates and other Tarnish; both stuck means it stays', () => {
+    const lv = lvl(['SC@.G'], ['L...G']);
+    expect(tick(lv, lv.start, 'up').objs[0]).toBe(' C@  ');
+  });
+  it('a Tarnish stepping onto the character catches it', () => {
+    const lv = lvl(['S.@.G'], ['L...G']);
+    const ev: GameEvent[] = [];
+    const s = tick(lv, lv.start, 'right', ev);
+    expect(s.fallen).toEqual([true, false]);
+    expect(ev.some((e) => e.type === 'caught')).toBe(true);
+    expect(isWon(s)).toBe(false);
+  });
+  it('walking into an awake Tarnish catches you', () => {
+    const lv = lvl(['S@..G', '.....'], ['L#..G', '.....']);
+    expect(tick(lv, lv.start, 'right').fallen[0]).toBe(true);
+  });
+  it('a sleeping Tarnish is a harmless wall that never moves', () => {
+    const lv = lvl(['S?..G'], ['L...G']);
+    const s = tick(lv, lv.start, 'right');
+    expect(s.pos[0]).toBe(lv.start.pos[0]);
+    expect(s.objs[0]).toBe(' ?   ');
+    expect(s.fallen).toEqual([false, false]);
+  });
+  it('a Tarnish stepping into a pit fills it', () => {
+    const lv = lvl(['S.^@G'], ['L...G']);
+    const s = tick(lv, lv.start, 'up');
+    expect(s.tiles[0]).toBe('....G');
+    expect(s.objs[0].trim()).toBe('');
+  });
+  it('a Tarnish filling a pit cannot save a character who stepped into it', () => {
+    const lv = lvl(['S^@.G'], ['L...G']);
+    expect(tick(lv, lv.start, 'right').fallen[0]).toBe(true);
+  });
+  it('a Tarnish weighs down plates', () => {
+    const lv = lvl(['S.a@G', '..A..'], ['L....', '....G']);
+    const s = tick(lv, lv.start, 'up');
+    expect(gateOpen(lv, s, 0, at(lv, 2, 1))).toBe(true);
+  });
+  it('aligning the halves flips every Tarnish, and none steps that tick', () => {
+    const lv = lvl(['.S..@G', '......'], ['L....?', '.....G']);
+    const ev: GameEvent[] = [];
+    const s = tick(lv, lv.start, 'left', ev); // Sol to x=0, Lune bumps at x=0: now aligned
+    expect(s.pos[0]).toBe(s.pos[1]);
+    expect(s.objs[0]).toBe('    ?       ');
+    expect(s.objs[1]).toBe('     @      ');
+    // Staying aligned doesn't flip again; the newly awake one now steps.
+    const s2 = tick(lv, s, 'left');
+    expect(s2.objs[0]).toBe(s.objs[0]);
+    expect(s2.objs[1].indexOf('@')).toBe(at(lv, 4, 0));
+  });
+  it('crates cannot be pushed into a Tarnish', () => {
+    const lv = lvl(['SC?.G'], ['L...G']);
+    expect(tick(lv, lv.start, 'right').pos[0]).toBe(lv.start.pos[0]);
+  });
+});
+
 describe('history', () => {
   it('undo and an undoable restart', () => {
     const lv = lvl(['S..G'], ['L..G']);

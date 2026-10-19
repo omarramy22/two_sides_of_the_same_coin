@@ -1,0 +1,18 @@
+{
+  "id": "1-5",
+  "name": "Two Sides",
+  "role": "capstone",
+  "par": 20,
+  "designNote": "Aha (sacrifice): line the halves up just as the Tarnish reaches Sol. The coin's light puts Sol's hunter to sleep and wakes Lune's, which walks into her pit and becomes her bridge. Sol's safety costs Lune a chase, and Sol's sleeper is now a wall in his way.",
+  "heads": ["#########",
+            "#S...#..#",
+            "#.#.....#",
+            "#..@#..G#",
+            "#########"],
+  "tails": ["#########",
+            "#L.^..?G#",
+            "#.#######",
+            "#.......#",
+            "#########"],
+  "hints": ["When Sol and Lune line up, the coin shines.", "Let the Tarnish get close to Sol, then line them up. Lune's sleeper wakes and comes for her.", null]
+}

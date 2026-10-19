@@ -29,7 +29,8 @@ export interface Level extends Omit<LevelFile, 'heads' | 'tails'> {
 
 /**
  * Everything that can change. Cells are indexed `y * w + x`.
- * `tiles` is the terrain (walls, gates, seesaw ends, pits...); `objs` is ' ' or 'C' per cell.
+ * `tiles` is the terrain (walls, gates, seesaw ends, pits...).
+ * `objs` per cell: ' ' empty, 'C' crate, '@' awake Tarnish, '?' asleep Tarnish.
  * Gate open/closed is derived, never stored (RULES.md §5).
  */
 export interface State {
@@ -40,4 +41,4 @@ export interface State {
 }
 
 export type GameEvent =
-  | { type: 'move' | 'bump' | 'push' | 'fill' | 'stomp' | 'stompJam' | 'fall'; world: W; at: number };
+  | { type: 'move' | 'bump' | 'push' | 'fill' | 'stomp' | 'stompJam' | 'fall' | 'caught' | 'flip' | 'foeStep' | 'foeFall'; world: W; at: number };

@@ -51,6 +51,8 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
   for (const w of [0, 1] as W[]) {
     const to = step(lv, s.pos[w], dir);
     if (to < 0) { ev?.push({ type: 'bump', world: w, at: s.pos[w] }); continue; }
+    if (s.objs[w][to] === '@') { pos[w] = to; continue; } // walks into it: caught below
+    if (s.objs[w][to] === '?') { ev?.push({ type: 'bump', world: w, at: s.pos[w] }); continue; }
     if (s.objs[w][to] !== ' ') {
       const beyond = step(lv, to, dir);
       if (beyond < 0 || solid(lv, s, w, beyond) || s.objs[w][beyond] !== ' ') {
@@ -72,6 +74,34 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
     ev?.push({ type: 'move', world: w, at: to });
   }
 
+  // Step 2, end: the Tarnish (RULES.md §5a).
+  // Entering a pit is decided now: a Tarnish filling it later this tick can't save you.
+  const fell = [tiles[0][pos[0]] === '^', tiles[1][pos[1]] === '^'];
+  const caught = [objs[0][pos[0]] === '@', objs[1][pos[1]] === '@'];
+  if (pos[0] === pos[1] && s.pos[0] !== s.pos[1]) {
+    for (const w of [0, 1] as W[]) objs[w].forEach((o, i) => {
+      if (o === '@' || o === '?') { objs[w][i] = o === '@' ? '?' : '@'; ev?.push({ type: 'flip', world: w, at: i }); }
+    });
+  } else {
+    for (const w of [0, 1] as W[]) {
+      const awake = objs[w].flatMap((o, i) => (o === '@' ? [i] : []));
+      for (const i of awake) {
+        const dx = (pos[w] % lv.w) - (i % lv.w), dy = Math.floor(pos[w] / lv.w) - Math.floor(i / lv.w);
+        const h: Dir | null = dx ? (dx > 0 ? 'right' : 'left') : null, v: Dir | null = dy ? (dy > 0 ? 'down' : 'up') : null;
+        const tries = Math.abs(dx) >= Math.abs(dy) ? [h, v] : [v, h];
+        for (const d of tries) {
+          const to = d ? step(lv, i, d) : -1;
+          if (to < 0 || solid(lv, s, w, to) || objs[w][to] !== ' ') continue;
+          objs[w][i] = ' ';
+          if (tiles[w][to] === '^') { tiles[w][to] = '.'; ev?.push({ type: 'foeFall', world: w, at: to }); }
+          else { objs[w][to] = '@'; ev?.push({ type: 'foeStep', world: w, at: to }); }
+          break;
+        }
+      }
+    }
+  }
+  for (const w of [0, 1] as W[]) caught[w] ||= objs[w][pos[w]] === '@';
+
   // Step 4: seesaw stomps use post-movement occupancy. Gates are derived, nothing to do.
   for (const [w, i] of stomps) {
     const o = (1 - w) as W;
@@ -82,8 +112,8 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
   }
 
   // Step 7: falls.
-  const fallen: [boolean, boolean] = [tiles[0][pos[0]] === '^', tiles[1][pos[1]] === '^'];
-  fallen.forEach((f, w) => f && ev?.push({ type: 'fall', world: w as W, at: pos[w] }));
+  const fallen: [boolean, boolean] = [fell[0] || caught[0], fell[1] || caught[1]];
+  fallen.forEach((f, w) => f && ev?.push({ type: caught[w] ? 'caught' : 'fall', world: w as W, at: pos[w] }));
 
   return {
     tiles: [tiles[0].join(''), tiles[1].join('')],

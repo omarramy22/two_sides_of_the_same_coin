@@ -104,7 +104,7 @@ Turn count is **not** part of the state (it's in the undo history).
    - Target has a crate or lantern → **push** (§4.1). If the push fails, bump.
    - Target is a raised seesaw end → **stomp** if weighted (§6), else bump.
    - Target is wall, closed gate, flooded basin (no raft) → bump.
-   - Otherwise the character moves. Entering a pit, a void bridge, or (if weighted) cracked floor is allowed; it leads to a fall in step 7. Entering weighted onto `%` turns it into `^` now.
+   - Otherwise the character moves. Entering a pit, a void bridge, or (if weighted) cracked floor is allowed; it leads to a fall in step 7. A fall into a pit is decided on entry: nothing later in the tick (such as a Tarnish filling that pit) saves the character. Entering weighted onto `%` turns it into `^` now.
    - After both worlds have moved, in this order: **mirror shrines** (each character that *entered* an `M` this tick toggles `mirror`; two entries in one tick cancel out); **altars** (§9).
    - Then the **Tarnish** act (§5a): flip on alignment, otherwise the awake ones step; then catches.
 3. **Plates.** Plate *x* is pressed if a crate, a lantern, a Tarnish (awake or asleep) or a weighted character is on it. Link *x* is **active** if any plate *x* is pressed.
@@ -154,7 +154,7 @@ Rusted wish-coins that hunt the half-coin pendants. Each body lives in one world
 - **Pits:** a Tarnish that steps into a pit falls in and **fills it** (the tile becomes floor), exactly like a crate. That's the lure.
 - It's greedy on purpose: predictable, and lurable around corners.
 
-**Caught.** At the end of step 2, a character sharing a tile with an awake Tarnish is caught (`fallen` is set; the game offers a rewind). Walking into an awake Tarnish counts.
+**Caught.** A character is caught (`fallen` is set; the game offers a rewind) if it walks into an awake Tarnish (checked right after the characters move, before any flip), or if an awake Tarnish steps onto it.
 
 **Asleep** Tarnish are solid and harmless: characters bump into them, crates can't be pushed into them, other Tarnish are blocked by them. Like any body they still press plates and still jam gates and seesaws.
 

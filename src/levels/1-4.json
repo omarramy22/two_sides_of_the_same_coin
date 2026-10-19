@@ -1,0 +1,18 @@
+{
+  "id": "1-4",
+  "name": "Rust to Rust",
+  "role": "twist",
+  "par": 13,
+  "designNote": "Aha: lure the Tarnish into the pit. It fills the hole, and the new way down is exactly where Lune has a wall to wait against.",
+  "heads": ["#########",
+            "#.S.....#",
+            "#.##^##.#",
+            "#@.....G#",
+            "#########"],
+  "tails": ["#########",
+            "#.L.....#",
+            "#.#####.#",
+            "#G......#",
+            "#########"],
+  "hints": ["The Tarnish always steps straight toward Sol.", "Stand right above the pit so the Tarnish walks into it.", null]
+}
