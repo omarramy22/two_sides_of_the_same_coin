@@ -39,6 +39,29 @@ export function isWon(s: State): boolean {
   return !s.fallen[0] && !s.fallen[1] && s.tiles[0][s.pos[0]] === 'G' && s.tiles[1][s.pos[1]] === 'G';
 }
 
+/**
+ * Where the awake Tarnish at `i` steps toward `target` (RULES.md §5a), or -1 if it stays.
+ * Terrain is judged at the start of the tick (`s`); bodies by the current `objs` row.
+ */
+function foeStep(lv: Level, s: State, objs: ArrayLike<string>, w: W, i: number, target: number): number {
+  const dx = (target % lv.w) - (i % lv.w), dy = Math.floor(target / lv.w) - Math.floor(i / lv.w);
+  const h: Dir | null = dx ? (dx > 0 ? 'right' : 'left') : null, v: Dir | null = dy ? (dy > 0 ? 'down' : 'up') : null;
+  for (const d of Math.abs(dx) >= Math.abs(dy) ? [h, v] : [v, h]) {
+    const to = d ? step(lv, i, d) : -1;
+    if (to >= 0 && !solid(lv, s, w, to) && objs[to] === ' ') return to;
+  }
+  return -1;
+}
+
+/**
+ * Telegraph for the renderer: where each awake Tarnish would step if Sol and Lune stood still
+ * (each judged alone, ignoring the others' moves). `to` is -1 when it would stay.
+ */
+export function foeIntents(lv: Level, s: State): { world: W; from: number; to: number }[] {
+  return ([0, 1] as W[]).flatMap((w) => [...s.objs[w]].flatMap((o, i) =>
+    o === '@' ? [{ world: w, from: i, to: foeStep(lv, s, s.objs[w], w, i, s.pos[w]) }] : []));
+}
+
 /** RULES.md §4. Pure: never mutates `s`. Pass `ev` to collect animation events. */
 export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
   if (s.fallen[0] || s.fallen[1] || isWon(s)) return s;
@@ -61,7 +84,7 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
       }
       objs[w][to] = ' ';
       if (s.tiles[w][beyond] === '^') {
-        tiles[w][beyond] = '.';
+        tiles[w][beyond] = ',';
         ev?.push({ type: 'fill', world: w, at: beyond });
       } else objs[w][beyond] = s.objs[w][to];
       pos[w] = to;
@@ -86,17 +109,11 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
     for (const w of [0, 1] as W[]) {
       const awake = objs[w].flatMap((o, i) => (o === '@' ? [i] : []));
       for (const i of awake) {
-        const dx = (pos[w] % lv.w) - (i % lv.w), dy = Math.floor(pos[w] / lv.w) - Math.floor(i / lv.w);
-        const h: Dir | null = dx ? (dx > 0 ? 'right' : 'left') : null, v: Dir | null = dy ? (dy > 0 ? 'down' : 'up') : null;
-        const tries = Math.abs(dx) >= Math.abs(dy) ? [h, v] : [v, h];
-        for (const d of tries) {
-          const to = d ? step(lv, i, d) : -1;
-          if (to < 0 || solid(lv, s, w, to) || objs[w][to] !== ' ') continue;
-          objs[w][i] = ' ';
-          if (tiles[w][to] === '^') { tiles[w][to] = '.'; ev?.push({ type: 'foeFall', world: w, at: to }); }
-          else { objs[w][to] = '@'; ev?.push({ type: 'foeStep', world: w, at: to }); }
-          break;
-        }
+        const to = foeStep(lv, s, objs[w], w, i, pos[w]);
+        if (to < 0) continue;
+        objs[w][i] = ' ';
+        if (tiles[w][to] === '^') { tiles[w][to] = ';'; ev?.push({ type: 'foeFall', world: w, at: to }); }
+        else { objs[w][to] = '@'; ev?.push({ type: 'foeStep', world: w, at: to }); }
       }
     }
   }

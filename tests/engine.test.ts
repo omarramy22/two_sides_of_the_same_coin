@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { History } from '../src/engine/history';
 import { parseLevel } from '../src/engine/parse';
-import { gateJammed, gateOpen, isWon, tick } from '../src/engine/tick';
+import { foeIntents, gateJammed, gateOpen, isWon, tick } from '../src/engine/tick';
 import type { Dir, GameEvent, Level, State } from '../src/engine/types';
 
 const lvl = (heads: string[], tails: string[]): Level =>
@@ -87,7 +87,7 @@ describe('pushing (§4.1)', () => {
   it('a crate pushed into a pit fills it', () => {
     const lv = lvl(['SC^.G'], ['L...G']);
     const s = run(lv, ['right']);
-    expect(s.tiles[0]).toBe('....G');
+    expect(s.tiles[0]).toBe('..,.G'); // ',' = crate sunk in the pit: floor, but stays visible
     expect(s.objs[0].trim()).toBe('');
     expect(s.fallen[0]).toBe(false);
   });
@@ -227,7 +227,7 @@ describe('the Tarnish (§5a)', () => {
   it('a Tarnish stepping into a pit fills it', () => {
     const lv = lvl(['S.^@G'], ['L...G']);
     const s = tick(lv, lv.start, 'up');
-    expect(s.tiles[0]).toBe('....G');
+    expect(s.tiles[0]).toBe('..;.G'); // ';' = Tarnish sunk in the pit
     expect(s.objs[0].trim()).toBe('');
   });
   it('a Tarnish filling a pit cannot save a character who stepped into it', () => {
@@ -250,6 +250,16 @@ describe('the Tarnish (§5a)', () => {
     const s2 = tick(lv, s, 'left');
     expect(s2.objs[0]).toBe(s.objs[0]);
     expect(s2.objs[1].indexOf('@')).toBe(at(lv, 4, 0));
+  });
+  it('a filled pit is walkable floor', () => {
+    const lv = lvl(['SC^.G'], ['L...G']);
+    expect(run(lv, ['right', 'right']).fallen[0]).toBe(false);
+  });
+  it('foeIntents telegraphs the next step, matching tick when the characters stay put', () => {
+    const lv = lvl(['S#..@G', '......'], ['L....G', '......']);
+    const intents = foeIntents(lv, lv.start);
+    expect(intents).toEqual([{ world: 0, from: 4, to: 3 }]);
+    expect(tick(lv, lv.start, 'up').objs[0].indexOf('@')).toBe(intents[0].to); // both bump: nobody moves
   });
   it('crates cannot be pushed into a Tarnish', () => {
     const lv = lvl(['SC?.G'], ['L...G']);

@@ -61,6 +61,7 @@ Where it differs from SPEC.md, the difference is listed in §11 and needs sign-o
 | `M` | mirror shrine | 6 |
 | `@` | Tarnish, awake (§5a) | 1 |
 | `?` | Tarnish, asleep (§5a) | 1 |
+| `,` `;` | pit filled by a crate / by a Tarnish: plain floor, drawn as the thing sunk in the hole. Engine-only, never in level files | 1 |
 
 **Reserved letters:** `C G L M O Q S` (both cases) are never link letters. Links use the other 19 letters.
 
@@ -121,7 +122,7 @@ A bump still uses the turn: both characters always spend the same input. This is
 A character pushes exactly one object one tile in its move direction. The push fails (character bumps, nothing moves) if the tile beyond is: board edge, wall, closed gate, raised seesaw end, another object, a void bridge, or (for a lantern) a flooded basin.
 
 Where the pushed object lands:
-- Pit `^` or cracked `%` → the object falls in and fills it. The tile becomes floor, the object is removed.
+- Pit `^` or cracked `%` → the object falls in and fills it. The tile becomes a filled pit (`,`, plain floor that still shows the sunken crate), the object is removed.
 - Flooded basin `~` (crates only) → the crate becomes a **raft**: permanent walkable terrain on that coordinate, no longer an object, unaffected by later water changes.
 - Anything else (floor, plate, goal, altar, shrine, sluice, open/jammed gate, lowered seesaw end, dry basin, solid bridge) → the object sits there.
 
@@ -151,7 +152,8 @@ Rusted wish-coins that hunt the half-coin pendants. Each body lives in one world
 - Let `dx`, `dy` be the distance to the character. The **primary** axis is the one with the larger `|d|` (a tie means horizontal); the other axis is secondary.
 - Try the primary step, then the secondary step (only on an axis with `d ≠ 0`). Take the first one that isn't blocked; if both are blocked, stay.
 - **Blocked by:** board edge, wall, closed gate, raised seesaw end (all as at the start of the tick), crates, lanterns, and other Tarnish (at their current positions, so earlier movers have already moved). Tarnish never push or stomp.
-- **Pits:** a Tarnish that steps into a pit falls in and **fills it** (the tile becomes floor), exactly like a crate. That's the lure.
+- **Pits:** a Tarnish that steps into a pit falls in and **fills it** (the tile becomes `;`, floor that shows the sunken Tarnish), exactly like a crate. That's the lure.
+- **Telegraph:** the game shows each awake Tarnish's next step as an arrow, computed by the engine (`foeIntents`) assuming Sol and Lune stand still.
 - It's greedy on purpose: predictable, and lurable around corners.
 
 **Caught.** A character is caught (`fallen` is set; the game offers a rewind) if it walks into an awake Tarnish (checked right after the characters move, before any flip), or if an awake Tarnish steps onto it.
