@@ -1,0 +1,15 @@
+{
+  "id": "1-1",
+  "name": "Two Paths",
+  "role": "introduce",
+  "designNote": "Teaches that both move together; no desync yet.",
+  "heads": ["########",
+            "#S....G#",
+            "#......#",
+            "########"],
+  "tails": ["########",
+            "#L.#..G#",
+            "#......#",
+            "########"],
+  "hints": ["Watch Lune, not Sol.", "Lune can't go through that wall. Take Lune around it.", null]
+}
