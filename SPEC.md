@@ -129,7 +129,7 @@ Legend (extend as needed, documented in `RULES.md`): `#` wall · `.` floor · `S
 
 ### 4.3 Chapter structure (about 30 levels total; quality over count)
 Every chapter follows: **Introduce** (can't fail) → **Develop** ×2 → **Twist** (the mechanic used in an unexpected way) → **Combine** (with an earlier mechanic) → **Capstone** (hardest; a real "aha").
-Target: 5 levels for Chapter 1, 5–6 for Chapters 2–5, 4 + finale for Chapter 6. **Cut any level that isn't good.** 24 great levels beat 36 okay ones.
+Target: 6 levels for Chapter 1 (one extra to teach the Tarnish flip before the capstone; playtest showed it was undiscoverable otherwise), 5–6 for Chapters 2–5, 4 + finale for Chapter 6. **Cut any level that isn't good.** 24 great levels beat 36 okay ones.
 
 Every level must have one clearly stated "aha" in its `designNote`. Where possible, the aha should be a **sacrifice moment**: one character must give up progress, go backwards, or wait so the other can advance.
 
