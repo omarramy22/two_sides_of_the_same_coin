@@ -2,8 +2,8 @@
 import { Application, Container, Graphics, Text } from 'pixi.js';
 import { History } from '../engine/history';
 import { isGate, isPlate, parseLevel } from '../engine/parse';
-import { foeIntents, gateJammed, gateOpen, isWon, tick } from '../engine/tick';
-import type { Dir, Level, LevelFile, W } from '../engine/types';
+import { gateJammed, gateOpen, isWon, tick } from '../engine/tick';
+import type { Dir, GameEvent, Level, LevelFile, State, W } from '../engine/types';
 
 const files = import.meta.glob<LevelFile>('../levels/*.json', { eager: true, import: 'default' });
 const order = (id: string) => id.split('-').map(Number);
@@ -19,30 +19,171 @@ const PAL = [
   { floor: 0x2e3570, wall: 0x0e1028, goal: 0x2e8c8a, pit: 0x000000, hero: 0xc9d3e6, ink: 0xe8f0ff },
 ];
 const SEAM = 0.4, HUD = 48, MARGIN = 16;
+const ANIM_MS = 140;
+
+const easeOut = (t: number) => 1 - (1 - t) * (1 - t);
+
+interface MoveAnim {
+  prev: State;
+  next: State;
+  ev: GameEvent[];
+  startTime: number;
+}
+
+interface FlipEffect {
+  startTime: number;
+  flipEvents: GameEvent[];
+  alignCell: number;
+}
 
 declare global { interface Window { __game: unknown } }
+
+function getLayout(lv: Level) {
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const landscape = vw >= vh;
+  const cols = landscape ? lv.w * 2 + SEAM : lv.w, rows = landscape ? lv.h : lv.h * 2 + SEAM;
+  const t = Math.max(8, Math.floor(Math.min((vw - 2 * MARGIN) / cols, (vh - HUD - 2 * MARGIN) / rows)));
+  const ox = (vw - cols * t) / 2, oy = HUD + MARGIN + (vh - HUD - 2 * MARGIN - rows * t) / 2;
+  const origin = (w: W): [number, number] =>
+    landscape ? [ox + w * (lv.w + SEAM) * t, oy] : [ox, oy + w * (lv.h + SEAM) * t];
+  const cell = (w: W, i: number): [number, number] => {
+    const [x0, y0] = origin(w);
+    return [x0 + (i % lv.w) * t, y0 + Math.floor(i / lv.w) * t];
+  };
+  return { vw, vh, landscape, t, ox, oy, cell };
+}
+
+function drawCrate(g: Graphics, x: number, y: number, t: number, scale = 1, alpha = 1) {
+  const cx = x + t / 2, cy = y + t / 2;
+  const sz = t * 0.7 * scale;
+  const left = cx - sz / 2, top = cy - sz / 2;
+  g.rect(left, top, sz, sz)
+    .fill({ color: 0xc8643b, alpha })
+    .stroke({ width: 2 * scale, color: 0x2a1e14, alpha });
+}
+
+function drawTarnish(
+  g: Graphics,
+  scene: Container,
+  cx: number,
+  cy: number,
+  t: number,
+  awake: boolean,
+  inkColor: number,
+  scale = 1,
+  alpha = 1,
+) {
+  const r = t * 0.3 * scale;
+  const fill = awake ? { color: 0xb5543a, alpha } : { color: 0x7d6b55, alpha: 0.85 * alpha };
+  const outline = { width: 2 * scale, color: 0x2a1e14, alpha };
+
+  // Jagged crown / spikes on top
+  g.poly([
+    cx - r * 0.6, cy - r * 0.7,
+    cx - r * 0.45, cy - r * 1.3,
+    cx - r * 0.2, cy - r * 0.95,
+    cx, cy - r * 1.4,
+    cx + r * 0.2, cy - r * 0.95,
+    cx + r * 0.45, cy - r * 1.3,
+    cx + r * 0.6, cy - r * 0.7,
+  ], true).fill(fill).stroke(outline);
+
+  // Body circle
+  g.circle(cx, cy, r).fill(fill).stroke(outline);
+
+  if (awake) {
+    const eyeR = Math.max(1.5, t * 0.04 * scale);
+    g.circle(cx - r * 0.35, cy - r * 0.05, eyeR).fill({ color: 0xffe08a, alpha });
+    g.circle(cx + r * 0.35, cy - r * 0.05, eyeR).fill({ color: 0xffe08a, alpha });
+  } else {
+    g.moveTo(cx - r * 0.5, cy - r * 0.05).lineTo(cx - r * 0.2, cy - r * 0.05).stroke(outline);
+    g.moveTo(cx + r * 0.2, cy - r * 0.05).lineTo(cx + r * 0.5, cy - r * 0.05).stroke(outline);
+
+    const zTxt = new Text({
+      text: 'z',
+      style: { fill: inkColor, fontSize: Math.max(8, Math.round(t * 0.28 * scale)), fontFamily: 'sans-serif', fontWeight: 'bold' },
+    });
+    zTxt.alpha = alpha;
+    zTxt.anchor.set(0.5);
+    zTxt.position.set(cx + r * 0.75, cy - r * 0.75);
+    scene.addChild(zTxt);
+  }
+}
+
+function drawHero(
+  g: Graphics,
+  cx: number,
+  cy: number,
+  t: number,
+  fallen: boolean,
+  heroColor: number,
+  inkColor: number,
+) {
+  g.circle(cx, cy, t * 0.32)
+    .fill(fallen ? 0x777777 : heroColor)
+    .stroke({ width: 2, color: inkColor });
+}
 
 export function startGreybox(app: Application) {
   let index = 0, lv = levels[0], hist = new History(lv.start);
   let scene = new Container();
   const queue: string[] = [];
+  let moveAnim: MoveAnim | null = null;
+  let flipEffect: FlipEffect | null = null;
 
   function load(i: number) {
+    moveAnim = null;
+    flipEffect = null;
     index = (i + levels.length) % levels.length;
     lv = levels[index];
     hist = new History(lv.start);
     draw();
   }
 
+  function startMoveAnim(prev: State, next: State, ev: GameEvent[]) {
+    const flipEvents = ev.filter((e) => e.type === 'flip');
+    if (flipEvents.length > 0) {
+      flipEffect = {
+        startTime: performance.now(),
+        flipEvents,
+        alignCell: next.pos[0],
+      };
+    }
+    moveAnim = {
+      prev,
+      next,
+      ev,
+      startTime: performance.now(),
+    };
+    renderAnimFrame(0);
+  }
+
   function handle(key: string) {
     const dir = MOVES[key];
-    if (dir) hist.push(tick(lv, hist.state, dir));
-    else if (key === 'z' || key === 'Backspace') hist.undo();
-    else if (key === 'r') hist.restart();
-    else if (key === 'n') return load(index + 1);
-    else if (key === 'p') return load(index - 1);
-    else if (key === 'Enter' && isWon(hist.state)) return load(index + 1);
-    draw();
+    if (dir) {
+      const prev = hist.state;
+      const ev: GameEvent[] = [];
+      const next = tick(lv, prev, dir, ev);
+      if (next === prev) return;
+      hist.push(next);
+      startMoveAnim(prev, next, ev);
+    } else if (key === 'z' || key === 'Backspace') {
+      moveAnim = null;
+      flipEffect = null;
+      hist.undo();
+      draw();
+    } else if (key === 'r') {
+      moveAnim = null;
+      flipEffect = null;
+      hist.restart();
+      draw();
+    } else if (key === 'n') {
+      return load(index + 1);
+    } else if (key === 'p') {
+      return load(index - 1);
+    } else if (key === 'Enter' && isWon(hist.state)) {
+      return load(index + 1);
+    }
   }
 
   const press = (raw: string) => {
@@ -51,28 +192,64 @@ export function startGreybox(app: Application) {
     return false;
   };
   window.addEventListener('keydown', (e) => { if (press(e.key)) e.preventDefault(); });
-  // One buffered key per frame, so fast typing never drops moves.
-  app.ticker.add(() => { const k = queue.shift(); if (k) handle(k); });
-  window.addEventListener('resize', draw);
 
-  function draw() {
+  app.ticker.add(() => {
+    const now = performance.now();
+    if (moveAnim) {
+      const progress = Math.min(1, (now - moveAnim.startTime) / ANIM_MS);
+      if (progress < 1) {
+        renderAnimFrame(progress);
+        return;
+      }
+      moveAnim = null;
+      draw();
+    }
+
+    // Process next queued key only when no animation is running
+    if (queue.length > 0) {
+      const k = queue.shift()!;
+      handle(k);
+      return;
+    }
+
+    // Passive flip effect animation over static frame
+    if (flipEffect) {
+      if (now - flipEffect.startTime < 1200) {
+        draw();
+      } else {
+        flipEffect = null;
+        draw();
+      }
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (moveAnim) {
+      renderAnimFrame(Math.min(1, (performance.now() - moveAnim.startTime) / ANIM_MS));
+    } else {
+      draw();
+    }
+  });
+
+  function drawScene(
+    state: State,
+    opts: {
+      terrainState?: State;
+      skipCrates?: Set<string>;
+      skipTarnish?: Set<string>;
+      skipHeroes?: boolean;
+      suppressMessages?: boolean;
+    } = {},
+  ) {
     scene.destroy({ children: true });
     scene = new Container();
     app.stage.addChild(scene);
-    const s = hist.state;
-    const vw = window.innerWidth, vh = window.innerHeight;
-    const landscape = vw >= vh;
-    const cols = landscape ? lv.w * 2 + SEAM : lv.w, rows = landscape ? lv.h : lv.h * 2 + SEAM;
-    const t = Math.max(8, Math.floor(Math.min((vw - 2 * MARGIN) / cols, (vh - HUD - 2 * MARGIN) / rows)));
-    const ox = (vw - cols * t) / 2, oy = HUD + MARGIN + (vh - HUD - 2 * MARGIN - rows * t) / 2;
-    const origin = (w: W): [number, number] =>
-      landscape ? [ox + w * (lv.w + SEAM) * t, oy] : [ox, oy + w * (lv.h + SEAM) * t];
-    const cell = (w: W, i: number): [number, number] => {
-      const [x0, y0] = origin(w);
-      return [x0 + (i % lv.w) * t, y0 + Math.floor(i / lv.w) * t];
-    };
+
+    const layout = getLayout(lv);
+    const { vw, vh, landscape, t, ox, oy, cell } = layout;
     const g = new Graphics();
     scene.addChild(g);
+
     const label = (text: string, x: number, y: number, fill: number) => {
       const txt = new Text({ text, style: { fill, fontSize: Math.round(t * 0.4), fontFamily: 'sans-serif', fontWeight: 'bold' } });
       txt.anchor.set(0.5);
@@ -84,10 +261,12 @@ export function startGreybox(app: Application) {
     if (landscape) g.rect(ox + lv.w * t, oy, SEAM * t, lv.h * t).fill(0xb8a47a);
     else g.rect(ox, oy + lv.h * t, lv.w * t, SEAM * t).fill(0xb8a47a);
 
+    const terrain = opts.terrainState ?? state;
+
     for (const w of [0, 1] as W[]) {
       const p = PAL[w];
       for (let i = 0; i < lv.w * lv.h; i++) {
-        const [x, y] = cell(w, i), c = s.tiles[w][i];
+        const [x, y] = cell(w, i), c = terrain.tiles[w][i];
         const cx = x + t / 2;
         g.rect(x, y, t, t).fill(c === '#' ? p.wall : c === '|' ? 0x6b5b3a : p.floor);
         if (c === 'G') g.rect(x + t * 0.1, y + t * 0.1, t * 0.8, t * 0.8).fill(p.goal);
@@ -118,8 +297,8 @@ export function startGreybox(app: Application) {
           g.rect(x + t * 0.2, y + t * 0.2, t * 0.6, t * 0.6).fill(0x9c8cd4);
           label(c, x, y, 0x1c2046);
         } else if (isGate(c)) {
-          if (gateOpen(lv, s, w, i)) {
-            g.rect(x + 2, y + 2, t - 4, t - 4).stroke({ width: gateJammed(lv, s, w, i) ? 5 : 2, color: gateJammed(lv, s, w, i) ? 0xe07a6b : 0x4a5a8c });
+          if (gateOpen(lv, terrain, w, i)) {
+            g.rect(x + 2, y + 2, t - 4, t - 4).stroke({ width: gateJammed(lv, terrain, w, i) ? 5 : 2, color: gateJammed(lv, terrain, w, i) ? 0xe07a6b : 0x4a5a8c });
           } else g.rect(x, y, t, t).fill(0x4a5a8c);
           label(c, x, y, p.ink);
         } else if (c === '/') {
@@ -140,84 +319,30 @@ export function startGreybox(app: Application) {
           const cyPlank = rpy + rph / 2;
           g.moveTo(cx - t * 0.08, cyPlank + t * 0.04).lineTo(cx, cyPlank - t * 0.05).lineTo(cx + t * 0.08, cyPlank + t * 0.04).stroke({ width: 2.5, color: 0x2a1e14 });
         }
-        if (s.objs[w][i] === 'C') g.rect(x + t * 0.15, y + t * 0.15, t * 0.7, t * 0.7).fill(0xc8643b).stroke({ width: 2, color: 0x2a1e14 });
-      }
 
-      for (let i = 0; i < lv.w * lv.h; i++) {
-        const obj = s.objs[w][i];
-        if (obj !== '@' && obj !== '?') continue;
-        const [x, y] = cell(w, i);
-        const cx = x + t / 2, cy = y + t / 2, r = t * 0.3;
-        const awake = obj === '@';
-        const fill = awake ? 0xb5543a : { color: 0x7d6b55, alpha: 0.85 };
-        const outline = { width: 2, color: 0x2a1e14 };
-
-        // Jagged crown / spikes on top
-        g.poly([
-          cx - r * 0.6, cy - r * 0.7,
-          cx - r * 0.45, cy - r * 1.3,
-          cx - r * 0.2, cy - r * 0.95,
-          cx, cy - r * 1.4,
-          cx + r * 0.2, cy - r * 0.95,
-          cx + r * 0.45, cy - r * 1.3,
-          cx + r * 0.6, cy - r * 0.7,
-        ], true).fill(fill).stroke(outline);
-
-        // Body circle
-        g.circle(cx, cy, r).fill(fill).stroke(outline);
-
-        if (awake) {
-          const eyeR = Math.max(1.5, t * 0.04);
-          g.circle(cx - r * 0.35, cy - r * 0.05, eyeR).fill(0xffe08a);
-          g.circle(cx + r * 0.35, cy - r * 0.05, eyeR).fill(0xffe08a);
-        } else {
-          g.moveTo(cx - r * 0.5, cy - r * 0.05).lineTo(cx - r * 0.2, cy - r * 0.05).stroke(outline);
-          g.moveTo(cx + r * 0.2, cy - r * 0.05).lineTo(cx + r * 0.5, cy - r * 0.05).stroke(outline);
-
-          const zTxt = new Text({
-            text: 'z',
-            style: { fill: p.ink, fontSize: Math.max(8, Math.round(t * 0.28)), fontFamily: 'sans-serif', fontWeight: 'bold' },
-          });
-          zTxt.anchor.set(0.5);
-          zTxt.position.set(cx + r * 0.75, cy - r * 0.75);
-          scene.addChild(zTxt);
+        if (state.objs[w][i] === 'C' && !opts.skipCrates?.has(`${w}:${i}`)) {
+          drawCrate(g, x, y, t);
         }
       }
 
-      const [hx, hy] = cell(w, s.pos[w]);
-      g.circle(hx + t / 2, hy + t / 2, t * 0.32).fill(s.fallen[w] ? 0x777777 : p.hero).stroke({ width: 2, color: p.ink });
+      for (let i = 0; i < lv.w * lv.h; i++) {
+        const obj = state.objs[w][i];
+        if (obj !== '@' && obj !== '?') continue;
+        if (opts.skipTarnish?.has(`${w}:${i}`)) continue;
+        const [x, y] = cell(w, i);
+        drawTarnish(g, scene, x + t / 2, y + t / 2, t, obj === '@', p.ink);
+      }
+
+      if (!opts.skipHeroes) {
+        const [hx, hy] = cell(w, state.pos[w]);
+        drawHero(g, hx + t / 2, hy + t / 2, t, state.fallen[w], p.hero, p.ink);
+      }
     }
 
     // Alignment thread across the seam.
-    if (s.pos[0] === s.pos[1]) {
-      const [ax, ay] = cell(0, s.pos[0]), [bx, by] = cell(1, s.pos[1]);
+    if (!opts.skipHeroes && state.pos[0] === state.pos[1]) {
+      const [ax, ay] = cell(0, state.pos[0]), [bx, by] = cell(1, state.pos[1]);
       g.moveTo(ax + t / 2, ay + t / 2).lineTo(bx + t / 2, by + t / 2).stroke({ width: 3, color: 0xfff4d6, alpha: 0.9 });
-    }
-
-    // Enemy intent arrows (on top of all tiles/objects/characters of both worlds).
-    for (const intent of foeIntents(lv, s)) {
-      if (intent.to < 0) continue;
-      const [fx, fy] = cell(intent.world, intent.from);
-      const [tx, ty] = cell(intent.world, intent.to);
-      const cx = fx + t / 2, cy = fy + t / 2;
-      const tcx = tx + t / 2, tcy = ty + t / 2;
-      const dx = tcx - cx, dy = tcy - cy;
-      const dist = Math.hypot(dx, dy) || 1;
-      const ux = dx / dist, uy = dy / dist;
-      const nx = -uy, ny = ux;
-
-      const sx = cx + ux * 0.3 * t, sy = cy + uy * 0.3 * t;
-      const ex = cx + ux * 0.85 * t, ey = cy + uy * 0.85 * t;
-      g.moveTo(sx, sy).lineTo(ex, ey).stroke({ width: 0.08 * t, color: 0xe07a6b, alpha: 0.9 });
-
-      const tipX = cx + ux * 0.98 * t, tipY = cy + uy * 0.98 * t;
-      const baseX = cx + ux * 0.84 * t, baseY = cy + uy * 0.84 * t;
-      const hw = 0.08 * t;
-      g.poly([
-        tipX, tipY,
-        baseX + nx * hw, baseY + ny * hw,
-        baseX - nx * hw, baseY - ny * hw,
-      ], true).fill({ color: 0xe07a6b, alpha: 0.9 });
     }
 
     const hud = new Text({
@@ -227,17 +352,141 @@ export function startGreybox(app: Application) {
     hud.position.set(MARGIN, (HUD - 22) / 2 + MARGIN / 2);
     scene.addChild(hud);
 
-    const caught = (s.fallen[0] && s.objs[0][s.pos[0]] === '@') || (s.fallen[1] && s.objs[1][s.pos[1]] === '@');
-    const msg = isWon(s) ? `Solved in ${hist.moves} moves. Enter for next level`
-      : caught ? 'Caught! Press Z to undo or R to restart'
-      : s.fallen[0] || s.fallen[1] ? 'Fell! Press Z to undo or R to restart' : '';
-    if (msg) {
-      const txt = new Text({ text: msg, style: { fill: 0xffffff, fontSize: 26, fontFamily: 'sans-serif' } });
-      txt.anchor.set(0.5);
-      txt.position.set(vw / 2, vh / 2);
-      const back = new Graphics().roundRect(vw / 2 - txt.width / 2 - 20, vh / 2 - 30, txt.width + 40, 60, 10).fill({ color: 0x000000, alpha: 0.7 });
-      scene.addChild(back, txt);
+    if (!opts.suppressMessages) {
+      const caught = (state.fallen[0] && state.objs[0][state.pos[0]] === '@') || (state.fallen[1] && state.objs[1][state.pos[1]] === '@');
+      const msg = isWon(state) ? `Solved in ${hist.moves} moves. Enter for next level`
+        : caught ? 'Caught! Press Z to undo or R to restart'
+        : state.fallen[0] || state.fallen[1] ? 'Fell! Press Z to undo or R to restart' : '';
+      if (msg) {
+        const txt = new Text({ text: msg, style: { fill: 0xffffff, fontSize: 26, fontFamily: 'sans-serif' } });
+        txt.anchor.set(0.5);
+        txt.position.set(vw / 2, vh / 2);
+        const back = new Graphics().roundRect(vw / 2 - txt.width / 2 - 20, vh / 2 - 30, txt.width + 40, 60, 10).fill({ color: 0x000000, alpha: 0.7 });
+        scene.addChild(back, txt);
+      }
     }
+
+    return { g, scene, layout };
+  }
+
+  function drawFlipOverlay(g: Graphics, scene: Container, layout: ReturnType<typeof getLayout>) {
+    if (!flipEffect) return;
+    const now = performance.now();
+    const elapsed = now - flipEffect.startTime;
+    if (elapsed >= 1200) {
+      flipEffect = null;
+      return;
+    }
+
+    const { t, cell, vw } = layout;
+
+    // Seam flash & bursts & rings (lasts 500 ms)
+    if (elapsed < 500) {
+      const pFlip = elapsed / 500;
+      const [ax, ay] = cell(0, flipEffect.alignCell);
+      const [bx, by] = cell(1, flipEffect.alignCell);
+      const acx = ax + t / 2, acy = ay + t / 2;
+      const bcx = bx + t / 2, bcy = by + t / 2;
+      const lineAlpha = Math.max(0, 1 - pFlip);
+
+      // Flash along the line between the two characters' cells across the seam
+      g.moveTo(acx, acy).lineTo(bcx, bcy).stroke({ width: 0.25 * t, color: 0xfff4d6, alpha: lineAlpha });
+
+      // Filled circle burst centred on each character
+      const burstR = (0.3 + 0.9 * pFlip) * t;
+      const burstAlpha = Math.max(0, 0.8 * (1 - pFlip));
+      g.circle(acx, acy, burstR).fill({ color: 0xfff4d6, alpha: burstAlpha });
+      g.circle(bcx, bcy, burstR).fill({ color: 0xfff4d6, alpha: burstAlpha });
+
+      // Ring pulse on every Tarnish that flipped
+      const ringR = (0.3 + 0.4 * pFlip) * t;
+      const ringAlpha = Math.max(0, 1 - pFlip);
+      for (const ev of flipEffect.flipEvents) {
+        const [tx, ty] = cell(ev.world, ev.at);
+        g.circle(tx + t / 2, ty + t / 2, ringR).stroke({ width: 3, color: 0xfff4d6, alpha: ringAlpha });
+      }
+    }
+
+    // Caption centred under the HUD (lasts 1.2 s)
+    if (elapsed < 1200) {
+      const caption = new Text({
+        text: 'The halves line up: the Tarnish flip!',
+        style: { fill: 0xffffff, fontSize: 18, fontFamily: 'sans-serif' },
+      });
+      caption.anchor.set(0.5, 0.5);
+      caption.position.set(vw / 2, HUD + 10);
+      scene.addChild(caption);
+    }
+  }
+
+  function draw() {
+    const { g, scene: curScene, layout } = drawScene(hist.state);
+    drawFlipOverlay(g, curScene, layout);
+  }
+
+  function renderAnimFrame(progress: number) {
+    if (!moveAnim) return;
+    const tEase = easeOut(progress);
+
+    const skipCrates = new Set<string>();
+    const skipTarnish = new Set<string>();
+
+    for (const ev of moveAnim.ev) {
+      if ((ev.type === 'push' || ev.type === 'fill') && ev.from !== undefined) {
+        skipCrates.add(`${ev.world}:${ev.at}`);
+      } else if ((ev.type === 'foeStep' || ev.type === 'foeFall') && ev.from !== undefined) {
+        skipTarnish.add(`${ev.world}:${ev.at}`);
+      }
+    }
+
+    const { g, scene: curScene, layout } = drawScene(moveAnim.next, {
+      terrainState: moveAnim.prev,
+      skipCrates,
+      skipTarnish,
+      skipHeroes: true,
+      suppressMessages: true,
+    });
+
+    const { t, cell } = layout;
+
+    // Moving crates
+    for (const ev of moveAnim.ev) {
+      if ((ev.type === 'push' || ev.type === 'fill') && ev.from !== undefined) {
+        const [fx, fy] = cell(ev.world, ev.from);
+        const [tx, ty] = cell(ev.world, ev.at);
+        const x = (1 - tEase) * fx + tEase * tx;
+        const y = (1 - tEase) * fy + tEase * ty;
+        const isFill = ev.type === 'fill';
+        const scale = isFill ? 1.0 - 0.4 * tEase : 1.0;
+        const alpha = isFill ? Math.max(0, 1.0 - tEase) : 1.0;
+        drawCrate(g, x, y, t, scale, alpha);
+      }
+    }
+
+    // Moving Tarnish
+    for (const ev of moveAnim.ev) {
+      if ((ev.type === 'foeStep' || ev.type === 'foeFall') && ev.from !== undefined) {
+        const [fx, fy] = cell(ev.world, ev.from);
+        const [tx, ty] = cell(ev.world, ev.at);
+        const cx = (1 - tEase) * (fx + t / 2) + tEase * (tx + t / 2);
+        const cy = (1 - tEase) * (fy + t / 2) + tEase * (ty + t / 2);
+        const isFall = ev.type === 'foeFall';
+        const scale = isFall ? 1.0 - 0.4 * tEase : 1.0;
+        const alpha = isFall ? Math.max(0, 1.0 - tEase) : 1.0;
+        drawTarnish(g, curScene, cx, cy, t, true, PAL[ev.world].ink, scale, alpha);
+      }
+    }
+
+    // Sliding heroes
+    for (const w of [0, 1] as W[]) {
+      const [fx, fy] = cell(w, moveAnim.prev.pos[w]);
+      const [tx, ty] = cell(w, moveAnim.next.pos[w]);
+      const cx = (1 - tEase) * (fx + t / 2) + tEase * (tx + t / 2);
+      const cy = (1 - tEase) * (fy + t / 2) + tEase * (ty + t / 2);
+      drawHero(g, cx, cy, t, false, PAL[w].hero, PAL[w].ink);
+    }
+
+    drawFlipOverlay(g, curScene, layout);
   }
 
   window.__game = {
@@ -246,7 +495,7 @@ export function startGreybox(app: Application) {
     loadLevel: load,
     press,
     state: () => hist.state,
-    idle: () => queue.length === 0,
+    idle: () => queue.length === 0 && !moveAnim,
   };
   draw();
 }
