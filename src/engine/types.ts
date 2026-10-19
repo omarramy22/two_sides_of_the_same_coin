@@ -40,5 +40,13 @@ export interface State {
   fallen: [boolean, boolean];
 }
 
-export type GameEvent =
-  | { type: 'move' | 'bump' | 'push' | 'fill' | 'stomp' | 'stompJam' | 'fall' | 'caught' | 'flip' | 'foeStep' | 'foeFall'; world: W; at: number };
+/**
+ * Animation hints from `tick`. `at` is where it happened. Things that slide also carry `from`:
+ * push/fill = the crate's move (fill: into a pit), foeStep/foeFall = a Tarnish's step.
+ */
+export type GameEvent = {
+  type: 'move' | 'bump' | 'push' | 'fill' | 'stomp' | 'stompJam' | 'fall' | 'caught' | 'flip' | 'foeStep' | 'foeFall';
+  world: W;
+  at: number;
+  from?: number;
+};

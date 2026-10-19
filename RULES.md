@@ -153,7 +153,6 @@ Rusted wish-coins that hunt the half-coin pendants. Each body lives in one world
 - Try the primary step, then the secondary step (only on an axis with `d ≠ 0`). Take the first one that isn't blocked; if both are blocked, stay.
 - **Blocked by:** board edge, wall, closed gate, raised seesaw end (all as at the start of the tick), crates, lanterns, and other Tarnish (at their current positions, so earlier movers have already moved). Tarnish never push or stomp.
 - **Pits:** a Tarnish that steps into a pit falls in and **fills it** (the tile becomes `;`, floor that shows the sunken Tarnish), exactly like a crate. That's the lure.
-- **Telegraph:** the game shows each awake Tarnish's next step as an arrow, computed by the engine (`foeIntents`) assuming Sol and Lune stand still.
 - It's greedy on purpose: predictable, and lurable around corners.
 
 **Caught.** A character is caught (`fallen` is set; the game offers a rewind) if it walks into an awake Tarnish (checked right after the characters move, before any flip), or if an awake Tarnish steps onto it.

@@ -53,15 +53,6 @@ function foeStep(lv: Level, s: State, objs: ArrayLike<string>, w: W, i: number, 
   return -1;
 }
 
-/**
- * Telegraph for the renderer: where each awake Tarnish would step if Sol and Lune stood still
- * (each judged alone, ignoring the others' moves). `to` is -1 when it would stay.
- */
-export function foeIntents(lv: Level, s: State): { world: W; from: number; to: number }[] {
-  return ([0, 1] as W[]).flatMap((w) => [...s.objs[w]].flatMap((o, i) =>
-    o === '@' ? [{ world: w, from: i, to: foeStep(lv, s, s.objs[w], w, i, s.pos[w]) }] : []));
-}
-
 /** RULES.md §4. Pure: never mutates `s`. Pass `ev` to collect animation events. */
 export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
   if (s.fallen[0] || s.fallen[1] || isWon(s)) return s;
@@ -85,10 +76,12 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
       objs[w][to] = ' ';
       if (s.tiles[w][beyond] === '^') {
         tiles[w][beyond] = ',';
-        ev?.push({ type: 'fill', world: w, at: beyond });
-      } else objs[w][beyond] = s.objs[w][to];
+        ev?.push({ type: 'fill', world: w, at: beyond, from: to });
+      } else {
+        objs[w][beyond] = s.objs[w][to];
+        ev?.push({ type: 'push', world: w, at: beyond, from: to });
+      }
       pos[w] = to;
-      ev?.push({ type: 'push', world: w, at: to });
       continue;
     }
     if (s.tiles[w][to] === '|') { stomps.push([w, to]); continue; }
@@ -112,8 +105,8 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
         const to = foeStep(lv, s, objs[w], w, i, pos[w]);
         if (to < 0) continue;
         objs[w][i] = ' ';
-        if (tiles[w][to] === '^') { tiles[w][to] = ';'; ev?.push({ type: 'foeFall', world: w, at: to }); }
-        else { objs[w][to] = '@'; ev?.push({ type: 'foeStep', world: w, at: to }); }
+        if (tiles[w][to] === '^') { tiles[w][to] = ';'; ev?.push({ type: 'foeFall', world: w, at: to, from: i }); }
+        else { objs[w][to] = '@'; ev?.push({ type: 'foeStep', world: w, at: to, from: i }); }
       }
     }
   }
