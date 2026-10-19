@@ -132,7 +132,9 @@ So one press opens *x*'s gates on one side and closes them on the other. That's 
 
 A gate that wants to close but has a character or object on it **stays open and is jammed** (strain animation, sparks). It closes on the first tick its tile is clear. Because of this, gate state is a pure function of (link active, tile occupied) and never needs storing.
 
-Timing example: Sol steps off plate *a* while Lune steps into open gate `A` in Tails. Movement (step 2) sees `A` open, Lune enters. Step 4: `A` wants to close but Lune is on it, so it jams. Deterministic.
+Timing examples (plate *a* in Heads, gate `A` in Tails):
+- Sol steps **onto** *a* while Lune steps into `A`. Movement (step 2) sees `A` open, so Lune enters. Step 4: `A` wants to close but Lune is on it, so it jams.
+- Sol steps **off** *a* while Lune walks at `A`. Movement sees `A` closed, so Lune bumps; `A` opens at step 4. A gate that opens this tick can't be walked through this tick.
 
 ## 6. Seesaws
 
