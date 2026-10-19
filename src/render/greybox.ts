@@ -106,6 +106,48 @@ export function startGreybox(app: Application) {
         }
         if (s.objs[w][i] === 'C') g.rect(x + t * 0.15, y + t * 0.15, t * 0.7, t * 0.7).fill(0xc8643b).stroke({ width: 2, color: 0x2a1e14 });
       }
+
+      for (let i = 0; i < lv.w * lv.h; i++) {
+        const obj = s.objs[w][i];
+        if (obj !== '@' && obj !== '?') continue;
+        const [x, y] = cell(w, i);
+        const cx = x + t / 2, cy = y + t / 2, r = t * 0.3;
+        const awake = obj === '@';
+        const fill = awake ? 0xb5543a : { color: 0x7d6b55, alpha: 0.85 };
+        const outline = { width: 2, color: 0x2a1e14 };
+
+        // Jagged crown / spikes on top
+        g.poly([
+          cx - r * 0.6, cy - r * 0.7,
+          cx - r * 0.45, cy - r * 1.3,
+          cx - r * 0.2, cy - r * 0.95,
+          cx, cy - r * 1.4,
+          cx + r * 0.2, cy - r * 0.95,
+          cx + r * 0.45, cy - r * 1.3,
+          cx + r * 0.6, cy - r * 0.7,
+        ], true).fill(fill).stroke(outline);
+
+        // Body circle
+        g.circle(cx, cy, r).fill(fill).stroke(outline);
+
+        if (awake) {
+          const eyeR = Math.max(1.5, t * 0.04);
+          g.circle(cx - r * 0.35, cy - r * 0.05, eyeR).fill(0xffe08a);
+          g.circle(cx + r * 0.35, cy - r * 0.05, eyeR).fill(0xffe08a);
+        } else {
+          g.moveTo(cx - r * 0.5, cy - r * 0.05).lineTo(cx - r * 0.2, cy - r * 0.05).stroke(outline);
+          g.moveTo(cx + r * 0.2, cy - r * 0.05).lineTo(cx + r * 0.5, cy - r * 0.05).stroke(outline);
+
+          const zTxt = new Text({
+            text: 'z',
+            style: { fill: p.ink, fontSize: Math.max(8, Math.round(t * 0.28)), fontFamily: 'sans-serif', fontWeight: 'bold' },
+          });
+          zTxt.anchor.set(0.5);
+          zTxt.position.set(cx + r * 0.75, cy - r * 0.75);
+          scene.addChild(zTxt);
+        }
+      }
+
       const [hx, hy] = cell(w, s.pos[w]);
       g.circle(hx + t / 2, hy + t / 2, t * 0.32).fill(s.fallen[w] ? 0x777777 : p.hero).stroke({ width: 2, color: p.ink });
     }
@@ -123,7 +165,9 @@ export function startGreybox(app: Application) {
     hud.position.set(MARGIN, (HUD - 22) / 2 + MARGIN / 2);
     scene.addChild(hud);
 
+    const caught = (s.fallen[0] && s.objs[0][s.pos[0]] === '@') || (s.fallen[1] && s.objs[1][s.pos[1]] === '@');
     const msg = isWon(s) ? `Solved in ${hist.moves} moves. Enter for next level`
+      : caught ? 'Caught! Press Z to undo or R to restart'
       : s.fallen[0] || s.fallen[1] ? 'Fell! Press Z to undo or R to restart' : '';
     if (msg) {
       const txt = new Text({ text: msg, style: { fill: 0xffffff, fontSize: 26, fontFamily: 'sans-serif' } });
@@ -134,6 +178,13 @@ export function startGreybox(app: Application) {
     }
   }
 
-  window.__game = { levelIndex: () => index, levelCount: () => levels.length, loadLevel: load, press, state: () => hist.state };
+  window.__game = {
+    levelIndex: () => index,
+    levelCount: () => levels.length,
+    loadLevel: load,
+    press,
+    state: () => hist.state,
+    idle: () => queue.length === 0,
+  };
   draw();
 }
