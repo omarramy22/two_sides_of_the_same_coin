@@ -2,7 +2,7 @@
 import { Application, Container, Graphics, Text } from 'pixi.js';
 import { History } from '../engine/history';
 import { isGate, isPlate, parseLevel } from '../engine/parse';
-import { gateJammed, gateOpen, isWon, tick } from '../engine/tick';
+import { foeIntents, gateJammed, gateOpen, isWon, tick } from '../engine/tick';
 import type { Dir, Level, LevelFile, W } from '../engine/types';
 
 const files = import.meta.glob<LevelFile>('../levels/*.json', { eager: true, import: 'default' });
@@ -88,10 +88,33 @@ export function startGreybox(app: Application) {
       const p = PAL[w];
       for (let i = 0; i < lv.w * lv.h; i++) {
         const [x, y] = cell(w, i), c = s.tiles[w][i];
-        g.rect(x, y, t, t).fill(c === '#' ? p.wall : p.floor);
+        const cx = x + t / 2;
+        g.rect(x, y, t, t).fill(c === '#' ? p.wall : c === '|' ? 0x6b5b3a : p.floor);
         if (c === 'G') g.rect(x + t * 0.1, y + t * 0.1, t * 0.8, t * 0.8).fill(p.goal);
         else if (c === '^') g.rect(x + t * 0.05, y + t * 0.05, t * 0.9, t * 0.9).fill(p.pit);
-        else if (isPlate(c)) {
+        else if (c === ',' || c === ';') {
+          g.rect(x + t * 0.06, y + t * 0.06, t * 0.88, t * 0.88).fill({ color: 0x5a4632, alpha: 0.5 });
+          if (c === ',') {
+            const cx0 = x + t * 0.22, cy0 = y + t * 0.22, cw = t * 0.56;
+            g.rect(cx0, cy0, cw, cw).fill({ color: 0xc8643b, alpha: 0.75 });
+            g.moveTo(cx0, cy0).lineTo(cx0 + cw, cy0 + cw).stroke({ width: 1.5, color: 0x2a1e14 });
+            g.moveTo(cx0 + cw, cy0).lineTo(cx0, cy0 + cw).stroke({ width: 1.5, color: 0x2a1e14 });
+          } else {
+            const cy = y + t / 2, cr = t * 0.28;
+            const fill = { color: 0x7d4a33, alpha: 0.8 };
+            const outline = { width: 1.5, color: 0x2a1e14 };
+            g.poly([
+              cx - cr * 0.5, cy - cr * 0.7,
+              cx - cr * 0.38, cy - cr * 1.2,
+              cx - cr * 0.18, cy - cr * 0.9,
+              cx, cy - cr * 1.3,
+              cx + cr * 0.18, cy - cr * 0.9,
+              cx + cr * 0.38, cy - cr * 1.2,
+              cx + cr * 0.5, cy - cr * 0.7,
+            ], true).fill(fill).stroke(outline);
+            g.circle(cx, cy, cr).fill(fill).stroke(outline);
+          }
+        } else if (isPlate(c)) {
           g.rect(x + t * 0.2, y + t * 0.2, t * 0.6, t * 0.6).fill(0x9c8cd4);
           label(c, x, y, 0x1c2046);
         } else if (isGate(c)) {
@@ -99,10 +122,23 @@ export function startGreybox(app: Application) {
             g.rect(x + 2, y + 2, t - 4, t - 4).stroke({ width: gateJammed(lv, s, w, i) ? 5 : 2, color: gateJammed(lv, s, w, i) ? 0xe07a6b : 0x4a5a8c });
           } else g.rect(x, y, t, t).fill(0x4a5a8c);
           label(c, x, y, p.ink);
-        } else if (c === '/') g.moveTo(x + t * 0.15, y + t * 0.85).lineTo(x + t * 0.85, y + t * 0.15).stroke({ width: 2, color: p.ink });
-        else if (c === '|') {
+        } else if (c === '/') {
+          const lpx = x + t * 0.1, lpy = y + t * 0.35, lpw = t * 0.8, lph = t * 0.3;
+          const rad = Math.max(2, t * 0.05);
+          g.poly([cx, lpy + lph - 1, cx - t * 0.08, lpy + lph + t * 0.12, cx + t * 0.08, lpy + lph + t * 0.12], true).fill(0x2a1e14);
+          g.roundRect(lpx, lpy, lpw, lph, rad).fill(0xa0703c).stroke({ width: 2, color: 0x2a1e14 });
+          g.moveTo(lpx + lpw * 0.28, lpy + lph * 0.25).lineTo(lpx + lpw * 0.28, lpy + lph * 0.75).stroke({ width: 1.5, color: 0x2a1e14 });
+          g.moveTo(lpx + lpw * 0.5, lpy + lph * 0.2).lineTo(lpx + lpw * 0.5, lpy + lph * 0.7).stroke({ width: 1.5, color: 0x2a1e14 });
+          g.moveTo(lpx + lpw * 0.72, lpy + lph * 0.25).lineTo(lpx + lpw * 0.72, lpy + lph * 0.75).stroke({ width: 1.5, color: 0x2a1e14 });
+        } else if (c === '|') {
           g.rect(x, y, t, t).fill(0x6b5b3a);
-          g.moveTo(x + t * 0.15, y + t * 0.85).lineTo(x + t * 0.85, y + t * 0.15).stroke({ width: 6, color: 0x2a1e14 });
+          const rpx = x + t * 0.07, rpy = y + t * 0.18, rpw = t * 0.86, rph = t * 0.4;
+          const rad = Math.max(2, t * 0.05);
+          g.roundRect(rpx, rpy + t * 0.12, rpw, rph, rad).fill({ color: 0x000000, alpha: 0.35 });
+          g.poly([cx, rpy + rph - 1, cx - t * 0.08, rpy + rph + t * 0.12, cx + t * 0.08, rpy + rph + t * 0.12], true).fill(0x2a1e14);
+          g.roundRect(rpx, rpy, rpw, rph, rad).fill(0xc08850).stroke({ width: 2, color: 0x2a1e14 });
+          const cyPlank = rpy + rph / 2;
+          g.moveTo(cx - t * 0.08, cyPlank + t * 0.04).lineTo(cx, cyPlank - t * 0.05).lineTo(cx + t * 0.08, cyPlank + t * 0.04).stroke({ width: 2.5, color: 0x2a1e14 });
         }
         if (s.objs[w][i] === 'C') g.rect(x + t * 0.15, y + t * 0.15, t * 0.7, t * 0.7).fill(0xc8643b).stroke({ width: 2, color: 0x2a1e14 });
       }
@@ -156,6 +192,32 @@ export function startGreybox(app: Application) {
     if (s.pos[0] === s.pos[1]) {
       const [ax, ay] = cell(0, s.pos[0]), [bx, by] = cell(1, s.pos[1]);
       g.moveTo(ax + t / 2, ay + t / 2).lineTo(bx + t / 2, by + t / 2).stroke({ width: 3, color: 0xfff4d6, alpha: 0.9 });
+    }
+
+    // Enemy intent arrows (on top of all tiles/objects/characters of both worlds).
+    for (const intent of foeIntents(lv, s)) {
+      if (intent.to < 0) continue;
+      const [fx, fy] = cell(intent.world, intent.from);
+      const [tx, ty] = cell(intent.world, intent.to);
+      const cx = fx + t / 2, cy = fy + t / 2;
+      const tcx = tx + t / 2, tcy = ty + t / 2;
+      const dx = tcx - cx, dy = tcy - cy;
+      const dist = Math.hypot(dx, dy) || 1;
+      const ux = dx / dist, uy = dy / dist;
+      const nx = -uy, ny = ux;
+
+      const sx = cx + ux * 0.3 * t, sy = cy + uy * 0.3 * t;
+      const ex = cx + ux * 0.85 * t, ey = cy + uy * 0.85 * t;
+      g.moveTo(sx, sy).lineTo(ex, ey).stroke({ width: 0.08 * t, color: 0xe07a6b, alpha: 0.9 });
+
+      const tipX = cx + ux * 0.98 * t, tipY = cy + uy * 0.98 * t;
+      const baseX = cx + ux * 0.84 * t, baseY = cy + uy * 0.84 * t;
+      const hw = 0.08 * t;
+      g.poly([
+        tipX, tipY,
+        baseX + nx * hw, baseY + ny * hw,
+        baseX - nx * hw, baseY - ny * hw,
+      ], true).fill({ color: 0xe07a6b, alpha: 0.9 });
     }
 
     const hud = new Text({
