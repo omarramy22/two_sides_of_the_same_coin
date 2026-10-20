@@ -1,0 +1,22 @@
+{
+  "id": "2-5",
+  "name": "Two Ropes",
+  "role": "capstone",
+  "par": 26,
+  "designNote": "Aha (combines everything): Sol's Tarnish is penned in by a raised balance stone. Shoving it down lets the Tarnish out but yanks Lune's twin up. Put the Tarnish to sleep out of the way by lining up, let Lune shove her stone back down, then line up again so it wakes and follows Sol onto the plate, holding his door open as both walk home.",
+  "heads": ["#########",
+            "#S....#@#",
+            "#.....#.#",
+            "#..a..|.#",
+            "#####A###",
+            "#....G..#",
+            "#########"],
+  "tails": ["#########",
+            "#L......#",
+            "#.......#",
+            "#...../.#",
+            "######.##",
+            "#.....G.#",
+            "#########"],
+  "hints": ["The Tarnish is the only weight heavy enough for Sol's plate.", "Let it out, put it to sleep while you get ready, then wake it and lead it onto the plate.", null]
+}
