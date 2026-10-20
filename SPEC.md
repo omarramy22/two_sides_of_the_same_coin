@@ -11,7 +11,7 @@
 - Deadline: `____`
 - Required platform: none (no advantage for any engine). **Decision: web build (TypeScript + PixiJS), played by link.** Don't propose switching engines.
 - Asset rules (are AI-generated or third-party CC0 assets allowed? must all assets be original?): `____`
-- Theme: `____` (Theme Integration is pass/fail, so the game must clearly read as the theme)
+- Theme: **Trade-off** (Theme Integration is pass/fail, so the game must clearly read as the theme). The fit: the core law is conservation (whatever one side gains, the other loses), and every mechanic is a trade: counterweight plates and balance stones, light that is the other side's shadow, water drained from one basin into the other, altars that trade the coin for weightlessness or light.
 - Judging rubric (from the organisers, 2026-10-20):
   | Category | Weight |
   |---|---|
