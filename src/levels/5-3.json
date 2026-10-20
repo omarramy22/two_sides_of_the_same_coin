@@ -1,0 +1,18 @@
+{
+  "id": "5-3",
+  "name": "Light Footed",
+  "role": "develop",
+  "par": 19,
+  "designNote": "Aha: weightless Sol crosses the crack, and the Tarnish chasing him does not: it breaks through and falls in. Then Sol walks back to bring Lune the long way round.",
+  "heads": ["##########",
+            "#@..S.O%G#",
+            "##########",
+            "##########",
+            "##########"],
+  "tails": ["##########",
+            "#...L..?.#",
+            "#.######.#",
+            "#......G.#",
+            "##########"],
+  "hints": ["Who is heavier now, Sol or the Tarnish?", "Trade Sol's weight, cross the crack and let the Tarnish follow you.", null]
+}

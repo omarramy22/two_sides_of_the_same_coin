@@ -332,6 +332,21 @@ export class SfxPool {
         break;
       }
 
+      case 'altar': {
+        // A coin given up: a low bell and a rising chime, the gift arriving
+        (isTails ? this.bellFm : this.warmFm).triggerAttackRelease(isTails ? 'D3' : 'G3', '4n', now, 0.22);
+        ['G4', 'B4', 'D5', 'G5'].forEach((n, k) => this.polyChime.triggerAttackRelease(n, '16n', now + 0.12 + k * 0.06, 0.16));
+        break;
+      }
+
+      case 'crack': {
+        // Stone giving way: a sharp snap and a crumble
+        this.crispNoise.triggerAttackRelease('32n', now, 0.22);
+        this.warmMembrane.triggerAttackRelease('E1', '16n', now + 0.03, 0.25);
+        this.warmNoise.triggerAttackRelease('8n', now + 0.06, 0.12);
+        break;
+      }
+
       case 'undo': {
         // Short reversed shimmer
         this.crispNoise.triggerAttackRelease('16n', now, 0.14);

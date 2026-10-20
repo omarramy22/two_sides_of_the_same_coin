@@ -219,10 +219,12 @@ Applied at the end of step 2. A character that **enters** an unused altar while 
 - `O` weight altar → `weightless = true`.
 - `Q` light altar → `lightBearer = true`.
 
-The altar is now used (holds the coin) and is plain floor from then on. Without a coin, an altar is plain floor. Either character can use either altar. Permanent until undo.
+The altar is now used (holds the coin; engine glyph `(` or `)`) and is plain floor from then on. Without a coin, an altar is plain floor. Either character can use either altar. Permanent until undo.
 
 ### 9.2 Weightless
 Doesn't press plates or open sluices, can't stomp seesaws, and walks on cracked floor without breaking it. Still occupies its tile, so it **still jams gates and seesaws**. Still pushes objects. Still falls into pits and void bridges.
+
+A Tarnish stepping onto cracked floor breaks it and fills it, like a pit. A light-bearer's light freezes a Tarnish of her own world standing next to her (§5a), and makes her twin cells shadow.
 
 ### 9.3 Wish altars (`$`, finale only)
 The finale is won when, at the end of a tick, Sol is on H's `$` and Lune is on T's `$`, and both still hold their coins. One character alone on a `$` does nothing. The Rim walk that follows is a scripted scene, not a puzzle (Phase 5).

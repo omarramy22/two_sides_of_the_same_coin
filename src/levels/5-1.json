@@ -1,0 +1,18 @@
+{
+  "id": "5-1",
+  "name": "Featherweight",
+  "role": "introduce",
+  "par": 10,
+  "designNote": "Aha: the cracked floor gives way under anyone with weight. Sol walks down to the weight altar, gives it his half-coin, and floats across the crack.",
+  "heads": ["#########",
+            "#S..%..G#",
+            "#.#######",
+            "#O#######",
+            "#########"],
+  "tails": ["#########",
+            "#L.....G#",
+            "#.#######",
+            "#.#######",
+            "#########"],
+  "hints": ["That crack won't hold anyone heavy.", "Give the weight altar your coin. Weightless, you can cross.", null]
+}

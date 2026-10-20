@@ -33,7 +33,8 @@ export interface Level extends Omit<LevelFile, 'heads' | 'tails'> {
 
 /**
  * Everything that can change. Cells are indexed `y * w + x`.
- * `tiles` is the terrain (walls, gates, seesaw ends, pits, water `~`/`_`, rafts `+`...).
+ * `tiles` is the terrain (walls, gates, seesaw ends, pits, water `~`/`_`, rafts `+`, cracked floor `%`,
+ * altars `O`/`Q` and spent altars `(`/`)`...).
  * `objs` per cell: ' ' empty, 'C' crate, '*' lantern, '@' awake Tarnish, '?' asleep Tarnish.
  * Gate open/closed and light are derived, never stored (RULES.md §5, §7).
  */
@@ -41,6 +42,8 @@ export interface State {
   tiles: [string, string];
   objs: [string, string];
   pos: [number, number];
+  /** Per character (§9): '' still holds the half-coin, 'O' traded it for weightlessness, 'Q' for light. */
+  traded: [string, string];
   fallen: [boolean, boolean];
 }
 
@@ -48,10 +51,11 @@ export interface State {
  * Animation hints from `tick`. `at` is where it happened. Things that slide also carry `from`:
  * push/fill = the crate's move (fill: into a pit), foeStep/foeFall = a Tarnish's step,
  * drop = an object lost through a bridge that went void (§7), raft = a crate that became a raft
- * (from = where it was pushed from, if pushed), flow = one unit of water left `world` at `at` for the twin (§8).
+ * (from = where it was pushed from, if pushed), flow = one unit of water left `world` at `at` for the twin (§8),
+ * altar = a character traded its coin there (§9), crack = cracked floor broke under weight.
  */
 export type GameEvent = {
-  type: 'move' | 'bump' | 'push' | 'fill' | 'stomp' | 'stompJam' | 'fall' | 'caught' | 'flip' | 'foeStep' | 'foeFall' | 'drop' | 'raft' | 'flow';
+  type: 'move' | 'bump' | 'push' | 'fill' | 'stomp' | 'stompJam' | 'fall' | 'caught' | 'flip' | 'foeStep' | 'foeFall' | 'drop' | 'raft' | 'flow' | 'altar' | 'crack';
   world: W;
   at: number;
   from?: number;

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="heads,tails,heads2,tails2,heads3,tails3,heads4,tails4">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="heads,tails,heads2,tails2,heads3,tails3,heads4,tails4,heads5,tails5">
   <!-- Deep ground shadow at base of the raised block -->
   <ellipse cx="34" cy="56" rx="23.5" ry="6" fill="#000" fill-opacity="0.35"/>
   <path d="M 12 54 L 52 54 L 57 59 L 18 60 Z" fill="#000" fill-opacity="0.25"/>

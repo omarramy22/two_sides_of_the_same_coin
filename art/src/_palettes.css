@@ -169,3 +169,35 @@
   --water-light: #7FB8E8;
   --water-dark: #183E6E;
 }
+
+/* Chapter 5, The Dark: the bottom of the well, lit only by embers and what you carry.
+   Deep umber with ember gold (Heads), ink violet with firefly green (Tails). */
+.theme-heads5 {
+  --ink: #120B06;
+  --floor: #4A3A2E;
+  --floor-light: #64503E;
+  --floor-dark: #33271E;
+  --wall-top: #3E2E22;
+  --wall-face: #241A12;
+  --wall-shade: #150F0A;
+  --accent: #F2A33A;
+  --accent-dark: #B8661E;
+  --accent2: #E07A6B;
+  --highlight: #FFD9A0;
+  --pit: #050302;
+}
+
+.theme-tails5 {
+  --ink: #06050F;
+  --floor: #262040;
+  --floor-light: #352D58;
+  --floor-dark: #1A1630;
+  --wall-top: #2C2650;
+  --wall-face: #15122A;
+  --wall-shade: #0B0918;
+  --accent: #9FE08A;
+  --accent-dark: #5E9E50;
+  --accent2: #E07A6B;
+  --highlight: #E2FFD8;
+  --pit: #020108;
+}

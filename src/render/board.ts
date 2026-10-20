@@ -57,7 +57,7 @@ export class Board extends Container {
       halfAt: (w) => board.halfAt(w),
       cell: (i) => board.cell(i),
     }, [this.halves[0].overlay, this.halves[1].overlay], this.seam, this.fx, this.tweens);
-    this.lights = lv.start.objs.some((o) => o.includes('*'));
+    this.lights = lv.start.objs.some((o) => o.includes('*')) || lv.start.tiles.some((t) => t.includes('Q'));
     this.inner.addChild(this.seam, ...this.halves, this.glow, this.ghosts, this.fx);
     this.addChild(this.inner);
   }
@@ -119,7 +119,7 @@ export class Board extends Container {
       const p = this.puppets[w];
       p.position.set(...this.feet(s.pos[w]));
       p.zIndex = p.y;
-      p.alpha = s.fallen[w] ? 0.35 : 1;
+      p.alpha = s.fallen[w] ? 0.35 : s.traded[w] === 'O' ? 0.75 : 1; // weightless: a little see-through
       half.actors.addChild(p);
     }
     this.refreshTerrain(s);
@@ -231,6 +231,18 @@ export class Board extends Container {
         this.crates.delete(key);
         if (s) jobs.push(this.tweens.wait(STEP + 0.3).then(() => s.destroy()));
       }
+    }
+
+    // Altars: the half-coin leaves the pendant in a burst of gold and settles into the altar.
+    // Cracked floor: grit bursts up as it gives way.
+    for (const e of ev) {
+      if (e.type !== 'altar' && e.type !== 'crack') continue;
+      const [cx, cy] = this.centre(e.world, e.at), p = this.puppets[e.world];
+      jobs.push(this.tweens.wait(STEP).then(() => {
+        if (e.type === 'crack') { this.shake(0.15); this.fx.burst(cx, cy, { n: 14, color: DUST[e.world], size: t * 0.05, speed: t * 1.8, up: t * 0.5, grav: t * 7 }); return; }
+        this.fx.burst(cx, cy - t * 0.3, { n: 18, color: 0xffe08a, size: t * 0.04, speed: t * 2, life: 0.6 });
+        if (next.traded[e.world] === 'O') p.alpha = 0.75;
+      }));
     }
 
     // Lost through a bridge that went void: whatever stood there sinks into the cleft.

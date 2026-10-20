@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="heads5,tails5">
+  <!-- Cracked floor: a thin flagstone over nothing. Heavy feet break it; the weightless float across. -->
+  <g filter="url(#grain)"><rect width="64" height="64" fill="var(--floor)"/></g>
+  <g filter="url(#wobble)" stroke="var(--ink)" stroke-linejoin="round" stroke-linecap="round" fill="none">
+    <path d="M4 4 H60 V60 H4 Z" fill="var(--floor-light)" fill-opacity="0.35" stroke-width="1.1"/>
+    <path d="M32 30 L22 12 L14 4 M32 30 L50 18 L60 14 M32 30 L40 48 L44 60 M32 30 L14 40 L4 44 M22 12 L28 6 M40 48 L52 50 M14 40 L16 54" stroke-width="1.6"/>
+  </g>
+  <!-- the dark showing through the widest cracks -->
+  <path d="M32 30 L24 15 L27 16 Z M32 30 L47 20 L46 23 Z M32 30 L38 45 L41 46 Z M32 30 L17 39 L18 42 Z" fill="var(--pit)"/>
+  <circle cx="32" cy="30" r="2.6" fill="var(--pit)"/>
+  <path d="M8 8 L20 8" stroke="var(--highlight)" stroke-opacity="0.35" stroke-width="1"/>
+</svg>

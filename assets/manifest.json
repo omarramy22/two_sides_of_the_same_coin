@@ -1,4 +1,22 @@
 {
+  "bg/dark-far": {
+    "src": "bg/dark-far.jpg",
+    "src2x": "bg/dark-far@2x.jpg",
+    "w": 1280,
+    "h": 720
+  },
+  "bg/dark-mid": {
+    "src": "bg/dark-mid.png",
+    "src2x": "bg/dark-mid@2x.png",
+    "w": 1280,
+    "h": 720
+  },
+  "bg/dark-near": {
+    "src": "bg/dark-near.png",
+    "src2x": "bg/dark-near@2x.png",
+    "w": 1280,
+    "h": 720
+  },
   "bg/roots-far": {
     "src": "bg/roots-far.jpg",
     "src2x": "bg/roots-far@2x.jpg",
@@ -233,6 +251,54 @@
     "w": 96,
     "h": 96
   },
+  "tiles/altar-light-used.heads5": {
+    "src": "tiles/altar-light-used.heads5.png",
+    "src2x": "tiles/altar-light-used.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/altar-light-used.tails5": {
+    "src": "tiles/altar-light-used.tails5.png",
+    "src2x": "tiles/altar-light-used.tails5@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/altar-light.heads5": {
+    "src": "tiles/altar-light.heads5.png",
+    "src2x": "tiles/altar-light.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/altar-light.tails5": {
+    "src": "tiles/altar-light.tails5.png",
+    "src2x": "tiles/altar-light.tails5@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/altar-weight-used.heads5": {
+    "src": "tiles/altar-weight-used.heads5.png",
+    "src2x": "tiles/altar-weight-used.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/altar-weight-used.tails5": {
+    "src": "tiles/altar-weight-used.tails5.png",
+    "src2x": "tiles/altar-weight-used.tails5@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/altar-weight.heads5": {
+    "src": "tiles/altar-weight.heads5.png",
+    "src2x": "tiles/altar-weight.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/altar-weight.tails5": {
+    "src": "tiles/altar-weight.tails5.png",
+    "src2x": "tiles/altar-weight.tails5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/basin-dry.heads4": {
     "src": "tiles/basin-dry.heads4.png",
     "src2x": "tiles/basin-dry.heads4@2x.png",
@@ -251,9 +317,33 @@
     "w": 64,
     "h": 64
   },
+  "tiles/chasm.heads5": {
+    "src": "tiles/chasm.heads5.png",
+    "src2x": "tiles/chasm.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/chasm.tails3": {
     "src": "tiles/chasm.tails3.png",
     "src2x": "tiles/chasm.tails3@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/chasm.tails5": {
+    "src": "tiles/chasm.tails5.png",
+    "src2x": "tiles/chasm.tails5@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/cracked.heads5": {
+    "src": "tiles/cracked.heads5.png",
+    "src2x": "tiles/cracked.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/cracked.tails5": {
+    "src": "tiles/cracked.tails5.png",
+    "src2x": "tiles/cracked.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -287,6 +377,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/floor-1.heads5": {
+    "src": "tiles/floor-1.heads5.png",
+    "src2x": "tiles/floor-1.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/floor-1.tails": {
     "src": "tiles/floor-1.tails.png",
     "src2x": "tiles/floor-1.tails@2x.png",
@@ -308,6 +404,12 @@
   "tiles/floor-1.tails4": {
     "src": "tiles/floor-1.tails4.png",
     "src2x": "tiles/floor-1.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/floor-1.tails5": {
+    "src": "tiles/floor-1.tails5.png",
+    "src2x": "tiles/floor-1.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -335,6 +437,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/floor-2.heads5": {
+    "src": "tiles/floor-2.heads5.png",
+    "src2x": "tiles/floor-2.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/floor-2.tails": {
     "src": "tiles/floor-2.tails.png",
     "src2x": "tiles/floor-2.tails@2x.png",
@@ -356,6 +464,12 @@
   "tiles/floor-2.tails4": {
     "src": "tiles/floor-2.tails4.png",
     "src2x": "tiles/floor-2.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/floor-2.tails5": {
+    "src": "tiles/floor-2.tails5.png",
+    "src2x": "tiles/floor-2.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -383,6 +497,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/floor-3.heads5": {
+    "src": "tiles/floor-3.heads5.png",
+    "src2x": "tiles/floor-3.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/floor-3.tails": {
     "src": "tiles/floor-3.tails.png",
     "src2x": "tiles/floor-3.tails@2x.png",
@@ -404,6 +524,12 @@
   "tiles/floor-3.tails4": {
     "src": "tiles/floor-3.tails4.png",
     "src2x": "tiles/floor-3.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/floor-3.tails5": {
+    "src": "tiles/floor-3.tails5.png",
+    "src2x": "tiles/floor-3.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -431,6 +557,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/floor-4.heads5": {
+    "src": "tiles/floor-4.heads5.png",
+    "src2x": "tiles/floor-4.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/floor-4.tails": {
     "src": "tiles/floor-4.tails.png",
     "src2x": "tiles/floor-4.tails@2x.png",
@@ -452,6 +584,12 @@
   "tiles/floor-4.tails4": {
     "src": "tiles/floor-4.tails4.png",
     "src2x": "tiles/floor-4.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/floor-4.tails5": {
+    "src": "tiles/floor-4.tails5.png",
+    "src2x": "tiles/floor-4.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -479,6 +617,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/gate-closed.heads5": {
+    "src": "tiles/gate-closed.heads5.png",
+    "src2x": "tiles/gate-closed.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/gate-closed.tails": {
     "src": "tiles/gate-closed.tails.png",
     "src2x": "tiles/gate-closed.tails@2x.png",
@@ -500,6 +644,12 @@
   "tiles/gate-closed.tails4": {
     "src": "tiles/gate-closed.tails4.png",
     "src2x": "tiles/gate-closed.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/gate-closed.tails5": {
+    "src": "tiles/gate-closed.tails5.png",
+    "src2x": "tiles/gate-closed.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -527,6 +677,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/gate-open.heads5": {
+    "src": "tiles/gate-open.heads5.png",
+    "src2x": "tiles/gate-open.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/gate-open.tails": {
     "src": "tiles/gate-open.tails.png",
     "src2x": "tiles/gate-open.tails@2x.png",
@@ -548,6 +704,12 @@
   "tiles/gate-open.tails4": {
     "src": "tiles/gate-open.tails4.png",
     "src2x": "tiles/gate-open.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/gate-open.tails5": {
+    "src": "tiles/gate-open.tails5.png",
+    "src2x": "tiles/gate-open.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -575,6 +737,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/goal-heads.heads5": {
+    "src": "tiles/goal-heads.heads5.png",
+    "src2x": "tiles/goal-heads.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/goal-tails.tails": {
     "src": "tiles/goal-tails.tails.png",
     "src2x": "tiles/goal-tails.tails@2x.png",
@@ -599,9 +767,21 @@
     "w": 64,
     "h": 64
   },
+  "tiles/goal-tails.tails5": {
+    "src": "tiles/goal-tails.tails5.png",
+    "src2x": "tiles/goal-tails.tails5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/lantern.heads3": {
     "src": "tiles/lantern.heads3.png",
     "src2x": "tiles/lantern.heads3@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/lantern.heads5": {
+    "src": "tiles/lantern.heads5.png",
+    "src2x": "tiles/lantern.heads5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -611,15 +791,33 @@
     "w": 64,
     "h": 64
   },
+  "tiles/lantern.tails5": {
+    "src": "tiles/lantern.tails5.png",
+    "src2x": "tiles/lantern.tails5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/mirage.heads3": {
     "src": "tiles/mirage.heads3.png",
     "src2x": "tiles/mirage.heads3@2x.png",
     "w": 64,
     "h": 64
   },
+  "tiles/mirage.heads5": {
+    "src": "tiles/mirage.heads5.png",
+    "src2x": "tiles/mirage.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/mirage.tails3": {
     "src": "tiles/mirage.tails3.png",
     "src2x": "tiles/mirage.tails3@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/mirage.tails5": {
+    "src": "tiles/mirage.tails5.png",
+    "src2x": "tiles/mirage.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -647,6 +845,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/pit-crate.heads5": {
+    "src": "tiles/pit-crate.heads5.png",
+    "src2x": "tiles/pit-crate.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/pit-crate.tails": {
     "src": "tiles/pit-crate.tails.png",
     "src2x": "tiles/pit-crate.tails@2x.png",
@@ -668,6 +872,12 @@
   "tiles/pit-crate.tails4": {
     "src": "tiles/pit-crate.tails4.png",
     "src2x": "tiles/pit-crate.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/pit-crate.tails5": {
+    "src": "tiles/pit-crate.tails5.png",
+    "src2x": "tiles/pit-crate.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -695,6 +905,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/pit-tarnish.heads5": {
+    "src": "tiles/pit-tarnish.heads5.png",
+    "src2x": "tiles/pit-tarnish.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/pit-tarnish.tails": {
     "src": "tiles/pit-tarnish.tails.png",
     "src2x": "tiles/pit-tarnish.tails@2x.png",
@@ -716,6 +932,12 @@
   "tiles/pit-tarnish.tails4": {
     "src": "tiles/pit-tarnish.tails4.png",
     "src2x": "tiles/pit-tarnish.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/pit-tarnish.tails5": {
+    "src": "tiles/pit-tarnish.tails5.png",
+    "src2x": "tiles/pit-tarnish.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -743,6 +965,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/pit.heads5": {
+    "src": "tiles/pit.heads5.png",
+    "src2x": "tiles/pit.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/pit.tails": {
     "src": "tiles/pit.tails.png",
     "src2x": "tiles/pit.tails@2x.png",
@@ -764,6 +992,12 @@
   "tiles/pit.tails4": {
     "src": "tiles/pit.tails4.png",
     "src2x": "tiles/pit.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/pit.tails5": {
+    "src": "tiles/pit.tails5.png",
+    "src2x": "tiles/pit.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -791,6 +1025,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/plate-down.heads5": {
+    "src": "tiles/plate-down.heads5.png",
+    "src2x": "tiles/plate-down.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/plate-down.tails": {
     "src": "tiles/plate-down.tails.png",
     "src2x": "tiles/plate-down.tails@2x.png",
@@ -812,6 +1052,12 @@
   "tiles/plate-down.tails4": {
     "src": "tiles/plate-down.tails4.png",
     "src2x": "tiles/plate-down.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/plate-down.tails5": {
+    "src": "tiles/plate-down.tails5.png",
+    "src2x": "tiles/plate-down.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -839,6 +1085,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/plate-up.heads5": {
+    "src": "tiles/plate-up.heads5.png",
+    "src2x": "tiles/plate-up.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/plate-up.tails": {
     "src": "tiles/plate-up.tails.png",
     "src2x": "tiles/plate-up.tails@2x.png",
@@ -863,6 +1115,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/plate-up.tails5": {
+    "src": "tiles/plate-up.tails5.png",
+    "src2x": "tiles/plate-up.tails5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/raft.heads4": {
     "src": "tiles/raft.heads4.png",
     "src2x": "tiles/raft.heads4@2x.png",
@@ -881,9 +1139,21 @@
     "w": 64,
     "h": 64
   },
+  "tiles/shadow-bridge.heads5": {
+    "src": "tiles/shadow-bridge.heads5.png",
+    "src2x": "tiles/shadow-bridge.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/shadow-bridge.tails3": {
     "src": "tiles/shadow-bridge.tails3.png",
     "src2x": "tiles/shadow-bridge.tails3@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/shadow-bridge.tails5": {
+    "src": "tiles/shadow-bridge.tails5.png",
+    "src2x": "tiles/shadow-bridge.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -935,6 +1205,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/stone-down.heads5": {
+    "src": "tiles/stone-down.heads5.png",
+    "src2x": "tiles/stone-down.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/stone-down.tails": {
     "src": "tiles/stone-down.tails.png",
     "src2x": "tiles/stone-down.tails@2x.png",
@@ -956,6 +1232,12 @@
   "tiles/stone-down.tails4": {
     "src": "tiles/stone-down.tails4.png",
     "src2x": "tiles/stone-down.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/stone-down.tails5": {
+    "src": "tiles/stone-down.tails5.png",
+    "src2x": "tiles/stone-down.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -983,6 +1265,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/stone-up.heads5": {
+    "src": "tiles/stone-up.heads5.png",
+    "src2x": "tiles/stone-up.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/stone-up.tails": {
     "src": "tiles/stone-up.tails.png",
     "src2x": "tiles/stone-up.tails@2x.png",
@@ -1004,6 +1292,12 @@
   "tiles/stone-up.tails4": {
     "src": "tiles/stone-up.tails4.png",
     "src2x": "tiles/stone-up.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/stone-up.tails5": {
+    "src": "tiles/stone-up.tails5.png",
+    "src2x": "tiles/stone-up.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -1031,6 +1325,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/wall-0.heads5": {
+    "src": "tiles/wall-0.heads5.png",
+    "src2x": "tiles/wall-0.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/wall-0.tails": {
     "src": "tiles/wall-0.tails.png",
     "src2x": "tiles/wall-0.tails@2x.png",
@@ -1052,6 +1352,12 @@
   "tiles/wall-0.tails4": {
     "src": "tiles/wall-0.tails4.png",
     "src2x": "tiles/wall-0.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/wall-0.tails5": {
+    "src": "tiles/wall-0.tails5.png",
+    "src2x": "tiles/wall-0.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -1079,6 +1385,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/wall-1.heads5": {
+    "src": "tiles/wall-1.heads5.png",
+    "src2x": "tiles/wall-1.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/wall-1.tails": {
     "src": "tiles/wall-1.tails.png",
     "src2x": "tiles/wall-1.tails@2x.png",
@@ -1100,6 +1412,12 @@
   "tiles/wall-1.tails4": {
     "src": "tiles/wall-1.tails4.png",
     "src2x": "tiles/wall-1.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/wall-1.tails5": {
+    "src": "tiles/wall-1.tails5.png",
+    "src2x": "tiles/wall-1.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -1127,6 +1445,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/wall-10.heads5": {
+    "src": "tiles/wall-10.heads5.png",
+    "src2x": "tiles/wall-10.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/wall-10.tails": {
     "src": "tiles/wall-10.tails.png",
     "src2x": "tiles/wall-10.tails@2x.png",
@@ -1148,6 +1472,12 @@
   "tiles/wall-10.tails4": {
     "src": "tiles/wall-10.tails4.png",
     "src2x": "tiles/wall-10.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/wall-10.tails5": {
+    "src": "tiles/wall-10.tails5.png",
+    "src2x": "tiles/wall-10.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -1175,6 +1505,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/wall-11.heads5": {
+    "src": "tiles/wall-11.heads5.png",
+    "src2x": "tiles/wall-11.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/wall-11.tails": {
     "src": "tiles/wall-11.tails.png",
     "src2x": "tiles/wall-11.tails@2x.png",
@@ -1196,6 +1532,12 @@
   "tiles/wall-11.tails4": {
     "src": "tiles/wall-11.tails4.png",
     "src2x": "tiles/wall-11.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/wall-11.tails5": {
+    "src": "tiles/wall-11.tails5.png",
+    "src2x": "tiles/wall-11.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -1223,6 +1565,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/wall-12.heads5": {
+    "src": "tiles/wall-12.heads5.png",
+    "src2x": "tiles/wall-12.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/wall-12.tails": {
     "src": "tiles/wall-12.tails.png",
     "src2x": "tiles/wall-12.tails@2x.png",
@@ -1244,6 +1592,12 @@
   "tiles/wall-12.tails4": {
     "src": "tiles/wall-12.tails4.png",
     "src2x": "tiles/wall-12.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/wall-12.tails5": {
+    "src": "tiles/wall-12.tails5.png",
+    "src2x": "tiles/wall-12.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -1271,6 +1625,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/wall-13.heads5": {
+    "src": "tiles/wall-13.heads5.png",
+    "src2x": "tiles/wall-13.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/wall-13.tails": {
     "src": "tiles/wall-13.tails.png",
     "src2x": "tiles/wall-13.tails@2x.png",
@@ -1292,6 +1652,12 @@
   "tiles/wall-13.tails4": {
     "src": "tiles/wall-13.tails4.png",
     "src2x": "tiles/wall-13.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/wall-13.tails5": {
+    "src": "tiles/wall-13.tails5.png",
+    "src2x": "tiles/wall-13.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -1319,6 +1685,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/wall-14.heads5": {
+    "src": "tiles/wall-14.heads5.png",
+    "src2x": "tiles/wall-14.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/wall-14.tails": {
     "src": "tiles/wall-14.tails.png",
     "src2x": "tiles/wall-14.tails@2x.png",
@@ -1340,6 +1712,12 @@
   "tiles/wall-14.tails4": {
     "src": "tiles/wall-14.tails4.png",
     "src2x": "tiles/wall-14.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/wall-14.tails5": {
+    "src": "tiles/wall-14.tails5.png",
+    "src2x": "tiles/wall-14.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -1367,6 +1745,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/wall-15.heads5": {
+    "src": "tiles/wall-15.heads5.png",
+    "src2x": "tiles/wall-15.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/wall-15.tails": {
     "src": "tiles/wall-15.tails.png",
     "src2x": "tiles/wall-15.tails@2x.png",
@@ -1388,6 +1772,12 @@
   "tiles/wall-15.tails4": {
     "src": "tiles/wall-15.tails4.png",
     "src2x": "tiles/wall-15.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/wall-15.tails5": {
+    "src": "tiles/wall-15.tails5.png",
+    "src2x": "tiles/wall-15.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -1415,6 +1805,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/wall-2.heads5": {
+    "src": "tiles/wall-2.heads5.png",
+    "src2x": "tiles/wall-2.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/wall-2.tails": {
     "src": "tiles/wall-2.tails.png",
     "src2x": "tiles/wall-2.tails@2x.png",
@@ -1436,6 +1832,12 @@
   "tiles/wall-2.tails4": {
     "src": "tiles/wall-2.tails4.png",
     "src2x": "tiles/wall-2.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/wall-2.tails5": {
+    "src": "tiles/wall-2.tails5.png",
+    "src2x": "tiles/wall-2.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -1463,6 +1865,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/wall-3.heads5": {
+    "src": "tiles/wall-3.heads5.png",
+    "src2x": "tiles/wall-3.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/wall-3.tails": {
     "src": "tiles/wall-3.tails.png",
     "src2x": "tiles/wall-3.tails@2x.png",
@@ -1484,6 +1892,12 @@
   "tiles/wall-3.tails4": {
     "src": "tiles/wall-3.tails4.png",
     "src2x": "tiles/wall-3.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/wall-3.tails5": {
+    "src": "tiles/wall-3.tails5.png",
+    "src2x": "tiles/wall-3.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -1511,6 +1925,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/wall-4.heads5": {
+    "src": "tiles/wall-4.heads5.png",
+    "src2x": "tiles/wall-4.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/wall-4.tails": {
     "src": "tiles/wall-4.tails.png",
     "src2x": "tiles/wall-4.tails@2x.png",
@@ -1532,6 +1952,12 @@
   "tiles/wall-4.tails4": {
     "src": "tiles/wall-4.tails4.png",
     "src2x": "tiles/wall-4.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/wall-4.tails5": {
+    "src": "tiles/wall-4.tails5.png",
+    "src2x": "tiles/wall-4.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -1559,6 +1985,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/wall-5.heads5": {
+    "src": "tiles/wall-5.heads5.png",
+    "src2x": "tiles/wall-5.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/wall-5.tails": {
     "src": "tiles/wall-5.tails.png",
     "src2x": "tiles/wall-5.tails@2x.png",
@@ -1580,6 +2012,12 @@
   "tiles/wall-5.tails4": {
     "src": "tiles/wall-5.tails4.png",
     "src2x": "tiles/wall-5.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/wall-5.tails5": {
+    "src": "tiles/wall-5.tails5.png",
+    "src2x": "tiles/wall-5.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -1607,6 +2045,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/wall-6.heads5": {
+    "src": "tiles/wall-6.heads5.png",
+    "src2x": "tiles/wall-6.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/wall-6.tails": {
     "src": "tiles/wall-6.tails.png",
     "src2x": "tiles/wall-6.tails@2x.png",
@@ -1628,6 +2072,12 @@
   "tiles/wall-6.tails4": {
     "src": "tiles/wall-6.tails4.png",
     "src2x": "tiles/wall-6.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/wall-6.tails5": {
+    "src": "tiles/wall-6.tails5.png",
+    "src2x": "tiles/wall-6.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -1655,6 +2105,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/wall-7.heads5": {
+    "src": "tiles/wall-7.heads5.png",
+    "src2x": "tiles/wall-7.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/wall-7.tails": {
     "src": "tiles/wall-7.tails.png",
     "src2x": "tiles/wall-7.tails@2x.png",
@@ -1676,6 +2132,12 @@
   "tiles/wall-7.tails4": {
     "src": "tiles/wall-7.tails4.png",
     "src2x": "tiles/wall-7.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/wall-7.tails5": {
+    "src": "tiles/wall-7.tails5.png",
+    "src2x": "tiles/wall-7.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -1703,6 +2165,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/wall-8.heads5": {
+    "src": "tiles/wall-8.heads5.png",
+    "src2x": "tiles/wall-8.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/wall-8.tails": {
     "src": "tiles/wall-8.tails.png",
     "src2x": "tiles/wall-8.tails@2x.png",
@@ -1724,6 +2192,12 @@
   "tiles/wall-8.tails4": {
     "src": "tiles/wall-8.tails4.png",
     "src2x": "tiles/wall-8.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/wall-8.tails5": {
+    "src": "tiles/wall-8.tails5.png",
+    "src2x": "tiles/wall-8.tails5@2x.png",
     "w": 64,
     "h": 64
   },
@@ -1751,6 +2225,12 @@
     "w": 64,
     "h": 64
   },
+  "tiles/wall-9.heads5": {
+    "src": "tiles/wall-9.heads5.png",
+    "src2x": "tiles/wall-9.heads5@2x.png",
+    "w": 64,
+    "h": 64
+  },
   "tiles/wall-9.tails": {
     "src": "tiles/wall-9.tails.png",
     "src2x": "tiles/wall-9.tails@2x.png",
@@ -1772,6 +2252,12 @@
   "tiles/wall-9.tails4": {
     "src": "tiles/wall-9.tails4.png",
     "src2x": "tiles/wall-9.tails4@2x.png",
+    "w": 64,
+    "h": 64
+  },
+  "tiles/wall-9.tails5": {
+    "src": "tiles/wall-9.tails5.png",
+    "src2x": "tiles/wall-9.tails5@2x.png",
     "w": 64,
     "h": 64
   },

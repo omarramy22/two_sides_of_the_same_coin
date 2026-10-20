@@ -18,7 +18,7 @@ describe('parse (§2.2)', () => {
     expect(bad(['SLG'], ['..G'])).toThrow(/one S|one L/);
   });
   it('rejects two goals', () => expect(bad(['SGG'], ['L.G'])).toThrow(/one G/));
-  it('rejects reserved letters as plates/gates', () => expect(bad(['SOG'], ['L.G'])).toThrow(/unknown glyph/));
+  it('rejects reserved letters as plates/gates', () => expect(bad(['SMG'], ['L.G'])).toThrow(/unknown glyph/));
   it('rejects plates split across worlds', () => expect(bad(['SaG', '..A'], ['LaG', '...'])).toThrow(/one world/));
   it('rejects orphan plates and gates', () => {
     expect(bad(['SaG'], ['L.G'])).toThrow(/no gate/);
@@ -407,5 +407,78 @@ describe('water (§8)', () => {
     const s = tick(lv, lv.start, 'down');
     expect(s.tiles[1][5]).toBe('+');
     expect(s.objs[1][5]).toBe(' ');
+  });
+});
+
+describe('cracked floor and altars (§9)', () => {
+  it('cracked floor breaks under weight: you fall, and it stays a pit', () => {
+    const lv = lvl(['S%.G'], ['L..G']);
+    const ev: GameEvent[] = [];
+    const s = tick(lv, lv.start, 'right', ev);
+    expect(s.fallen[0]).toBe(true);
+    expect(s.tiles[0][1]).toBe('^');
+    expect(ev.some((e) => e.type === 'crack')).toBe(true);
+  });
+  it('a crate pushed onto cracked floor fills it', () => {
+    const lv = lvl(['SC%G'], ['L..G']);
+    expect(run(lv, ['right']).tiles[0][2]).toBe(',');
+  });
+  it('the weight altar trades Sol\'s coin for weightlessness: cracked floor holds him', () => {
+    const lv = lvl(['SO%.G'], ['L...G']);
+    const s = run(lv, ['right', 'right', 'right']);
+    expect(s.traded[0]).toBe('O');
+    expect(s.tiles[0][1]).toBe('(');
+    expect(s.fallen[0]).toBe(false);
+    expect(s.tiles[0][2]).toBe('%');
+  });
+  it('an altar takes only one coin, and only from someone who still has theirs', () => {
+    const lv = lvl(['SOQ.G'], ['L...G']);
+    const s = run(lv, ['right', 'right']);
+    expect(s.traded[0]).toBe('O'); // the light altar did nothing: the coin was already spent
+    expect(s.tiles[0][2]).toBe('Q');
+  });
+  it('weightless presses no plates and opens no sluices, but still jams a closing gate', () => {
+    const lv = lvl(['SOa.G', 'A....'], ['L...G', '.....']);
+    let s = run(lv, ['right', 'right']); // weightless Sol on the plate
+    expect(gateOpen(lv, s, 0, at(lv, 0, 1))).toBe(false);
+    // Weightless Lune on her plate: the Heads gate it would shut stays open.
+    const lv2 = lvl(['S...G', 'A....'], ['LOa.G', '.....']);
+    s = run(lv2, ['right', 'right']);
+    expect(s.pos[1]).toBe(at(lv2, 2, 0));
+    expect(gateOpen(lv2, s, 0, at(lv2, 0, 1))).toBe(true);
+  });
+  it('a weightless character cannot stomp a balance stone', () => {
+    const lv = lvl(['SO|.G'], ['L./.G']);
+    const s = run(lv, ['right', 'right']);
+    expect(s.tiles[0][2]).toBe('|');
+  });
+  it('the light altar makes a light-bearer: her own tile and neighbours are lit, so her twin cells are shadow', () => {
+    const lv = lvl(['S...G', '.....'], ['LQ..G', '.....']);
+    const s = run(lv, ['right']);
+    expect(s.traded[1]).toBe('Q');
+    const [h, t] = light(lv, s);
+    for (const [x, y] of [[1, 0], [0, 0], [2, 0], [1, 1]]) {
+      expect(t[at(lv, x, y)]).toBe(1);
+      expect(h[at(lv, x, y)]).toBe(-1);
+    }
+    expect(t[at(lv, 3, 0)]).toBe(0);
+  });
+  it('a light-bearer can\'t stand on a shadow bridge in her own world', () => {
+    const lv = lvl(['S.*.G'], ['LQ-.G']);
+    const s = run(lv, ['right', 'right']);
+    expect(s.fallen[1]).toBe(true);
+  });
+  it('a light-bearer freezes a Tarnish next to her', () => {
+    // Without the light altar the Tarnish steps onto Lune; with it, it stands frozen in her light.
+    expect(run(lvl(['S...G'], ['L.@.G']), ['right']).fallen[1]).toBe(true);
+    const s = run(lvl(['S...G'], ['LQ@.G']), ['right']);
+    expect([s.traded[1], s.fallen[1], s.objs[1][2]]).toEqual(['Q', false, '@']);
+  });
+  it('a Tarnish stepping onto a weightless character on cracked floor catches them (it does not fill the crack)', () => {
+    const lv = lvl(['@.S..G'], ['L....G']);
+    const onCrack: State = { ...lv.start, tiles: ['.%....', lv.start.tiles[1]], pos: [1, lv.start.pos[1]], traded: ['O', ''] };
+    const s = tick(lv, onCrack, 'up'); // Sol bumps the edge and stays on the crack; the Tarnish steps onto him
+    expect(s.fallen[0]).toBe(true);
+    expect(s.tiles[0][1]).toBe('%');
   });
 });

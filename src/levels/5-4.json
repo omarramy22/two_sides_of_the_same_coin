@@ -1,0 +1,18 @@
+{
+  "id": "5-4",
+  "name": "Walk Beside Me",
+  "role": "twist",
+  "par": 17,
+  "designNote": "Aha: Lune's light is Sol's shadow. Lune gives up her coin for light, walks beside Sol and bumps her wall so she stays next to his shadow bridge while he crosses it, then takes the long way to her goal.",
+  "heads": ["##########",
+            "#S....-.G#",
+            "##########",
+            "##########",
+            "##########"],
+  "tails": ["##########",
+            "#.....#..#",
+            "#L....#.G#",
+            "#........#",
+            "#Q########"],
+  "hints": ["Sol's bridge is made of shadow. Who could cast it?", "Lune becomes the lamp. Keep her right beside Sol's bridge while he crosses.", null]
+}

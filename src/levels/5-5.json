@@ -1,0 +1,18 @@
+{
+  "id": "5-5",
+  "name": "Two Gifts",
+  "role": "capstone",
+  "par": 19,
+  "designNote": "Aha: both halves give their coins away, for different gifts. Sol and Lune line up in their side nooks to put Lune's Tarnish to sleep; Sol trades his weight to cross the crack and Lune trades for light, then she walks beside him so her light lays his shadow bridge.",
+  "heads": ["##########",
+            "#S..%.-.G#",
+            "##.#######",
+            "##O#######",
+            "##########"],
+  "tails": ["##########",
+            "#.....#..#",
+            "#L....#.G#",
+            "#....@...#",
+            "#Q########"],
+  "hints": ["Each of them needs a different gift.", "Line up in the nooks to calm Lune's Tarnish. Sol takes weightlessness, Lune takes light, then walk together.", null]
+}

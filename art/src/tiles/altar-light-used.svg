@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="heads5,tails5">
+  <!-- A sacrifice altar (light): a low drum of stone with a coin-sized hollow. Step on it with your
+       half-coin to trade it for a gift. Once used it holds the coin and glows. -->
+  <g filter="url(#grain)"><rect width="64" height="64" fill="var(--floor)"/></g>
+  <circle cx="32" cy="33" r="20" fill="var(--accent)" fill-opacity="0.18"/>
+  <ellipse cx="32" cy="50" rx="24" ry="7" fill="#000" fill-opacity="0.35"/>
+  <g filter="url(#wobble)" stroke="var(--ink)" stroke-width="1.7" stroke-linejoin="round">
+    <path d="M10 26 V46 Q32 56 54 46 V26 Z" fill="var(--wall-face)"/>
+    <path d="M36 30 H54 V46 Q46 51 36 52 Z" fill="url(#hatch)" stroke="none"/>
+    <ellipse cx="32" cy="26" rx="22" ry="10" fill="var(--wall-top)"/>
+    <ellipse cx="32" cy="27" rx="13" ry="6" fill="var(--wall-shade)"/>
+  </g>
+  <ellipse cx="32" cy="26" rx="22" ry="10" fill="none" stroke="var(--accent)" stroke-width="1" stroke-dasharray="1.5 2.5"/>
+  <g transform="translate(0 -6) scale(1 0.8) translate(0 8)"><circle cx="32" cy="33" r="9" fill="#E8B66A" stroke="#7A5420" stroke-width="1.4"/><circle cx="32" cy="33" r="6" fill="none" stroke="#FFF4D6" stroke-width="1" stroke-dasharray="1.2 1.6"/><circle cx="32" cy="33" r="14" fill="var(--accent)" fill-opacity="0.25"/></g>
+  <path d="M14 22 Q20 16 30 15" stroke="var(--highlight)" stroke-opacity="0.45" stroke-width="1.2" fill="none"/>
+</svg>

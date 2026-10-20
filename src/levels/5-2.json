@@ -1,0 +1,20 @@
+{
+  "id": "5-2",
+  "name": "Lamplighter",
+  "role": "introduce",
+  "par": 10,
+  "designNote": "Aha: the light altar turns Sol into a lamp. He gives it his coin, and from then on the sunglass bridge stands wherever he steps, because he lights his own way.",
+  "heads": ["#########",
+            "#.#######",
+            "#S..=..G#",
+            "#.#######",
+            "#Q#######",
+            "#########"],
+  "tails": ["#########",
+            "#.#######",
+            "#L.....G#",
+            "#.#######",
+            "#.#######",
+            "#########"],
+  "hints": ["The sunglass bridge needs light, and there's no lantern.", "Give the light altar your coin. You'll carry the light yourself.", null]
+}

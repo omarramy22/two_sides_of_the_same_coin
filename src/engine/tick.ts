@@ -10,10 +10,12 @@ export function step(lv: Level, i: number, d: Dir): number {
 }
 
 export const occupied = (s: State, w: W, i: number) => s.pos[w] === i || s.objs[w][i] !== ' ';
+/** Something with weight is on it (§9.2): a weightless character still occupies, but presses nothing. */
+export const weighted = (s: State, w: W, i: number) => (s.pos[w] === i && s.traded[w] !== 'O') || s.objs[w][i] !== ' ';
 
 export function linkActive(lv: Level, s: State, letter: string): boolean {
   const w = lv.owner[letter];
-  return lv.plates[letter].some((i) => occupied(s, w, i));
+  return lv.plates[letter].some((i) => weighted(s, w, i));
 }
 
 /** RULES.md §5: open if it wants to be, or jammed open by an occupant. */
@@ -53,6 +55,8 @@ export function light(lv: Level, s: State): [Int8Array, Int8Array] {
         }
       }
     }
+    // A light-bearer (§9.1) lights her own tile and its four neighbours, no beams.
+    if (s.traded[w] === 'Q') for (const j of [s.pos[w], ...DIRS.map((d) => step(lv, s.pos[w], d))]) if (j >= 0) raw[w][j] = 1;
   }
   const out: [Int8Array, Int8Array] = [new Int8Array(n), new Int8Array(n)];
   for (let i = 0; i < n; i++) {
@@ -63,6 +67,8 @@ export function light(lv: Level, s: State): [Int8Array, Int8Array] {
   return out;
 }
 
+/** Any light source at all: lanterns or a light-bearer. */
+export const hasLight = (s: State) => s.objs[0].includes('*') || s.objs[1].includes('*') || s.traded.includes('Q');
 /** A mirage `=` stands while lit, a shadow bridge `-` while shadowed; otherwise it's a hole (§7). */
 export const voidBridge = (c: string, l: number) => (c === '=' && l !== 1) || (c === '-' && l !== -1);
 
@@ -89,11 +95,11 @@ function foeStep(lv: Level, s: State, objs: ArrayLike<string>, w: W, i: number, 
  * the seam: the flooded cell nearest an open sluice (ties: reading order) whose twin is free.
  * Both directions are picked from the pre-flow water, then applied. Rafts take a cell out of the tides.
  */
-function flow(lv: Level, tiles: string[][], objs: string[][], pos: [number, number], ev?: GameEvent[]) {
+function flow(lv: Level, tiles: string[][], objs: string[][], pos: [number, number], traded: [string, string], ev?: GameEvent[]) {
   const moves: [W, number][] = [];
   lv.basins.forEach((cells, r) => {
     for (const w of [0, 1] as W[]) {
-      const open = lv.sluices.filter((sl) => sl.w === w && sl.region === r && (pos[w] === sl.i || objs[w][sl.i] !== ' '));
+      const open = lv.sluices.filter((sl) => sl.w === w && sl.region === r && ((pos[w] === sl.i && traded[w] !== 'O') || objs[w][sl.i] !== ' '));
       if (!open.length) continue;
       const o = (1 - w) as W, inRegion = new Set(cells);
       // BFS through the region, starting from the cells beside an open sluice.
@@ -126,11 +132,12 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
   const tiles = [[...s.tiles[0]], [...s.tiles[1]]];
   const objs = [[...s.objs[0]], [...s.objs[1]]];
   const pos: [number, number] = [s.pos[0], s.pos[1]];
+  const traded: [string, string] = [s.traded[0], s.traded[1]];
   const stomps: [W, number][] = [];
   // Bridges only matter when they exist; light is derived from the start-of-tick state for pushes.
   const bridges = /[=-]/.test(s.tiles[0] + s.tiles[1]);
   const lit0 = bridges ? light(lv, s) : null;
-  const now = (): State => ({ tiles: [tiles[0].join(''), tiles[1].join('')], objs: [objs[0].join(''), objs[1].join('')], pos, fallen: s.fallen });
+  const now = (): State => ({ tiles: [tiles[0].join(''), tiles[1].join('')], objs: [objs[0].join(''), objs[1].join('')], pos, traded, fallen: s.fallen });
 
   // Step 2: movement, judged against the start-of-tick state.
   for (const w of [0, 1] as W[]) {
@@ -153,7 +160,7 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
         continue;
       }
       objs[w][to] = ' ';
-      if (s.tiles[w][beyond] === '^') {
+      if (s.tiles[w][beyond] === '^' || s.tiles[w][beyond] === '%') {
         tiles[w][beyond] = ',';
         ev?.push({ type: 'fill', world: w, at: beyond, from: to });
       } else {
@@ -163,10 +170,21 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
       pos[w] = to;
       continue;
     }
-    if (s.tiles[w][to] === '|') { stomps.push([w, to]); continue; }
+    if (s.tiles[w][to] === '|' && s.traded[w] !== 'O') { stomps.push([w, to]); continue; }
     if (solid(lv, s, w, to)) { ev?.push({ type: 'bump', world: w, at: s.pos[w] }); continue; }
     pos[w] = to;
     ev?.push({ type: 'move', world: w, at: to });
+    // Cracked floor gives way under weight (§4 step 2): it's a pit from now on.
+    if (s.tiles[w][to] === '%' && s.traded[w] !== 'O') { tiles[w][to] = '^'; ev?.push({ type: 'crack', world: w, at: to }); }
+  }
+
+  // Altars (§9.1): stepping onto an unused one with your coin trades it.
+  for (const w of [0, 1] as W[]) {
+    const c = tiles[w][pos[w]];
+    if (pos[w] === s.pos[w] || (c !== 'O' && c !== 'Q') || traded[w]) continue;
+    traded[w] = c;
+    tiles[w][pos[w]] = c === 'O' ? '(' : ')';
+    ev?.push({ type: 'altar', world: w, at: pos[w] });
   }
 
   // Step 2, end: the Tarnish (RULES.md §5a).
@@ -179,7 +197,7 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
     });
   } else {
     // Frozen by light (§5a): a Tarnish standing in its own world's light, after the pushes, doesn't step.
-    const lit = s.objs[0].includes('*') || s.objs[1].includes('*') ? light(lv, now()) : null;
+    const lit = hasLight(now()) ? light(lv, now()) : null;
     for (const w of [0, 1] as W[]) {
       const awake = objs[w].flatMap((o, i) => (o === '@' ? [i] : []));
       for (const i of awake) {
@@ -187,7 +205,8 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
         const to = foeStep(lv, s, objs[w], w, i, pos[w]);
         if (to < 0) continue;
         objs[w][i] = ' ';
-        if (tiles[w][to] === '^') { tiles[w][to] = ';'; ev?.push({ type: 'foeFall', world: w, at: to, from: i }); }
+        // Onto a character it's a catch, whatever the floor; otherwise a hole swallows it.
+        if (to !== pos[w] && (tiles[w][to] === '^' || tiles[w][to] === '%')) { tiles[w][to] = ';'; ev?.push({ type: 'foeFall', world: w, at: to, from: i }); }
         else { objs[w][to] = '@'; ev?.push({ type: 'foeStep', world: w, at: to, from: i }); }
       }
     }
@@ -204,7 +223,7 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
   }
 
   // Step 6: water (§8).
-  if (lv.sluices.length) flow(lv, tiles, objs, pos, ev);
+  if (lv.sluices.length) flow(lv, tiles, objs, pos, traded, ev);
 
   // Steps 5 and 7: light, then anything on a void bridge falls. A lost lantern changes the light,
   // so repeat until nothing more drops.
@@ -230,8 +249,9 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
     tiles: [tiles[0].join(''), tiles[1].join('')],
     objs: [objs[0].join(''), objs[1].join('')],
     pos,
+    traded,
     fallen,
   };
 }
 
-export const hashState = (s: State) => `${s.pos[0]},${s.pos[1]}|${s.tiles[0]}|${s.tiles[1]}|${s.objs[0]}|${s.objs[1]}`;
+export const hashState = (s: State) => `${s.pos[0]},${s.pos[1]},${s.traded[0]},${s.traded[1]}|${s.tiles[0]}|${s.tiles[1]}|${s.objs[0]}|${s.objs[1]}`;
