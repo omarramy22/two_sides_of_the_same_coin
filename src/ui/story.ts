@@ -423,8 +423,9 @@ const ending: Shot[] = [
       k.cam.addChild(new Graphics().rect(0, 0, VW, VH).fill(0x1c1730));
       const ring = new Graphics();
       k.cam.addChild(ring);
-      const foes = [[170, 220], [330, 400], [500, 130], [650, 380], [800, 240], [480, 470]].map(([x, y]) => {
-        const s = art(k, 'chars/tarnish/awake', x, y, 1.3, 0.5, 0.5);
+      // One Tarnish from each chapter of the well.
+      const foes = [[170, 220], [330, 400], [500, 130], [650, 380], [800, 240], [480, 470]].map(([x, y], i) => {
+        const s = art(k, i ? `chars/tarnish/ch${i + 1}.awake` : 'chars/tarnish/awake', x, y, 1.3, 0.5, 0.5);
         k.cam.addChild(s);
         return { s, x, y, d: Math.hypot(x - VW / 2, y - VH / 2), done: false };
       });

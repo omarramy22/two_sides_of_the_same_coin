@@ -238,3 +238,9 @@
 .theme-awake .tarnish-asleep { display: none; }
 .theme-asleep .tarnish-awake { display: none; }
 .theme-asleep svg { filter: saturate(0.3) brightness(0.82); }
+/* A Tarnish sunk in a pit (tiles/pit-tarnish) wears its chapter's colours: coin, ring, patina. */
+.theme-heads2, .theme-tails2 { --rust-dark: #5A3E1E; --rust: #9A7240; --verdigris-dark: #6E9A4A; }
+.theme-heads3, .theme-tails3 { --rust-dark: #5C5850; --rust: #9A958C; --verdigris-dark: #9FD3EA; }
+.theme-heads4, .theme-tails4 { --rust-dark: #1F5249; --rust: #3E8C7E; --verdigris-dark: #EFE3C4; }
+.theme-heads5, .theme-tails5 { --rust-dark: #342C3E; --rust: #8E80A0; --verdigris-dark: #FF8A3A; }
+.theme-heads6, .theme-tails6 { --rust-dark: #5C4E7A; --rust: #A99BC4; --verdigris-dark: #C9A55A; }

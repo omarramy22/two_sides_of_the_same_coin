@@ -11,7 +11,17 @@
 - Deadline: `____`
 - Required platform: none (no advantage for any engine). **Decision: web build (TypeScript + PixiJS), played by link.** Don't propose switching engines.
 - Asset rules (are AI-generated or third-party CC0 assets allowed? must all assets be original?): `____`
-- Theme/judging criteria, if any: `____`
+- Theme: `____` (Theme Integration is pass/fail, so the game must clearly read as the theme)
+- Judging rubric (from the organisers, 2026-10-20):
+  | Category | Weight |
+  |---|---|
+  | Gameplay & Fun | 60% |
+  | Theme Integration | Pass or fail |
+  | Audio Design | 10% |
+  | Visual Design | 10% |
+  | Presentation | 20% |
+
+  What this means for priorities: puzzles and feel come first (60%); presentation (title, intro, trailer/pitch, first five minutes) is the next biggest lever (20%); audio and visuals are polish (10% each).
 
 If a constraint conflicts with this spec, the constraint wins. Flag the conflict to me; don't silently work around it.
 
