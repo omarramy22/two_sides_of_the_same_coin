@@ -1,0 +1,631 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <!-- Deep shaft radial gradient (well seen from directly above) -->
+    <radialGradient id="title-shaft-void" cx="50%" cy="50%" r="52%">
+      <stop offset="0%" stop-color="#0E1028"/>
+      <stop offset="30%" stop-color="#121532"/>
+      <stop offset="55%" stop-color="#1C2046"/>
+      <stop offset="78%" stop-color="#26233E"/>
+      <stop offset="92%" stop-color="#362C3A"/>
+      <stop offset="100%" stop-color="#4A3836"/>
+    </radialGradient>
+
+    <!-- Warm gold rim ambient lighting (left) -->
+    <radialGradient id="title-warm-rim" cx="22%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#F6D58E" stop-opacity="0.22"/>
+      <stop offset="45%" stop-color="#E8B66A" stop-opacity="0.12"/>
+      <stop offset="80%" stop-color="#8A4B22" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#2A1E14" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Cool silver rim ambient lighting (right) -->
+    <radialGradient id="title-cool-rim" cx="78%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#E8F0FF" stop-opacity="0.20"/>
+      <stop offset="45%" stop-color="#C9D3E6" stop-opacity="0.12"/>
+      <stop offset="80%" stop-color="#2E3570" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#0E1028" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Coin heavy drop shadow -->
+    <filter id="coin-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#050614" flood-opacity="0.75"/>
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0E1028" flood-opacity="0.5"/>
+    </filter>
+
+    <!-- Button drop shadow -->
+    <filter id="btn-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#050614" flood-opacity="0.6"/>
+    </filter>
+
+    <!-- Circular paths for arched text on the logo coin -->
+    <!-- Top arc: TWO SIDES (Radius 116px, center 640, 290) -->
+    <path id="arc-title-top" d="M 535 241 A 116 116 0 0 1 745 241" fill="none"/>
+    <!-- Bottom arc: OF THE SAME COIN (Radius 116px, center 640, 290) -->
+    <path id="arc-title-bottom" d="M 535 339 A 116 116 0 0 0 745 339" fill="none"/>
+
+    <!-- Left / Right clips for the 300px logo coin -->
+    <clipPath id="coin-clip-left">
+      <rect x="490" y="140" width="150" height="300"/>
+    </clipPath>
+    <clipPath id="coin-clip-right">
+      <rect x="640" y="140" width="150" height="300"/>
+    </clipPath>
+
+    <!-- Left / Right clips for the stone rim -->
+    <clipPath id="rim-clip-left">
+      <rect x="0" y="0" width="640" height="720"/>
+    </clipPath>
+    <clipPath id="rim-clip-right">
+      <rect x="640" y="0" width="640" height="720"/>
+    </clipPath>
+  </defs>
+
+  <!-- ============================================================== -->
+  <!-- 1. BACKGROUND: The Well Seen From Directly Above               -->
+  <!-- ============================================================== -->
+
+  <!-- Outer deep shaft darkness -->
+  <rect width="1280" height="720" fill="url(#title-shaft-void)"/>
+
+  <!-- Left / right subtle atmospheric ambiance -->
+  <rect x="0" y="0" width="640" height="720" fill="url(#title-warm-rim)"/>
+  <rect x="640" y="0" width="720" height="720" fill="url(#title-cool-rim)"/>
+
+  <!-- Paper/metal subtle grain texture -->
+  <rect width="1280" height="720" fill="#000" fill-opacity="0.04" filter="url(#grain)"/>
+
+  <!-- The Great Stone Rim: Coping stones encircling the well opening -->
+  <!-- Left Half Rim (Warm Gold Stone) -->
+  <g clip-path="url(#rim-clip-left)" filter="url(#wobble)">
+    <!-- Main coping ring fill -->
+    <path d="
+      M 640 18
+      A 590 338 0 0 0 640 698
+      L 640 610
+      A 450 252 0 0 1 640 106
+      Z"
+      fill="#B8835A" stroke="#2A1E14" stroke-width="2.2" stroke-linejoin="round" filter="url(#grain)"/>
+
+    <!-- Inner shelf bevel (dropping into darkness) -->
+    <path d="
+      M 640 106
+      A 450 252 0 0 0 640 610
+      L 640 575
+      A 395 218 0 0 1 640 141
+      Z"
+      fill="#8A4B22" stroke="#2A1E14" stroke-width="1.6"/>
+
+    <!-- Shading on inner rim bevel -->
+    <path d="
+      M 640 106
+      A 450 252 0 0 0 640 610
+      L 640 575
+      A 395 218 0 0 1 640 141
+      Z"
+      fill="url(#hatch)" stroke="none" opacity="0.4"/>
+
+    <!-- Individual stone coping blocks: Radial mortar joints on left rim -->
+    <g stroke="#2A1E14" stroke-width="1.8" stroke-linecap="round">
+      <line x1="640" y1="18" x2="640" y2="106"/>
+      <line x1="480" y1="36" x2="520" y2="120"/>
+      <line x1="330" y1="88" x2="405" y2="160"/>
+      <line x1="205" y1="168" x2="310" y2="218"/>
+      <line x1="120" y1="270" x2="245" y2="295"/>
+      <line x1="88" y1="358" x2="228" y2="358"/>
+      <line x1="120" y1="446" x2="245" y2="421"/>
+      <line x1="205" y1="548" x2="310" y2="498"/>
+      <line x1="330" y1="628" x2="405" y2="556"/>
+      <line x1="480" y1="680" x2="520" y2="596"/>
+      <line x1="640" y1="698" x2="640" y2="610"/>
+    </g>
+
+    <!-- Warm highlight strokes on stone coping edges -->
+    <g stroke="#FFF4D6" stroke-width="1.4" stroke-opacity="0.45" fill="none">
+      <path d="M 640 22 A 586 334 0 0 0 92 358"/>
+      <path d="M 92 358 A 586 334 0 0 0 640 694"/>
+      <path d="M 640 110 A 446 248 0 0 0 232 358"/>
+    </g>
+
+    <!-- Chiseled stone masonry marks on left blocks -->
+    <g stroke="#5E3216" stroke-width="0.9" fill="none" opacity="0.6">
+      <path d="M 400 62 L 420 72 M 405 76 L 425 86"/>
+      <path d="M 260 128 L 275 142 M 250 138 L 265 152"/>
+      <path d="M 160 215 L 180 225 M 155 228 L 175 238"/>
+      <path d="M 145 480 L 165 470 M 150 495 L 170 485"/>
+      <path d="M 260 585 L 280 572 M 270 600 L 290 587"/>
+    </g>
+  </g>
+
+  <!-- Right Half Rim (Cool Silver Stone) -->
+  <g clip-path="url(#rim-clip-right)" filter="url(#wobble)">
+    <!-- Main coping ring fill -->
+    <path d="
+      M 640 18
+      A 590 338 0 0 1 640 698
+      L 640 610
+      A 450 252 0 0 0 640 106
+      Z"
+      fill="#5B6AA0" stroke="#0E1028" stroke-width="2.2" stroke-linejoin="round" filter="url(#grain)"/>
+
+    <!-- Inner shelf bevel (dropping into darkness) -->
+    <path d="
+      M 640 106
+      A 450 252 0 0 1 640 610
+      L 640 575
+      A 395 218 0 0 0 640 141
+      Z"
+      fill="#2E3570" stroke="#0E1028" stroke-width="1.6"/>
+
+    <!-- Shading on inner rim bevel -->
+    <path d="
+      M 640 106
+      A 450 252 0 0 1 640 610
+      L 640 575
+      A 395 218 0 0 0 640 141
+      Z"
+      fill="url(#hatch-r)" stroke="none" opacity="0.4"/>
+
+    <!-- Individual stone coping blocks: Radial mortar joints on right rim -->
+    <g stroke="#0E1028" stroke-width="1.8" stroke-linecap="round">
+      <line x1="640" y1="18" x2="640" y2="106"/>
+      <line x1="800" y1="36" x2="760" y2="120"/>
+      <line x1="950" y1="88" x2="875" y2="160"/>
+      <line x1="1075" y1="168" x2="970" y2="218"/>
+      <line x1="1160" y1="270" x2="1035" y2="295"/>
+      <line x1="1192" y1="358" x2="1052" y2="358"/>
+      <line x1="1160" y1="446" x2="1035" y2="421"/>
+      <line x1="1075" y1="548" x2="970" y2="498"/>
+      <line x1="950" y1="628" x2="875" y2="556"/>
+      <line x1="800" y1="680" x2="760" y2="596"/>
+      <line x1="640" y1="698" x2="640" y2="610"/>
+    </g>
+
+    <!-- Cool highlight strokes on stone coping edges -->
+    <g stroke="#E8F0FF" stroke-width="1.4" stroke-opacity="0.45" fill="none">
+      <path d="M 640 22 A 586 334 0 0 1 1188 358"/>
+      <path d="M 1188 358 A 586 334 0 0 1 640 694"/>
+      <path d="M 640 110 A 446 248 0 0 1 1048 358"/>
+    </g>
+
+    <!-- Chiseled stone masonry marks on right blocks -->
+    <g stroke="#1C2046" stroke-width="0.9" fill="none" opacity="0.6">
+      <path d="M 880 62 L 860 72 M 875 76 L 855 86"/>
+      <path d="M 1020 128 L 1005 142 M 1030 138 L 1015 152"/>
+      <path d="M 1120 215 L 1100 225 M 1125 228 L 1105 238"/>
+      <path d="M 1135 480 L 1115 470 M 1130 495 L 1110 485"/>
+      <path d="M 1020 585 L 1000 572 M 1010 600 L 990 587"/>
+    </g>
+  </g>
+
+  <!-- Faint concentric stone courses inside the deep shaft -->
+  <g filter="url(#wobble-soft)" fill="none" stroke-opacity="0.32" stroke-linecap="round">
+    <ellipse cx="640" cy="358" rx="340" ry="185" stroke="#7F8BB0" stroke-width="1.2"/>
+    <ellipse cx="640" cy="358" rx="275" ry="148" stroke="#4A5A8C" stroke-width="1.0"/>
+    <ellipse cx="640" cy="358" rx="210" ry="112" stroke="#2E3570" stroke-width="0.9"/>
+    <ellipse cx="640" cy="358" rx="150" ry="80" stroke="#1C2046" stroke-width="0.8"/>
+    <ellipse cx="640" cy="358" rx="95" ry="50" stroke="#12153A" stroke-width="0.7"/>
+  </g>
+
+  <!-- A coin glinting at the bottom of the well (seen deep below the center) -->
+  <g id="abyss-glint">
+    <circle cx="640" cy="358" r="14" fill="#FFF4D6" fill-opacity="0.3"/>
+    <polygon points="640,350 641.5,356.5 648,358 641.5,359.5 640,366 638.5,359.5 632,358 638.5,356.5" fill="#FFFFFF" fill-opacity="0.85"/>
+  </g>
+
+  <!-- Sol and Lune on the rim, looking across at each other (composed from art/src/chars) -->
+  <g transform="translate(185 372) scale(1.5) translate(-48 -88)">
+<ellipse cx="48" cy="88" rx="17" ry="4.5" fill="#000" fill-opacity="0.22"/>
+<g filter="url(#wobble-soft)" stroke="var(--sol-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M37 86.5 Q37 82 42 82 Q47 82 47.5 86.5 Q42.5 89 37 86.5 Z" fill="var(--sol-boot)"/>
+  </g>
+<g filter="url(#wobble-soft)" stroke="var(--sol-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M48.5 86.5 Q49 82 54 82 Q59 82 59 86.5 Q53.5 89 48.5 86.5 Z" fill="var(--sol-boot)"/>
+  </g>
+<g filter="url(#wobble)" stroke="var(--sol-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <!-- short round cloak -->
+    <path d="M31 82 Q29.5 66 37 58 Q48 52.5 59 58 Q66.5 66 65 82 Q48 87.5 31 82 Z" fill="var(--sol-cloak)"/>
+    <!-- tunic showing through the front opening -->
+    <path d="M43 57.5 Q48 60.5 53 57.5 L51.5 84.5 Q48 85.5 44.5 84.5 Z" fill="var(--sol-tunic)" stroke-width="1.3"/>
+    <!-- shade, bottom-right (light from top-left) -->
+    <path d="M57.5 59.5 Q66 66 65 82 Q60.5 84.5 56.5 85 Q60.5 71 57.5 59.5 Z" fill="url(#hatch)" stroke="none"/>
+    <path d="M44.5 84.5 L44.5 70 L46 84.8 Z" fill="url(#hatch-fine)" stroke="none"/>
+    <!-- gold hem, milled like a coin edge -->
+    <path d="M31 80.5 Q48 86.5 65 80.5 L65 83 Q48 89 31 83 Z" fill="var(--gold)" stroke-width="1.4"/>
+    <path d="M33 82.6 Q48 87.6 63 82.6" fill="none" stroke="var(--gold-dark)" stroke-width="1.1" stroke-dasharray="0.8 1.4"/>
+    <!-- collar clasp -->
+    <circle cx="48" cy="57.5" r="2" fill="var(--gold)" stroke-width="1.2"/>
+  </g>
+<g filter="url(#wobble-soft)" stroke="var(--sol-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M43 58.5 Q48 62.5 53 58.5" fill="none" stroke-width="0.9"/>
+    <!-- left half of the coin -->
+    <path d="M48.8 61.5 A7 7 0 0 0 48.8 75.5 Z" fill="var(--gold)" stroke-width="1.4"/>
+    <path d="M47.6 64 A4.5 4.5 0 0 0 47.6 73" fill="none" stroke="var(--gold-dark)" stroke-width="0.9"/>
+    <path d="M45.4 65.6 L44.6 66.6 M44.4 68.5 H43.4 M45.4 71.4 L44.6 70.4" stroke="var(--gold-dark)" stroke-width="0.8"/>
+    <path d="M44.8 63.6 Q43 65 42.6 67" fill="none" stroke="var(--gold-light)" stroke-width="1.1"/>
+  </g>
+<g filter="url(#wobble-soft)" stroke="var(--sol-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M37.5 61 Q29.5 64.5 29.5 73 Q32.5 75.5 35.5 72.5 Q35.5 67 39.5 63.5 Z" fill="var(--sol-cloak)"/>
+    <path d="M33 66 Q31 69 31.5 73 L29.8 72.6 Q29.6 67 33 66 Z" fill="url(#hatch)" stroke="none"/>
+    <circle cx="31.5" cy="75" r="3.3" fill="var(--sol-skin)"/>
+  </g>
+<g filter="url(#wobble-soft)" stroke="var(--sol-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M58.5 61 Q66.5 64.5 66.5 73 Q63.5 75.5 60.5 72.5 Q60.5 67 56.5 63.5 Z" fill="var(--sol-cloak)"/>
+    <path d="M62 65.5 Q66.5 68.5 66.5 73 Q64.5 74.6 63 73.5 Q63.5 69 62 65.5 Z" fill="url(#hatch)" stroke="none"/>
+    <circle cx="64.5" cy="75" r="3.3" fill="var(--sol-skin)"/>
+  </g>
+<g filter="url(#wobble-soft)" stroke="var(--sol-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <!-- hair behind the face (a short bob) -->
+    <path d="M32.5 42 Q31 25 48 23.5 Q65 25 63.5 42 L63.5 47 Q60.5 50.5 58.5 45 L37.5 45 Q35.5 50.5 32.5 47 Z" fill="var(--sol-hair)"/>
+    <circle cx="48" cy="40.5" r="14" fill="var(--sol-skin)"/>
+    <!-- shade on the lower right of the face -->
+    <path d="M57.5 31 A14 14 0 0 1 48 54.5 A12 12.5 0 0 0 57.5 31 Z" fill="url(#hatch-fine)" stroke="none"/>
+    <!-- fringe -->
+    <path d="M34.5 35.5 Q39 26.5 48 27 Q57 26.5 61.5 35.5 Q57.5 31.5 54.5 34.5 Q51.5 30 48 33.5 Q44.5 30 41.5 34.5 Q38.5 31.5 34.5 35.5 Z" fill="var(--sol-hair)" stroke-width="1.4"/>
+    <ellipse cx="40" cy="46.5" rx="3" ry="1.7" fill="var(--blush)" fill-opacity="0.5" stroke="none"/>
+    <ellipse cx="56" cy="46.5" rx="3" ry="1.7" fill="var(--blush)" fill-opacity="0.5" stroke="none"/>
+    <path d="M45.2 48.6 Q48 51 50.8 48.6" fill="none" stroke-width="1.4"/>
+  </g>
+<ellipse cx="42.5" cy="41.8" rx="1.9" ry="2.6" fill="var(--sol-ink)"/>
+  <ellipse cx="53.5" cy="41.8" rx="1.9" ry="2.6" fill="var(--sol-ink)"/>
+  <circle cx="43.2" cy="40.8" r="0.75" fill="#fff"/>
+  <circle cx="54.2" cy="40.8" r="0.75" fill="#fff"/>
+<g filter="url(#wobble)" stroke="var(--sol-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" transform="rotate(-9 48 27)">
+    <!-- a coin worn as a cap: reeded edge band, engraved sun on top -->
+    <path d="M32.5 23.5 L32.5 29 Q48 35.5 63.5 29 L63.5 23.5 Z" fill="var(--gold)"/>
+    <path d="M33.5 26.6 Q48 32.6 62.5 26.6" fill="none" stroke="var(--gold-dark)" stroke-width="4" stroke-dasharray="0.7 1.5" stroke-linecap="butt"/>
+    <path d="M56 28.8 Q61 27.6 63.5 25 L63.5 29 Q58 31.6 52 32.5 Z" fill="url(#hatch)" stroke="none"/>
+    <ellipse cx="48" cy="23.5" rx="15.5" ry="5.6" fill="var(--gold)"/>
+    <ellipse cx="48" cy="23.5" rx="12.8" ry="4.3" fill="none" stroke="var(--gold-dark)" stroke-width="0.9"/>
+    <ellipse cx="48" cy="23.5" rx="3" ry="1.25" fill="var(--gold-light)" stroke="var(--gold-dark)" stroke-width="0.7"/>
+    <path d="M48 20.2 V21.4 M48 25.6 V26.8 M41.4 23.5 H44 M52 23.5 H54.6 M43 21.1 L44.6 22 M51.4 25 L53 25.9 M43 25.9 L44.6 25 M51.4 22 L53 21.1" stroke="var(--gold-dark)" stroke-width="0.8"/>
+    <path d="M38 21.5 Q40.5 19.4 44.5 18.7" fill="none" stroke="var(--gold-light)" stroke-width="1.2"/>
+  </g>
+  </g>
+  <g transform="translate(1095 372) scale(1.5) translate(-48 -88)">
+<ellipse cx="48" cy="88" rx="14" ry="4" fill="#000" fill-opacity="0.25"/>
+<!-- the long trailing end of the scarf, drawn behind the body so it can sway -->
+  <g filter="url(#wobble)" stroke="var(--lune-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M52.5 57 Q63 60 66.5 69 Q69 76 74 80.5 Q70 82.5 66 80 Q62.5 73 59 68 Q56.5 64 51 61 Z" fill="var(--silver)"/>
+    <path d="M62 64.5 Q66.5 70 68.5 77 Q71.5 80.4 74 80.5 Q70 82.5 66 80 Q63.5 73 60.5 67.5 Z" fill="url(#hatch-r)" stroke="none"/>
+    <path d="M66.4 80.2 L65.6 83 M69 81.2 L68.6 84 M71.6 81.4 L71.8 84.2" stroke-width="1.2"/>
+  </g>
+<g filter="url(#wobble-soft)" stroke="var(--lune-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M39 86.5 Q39.5 82.5 43.5 82.5 Q47.2 82.5 47.4 86.5 Q43.5 88.6 39 86.5 Z" fill="var(--lune-boot)"/>
+  </g>
+<g filter="url(#wobble-soft)" stroke="var(--lune-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M48.6 86.5 Q48.8 82.5 52.5 82.5 Q56.5 82.5 57 86.5 Q52.5 88.6 48.6 86.5 Z" fill="var(--lune-boot)"/>
+  </g>
+<g filter="url(#wobble)" stroke="var(--lune-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <!-- long slim tunic -->
+    <path d="M37.5 83 Q36 66 41 58 Q48 54.5 55 58 Q60 66 58.5 83 Q48 86.5 37.5 83 Z" fill="var(--lune-tunic)"/>
+    <!-- rim light comes from the top-right in Tails, so shade sits on the left -->
+    <path d="M41 59 Q36.5 67 37.5 83 Q40.5 84.4 43 84.8 Q40 71 41 59 Z" fill="url(#hatch-r)" stroke="none"/>
+    <path d="M38 74 Q48 77 58 74" fill="none" stroke="var(--lavender)" stroke-width="1.6"/>
+    <!-- silver hem with a crescent pattern -->
+    <path d="M37.6 80.8 Q48 85 58.4 80.8 L58.5 83 Q48 87 37.5 83 Z" fill="var(--silver)" stroke-width="1.3"/>
+    <path d="M40 82.6 Q48 86 56 82.6" fill="none" stroke="var(--silver-dark)" stroke-width="1" stroke-dasharray="1.6 1.6"/>
+  </g>
+<g filter="url(#wobble-soft)" stroke="var(--lune-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M43.5 58.5 Q48 62.5 52.5 58.5" fill="none" stroke-width="0.9"/>
+    <!-- right half of the coin -->
+    <path d="M47.2 61.5 A7 7 0 0 1 47.2 75.5 Z" fill="var(--silver)" stroke-width="1.4"/>
+    <path d="M48.4 64 A4.5 4.5 0 0 1 48.4 73" fill="none" stroke="var(--silver-dark)" stroke-width="0.9"/>
+    <path d="M50.4 66 A2.6 2.6 0 1 1 50.4 71 A2 2 0 1 0 50.4 66 Z" fill="var(--silver-dark)" stroke="none"/>
+    <path d="M51 63.4 Q52.8 64.8 53.2 66.8" fill="none" stroke="var(--silver-light)" stroke-width="1.1"/>
+  </g>
+<g filter="url(#wobble-soft)" stroke="var(--lune-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M41.5 61 Q35.5 65 35.5 73.5 Q37.8 75.4 40 73 Q40.2 67.5 43 64 Z" fill="var(--lune-tunic)"/>
+    <path d="M38.6 65.6 Q35.8 69 35.6 73.4 L37 74 Q37 69 38.6 65.6 Z" fill="url(#hatch-r)" stroke="none"/>
+    <circle cx="37.3" cy="75.4" r="2.8" fill="var(--lune-skin)"/>
+  </g>
+<g filter="url(#wobble-soft)" stroke="var(--lune-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M54.5 61 Q60.5 65 60.5 73.5 Q58.2 75.4 56 73 Q55.8 67.5 53 64 Z" fill="var(--lune-tunic)"/>
+    <circle cx="58.7" cy="75.4" r="2.8" fill="var(--lune-skin)"/>
+  </g>
+<!-- crescent-moon hood, behind the head: the point sweeps right and hooks down like a crescent -->
+  <g filter="url(#wobble)" stroke="var(--lune-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M31.5 47 Q28.5 27 42 21.5 Q49 18.5 54.5 13.5 Q60.5 8 68.5 9.5 Q74 11 73.5 17.5 Q70.5 13.8 65.5 14.6 Q60.5 15.6 60.5 22 Q61 24 62.5 25.5 Q68.5 33 66 47.5 Q60 55.5 48 55.5 Q36.5 55.5 31.5 47 Z" fill="var(--silver)"/>
+    <path d="M31.6 46.8 Q29 30 39 23.6 Q33.6 33 35.4 52 Q33 50 31.6 46.8 Z" fill="url(#hatch-r)" stroke="none"/>
+    <path d="M58 12.6 Q63.4 9.4 69 10.6" fill="none" stroke="var(--silver-light)" stroke-width="1.3"/>
+    <!-- engraved crescent on the hood's side -->
+    <path d="M36.6 31 A4.4 4.4 0 1 0 41.4 37.4 A3.4 3.4 0 1 1 36.6 31 Z" fill="var(--silver-dark)" stroke="none"/>
+  </g>
+<!-- the wrap around the neck -->
+  <g filter="url(#wobble)" stroke="var(--lune-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M38.5 55 Q48 51.5 57.5 55 Q58.5 58.5 56 60 Q48 57.5 40 60 Q37.5 58.5 38.5 55 Z" fill="var(--silver)"/>
+    <path d="M38.5 55.6 Q38 58.6 40 60 Q42.5 59 44.5 58.6 Q41 57.6 38.5 55.6 Z" fill="url(#hatch-r)" stroke="none"/>
+    <path d="M44 54.3 Q48 53.4 52 54.3" fill="none" stroke="var(--silver-light)" stroke-width="1.1"/>
+  </g>
+<g filter="url(#wobble-soft)" stroke="var(--lune-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <circle cx="48" cy="41" r="12.5" fill="var(--lune-skin)"/>
+    <path d="M38.6 33.6 A12.5 12.5 0 0 0 46 53.4 A11 11.5 0 0 1 38.6 33.6 Z" fill="url(#hatch-fine)" stroke="none"/>
+    <!-- side-swept dark fringe and a long lock on each side -->
+    <path d="M36 37.5 Q38 28 49 28.5 Q58.5 29 60.5 37.5 Q55 32.5 49.5 35 Q46 31.5 41 35.5 Q38.5 34 36 37.5 Z" fill="var(--lune-hair)" stroke-width="1.4"/>
+    <path d="M36 37 Q34.5 44 36.4 50 Q38.2 46 37.6 39.6 Z" fill="var(--lune-hair)" stroke-width="1.2"/>
+    <path d="M60 37 Q61.5 44 59.6 50 Q57.8 46 58.4 39.6 Z" fill="var(--lune-hair)" stroke-width="1.2"/>
+    <ellipse cx="41" cy="46.4" rx="2.6" ry="1.5" fill="var(--blush)" fill-opacity="0.4" stroke="none"/>
+    <ellipse cx="55" cy="46.4" rx="2.6" ry="1.5" fill="var(--blush)" fill-opacity="0.4" stroke="none"/>
+    <path d="M46.2 48.6 Q48 49.8 49.8 48.6" fill="none" stroke-width="1.3"/>
+  </g>
+<!-- calmer, half-lidded eyes -->
+  <path d="M41 41.8 Q43 39.6 45 41.8 Q43 44.6 41 41.8 Z M51 41.8 Q53 39.6 55 41.8 Q53 44.6 51 41.8 Z" fill="var(--lune-ink)"/>
+  <circle cx="43.6" cy="41.4" r="0.7" fill="#fff"/>
+  <circle cx="53.6" cy="41.4" r="0.7" fill="#fff"/>
+  <path d="M40.4 40.6 Q43 38.8 45.6 40.6 M50.4 40.6 Q53 38.8 55.6 40.6" fill="none" stroke="var(--lune-ink)" stroke-width="1.1" stroke-linecap="round"/>
+<!-- the hood's front edge over the forehead -->
+  <g filter="url(#wobble-soft)" stroke="var(--lune-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M35 38.5 Q35.5 27 48 26 Q60.5 27 61 38.5 Q56 30.8 48 30.6 Q40 30.8 35 38.5 Z" fill="var(--silver)" stroke-width="1.5"/>
+    <path d="M41 28.4 Q44.5 27.2 48 27.2" fill="none" stroke="var(--silver-light)" stroke-width="1.1"/>
+  </g>
+  </g>
+  <!-- ============================================================== -->
+  <!-- 3. THE LOGO: Engraved Big Coin (300px Diameter at cx=640, cy=290)-->
+  <!-- ============================================================== -->
+  <g id="logo-coin" filter="url(#coin-shadow)">
+
+    <!-- Outer rim base disc (Radius 150px) -->
+    <!-- Left Half: Warm Gold -->
+    <path d="M 640 140 A 150 150 0 0 0 640 440 Z" fill="#E8B66A"/>
+    <!-- Left Half shading & hatch -->
+    <path d="M 640 140 A 150 150 0 0 0 640 440 Z" fill="url(#hatch)" stroke="none" opacity="0.32"/>
+    <path d="M 640 140 A 150 150 0 0 0 640 440 Z" fill="#A8742A" opacity="0.18"/>
+
+    <!-- Right Half: Cool Silver -->
+    <path d="M 640 140 A 150 150 0 0 1 640 440 Z" fill="#C9D3E6"/>
+    <!-- Right Half shading & hatch -->
+    <path d="M 640 140 A 150 150 0 0 1 640 440 Z" fill="url(#hatch-r)" stroke="none" opacity="0.32"/>
+    <path d="M 640 140 A 150 150 0 0 1 640 440 Z" fill="#7F8BB0" opacity="0.22"/>
+
+    <!-- Outer coin ink rim (with wobble filter) -->
+    <g filter="url(#wobble)">
+      <circle cx="640" cy="290" r="150" fill="none" stroke="#2A1E14" stroke-width="2.6"/>
+    </g>
+
+    <!-- Milled / Reeded Rim (Coin Edge stroke-dasharray) -->
+    <circle cx="640" cy="290" r="144" fill="none" stroke="#2A1E14" stroke-width="6.5" stroke-dasharray="1.8 2.6" stroke-linecap="butt"/>
+    <!-- Gold / Silver highlight on milled rim -->
+    <g clip-path="url(#coin-clip-left)">
+      <circle cx="640" cy="290" r="145" fill="none" stroke="#FFF4D6" stroke-width="1.4" stroke-dasharray="1.8 2.6" stroke-linecap="butt" stroke-opacity="0.75"/>
+    </g>
+    <g clip-path="url(#coin-clip-right)">
+      <circle cx="640" cy="290" r="145" fill="none" stroke="#FFFFFF" stroke-width="1.4" stroke-dasharray="1.8 2.6" stroke-linecap="butt" stroke-opacity="0.8"/>
+    </g>
+
+    <!-- Concentric Guilloché & Engraved Borders inside rim -->
+    <circle cx="640" cy="290" r="139" fill="none" stroke="#2A1E14" stroke-width="1.4"/>
+    <circle cx="640" cy="290" r="136" fill="none" stroke="#2A1E14" stroke-width="0.8" stroke-dasharray="1.2 1.6"/>
+    <circle cx="640" cy="290" r="95" fill="none" stroke="#2A1E14" stroke-width="1.4"/>
+    <circle cx="640" cy="290" r="92" fill="none" stroke="#2A1E14" stroke-width="0.8"/>
+
+    <!-- Inner field fill behind central emblems -->
+    <g clip-path="url(#coin-clip-left)">
+      <circle cx="640" cy="290" r="92" fill="#E2AC5E"/>
+      <!-- Guilloche radiating background arcs (Sun side) -->
+      <g stroke="#A8742A" stroke-width="0.7" fill="none" opacity="0.55">
+        <circle cx="580" cy="290" r="65"/>
+        <circle cx="580" cy="290" r="50"/>
+        <circle cx="580" cy="290" r="35"/>
+        <circle cx="580" cy="290" r="20"/>
+        <path d="M 525 255 Q 580 290 635 255 M 525 325 Q 580 290 635 325"/>
+      </g>
+    </g>
+    <g clip-path="url(#coin-clip-right)">
+      <circle cx="640" cy="290" r="92" fill="#BAC6DC"/>
+      <!-- Guilloche radiating background arcs (Moon side) -->
+      <g stroke="#7F8BB0" stroke-width="0.7" fill="none" opacity="0.55">
+        <circle cx="700" cy="290" r="65"/>
+        <circle cx="700" cy="290" r="50"/>
+        <circle cx="700" cy="290" r="35"/>
+        <circle cx="700" cy="290" r="20"/>
+        <path d="M 645 255 Q 700 290 755 255 M 645 325 Q 700 290 755 325"/>
+      </g>
+    </g>
+
+    <!-- Clean Vertical Seam dividing the coin at x = 640 -->
+    <line x1="640" y1="140" x2="640" y2="440" stroke="#2A1E14" stroke-width="2.6" stroke-linecap="butt"/>
+    <!-- Delicate reeded seam highlight -->
+    <line x1="639" y1="142" x2="639" y2="438" stroke="#FFF4D6" stroke-width="0.9" stroke-opacity="0.6"/>
+    <line x1="641" y1="142" x2="641" y2="438" stroke="#E8F0FF" stroke-width="0.9" stroke-opacity="0.6"/>
+
+    <!-- ============================================================ -->
+    <!-- Arched Text Legends: "TWO SIDES" and "OF THE SAME COIN"      -->
+    <!-- ============================================================ -->
+
+    <!-- Top Arched Text: TWO SIDES -->
+    <!-- Engraved drop shadow/depth -->
+    <text font-family="Georgia, serif" font-size="20" font-weight="bold" letter-spacing="4px" fill="#FFF4D6" fill-opacity="0.4">
+      <textPath href="#arc-title-top" xlink:href="#arc-title-top" startOffset="50%" text-anchor="middle" dy="1.2">TWO SIDES</textPath>
+    </text>
+    <!-- Top Text Main Engraved Ink -->
+    <text font-family="Georgia, serif" font-size="20" font-weight="bold" letter-spacing="4px" fill="#2A1E14" fill-opacity="0.88">
+      <textPath href="#arc-title-top" xlink:href="#arc-title-top" startOffset="50%" text-anchor="middle">TWO SIDES</textPath>
+    </text>
+
+    <!-- Decorative engraved stars at top text sides -->
+    <g fill="#2A1E14" opacity="0.75">
+      <polygon points="562,216 563.5,221 568.5,222.5 563.5,224 562,229 560.5,224 555.5,222.5 560.5,221"/>
+      <polygon points="718,216 719.5,221 724.5,222.5 719.5,224 718,229 716.5,224 711.5,222.5 716.5,221"/>
+    </g>
+
+    <!-- Bottom Arched Text: OF THE SAME COIN -->
+    <!-- Engraved drop shadow/depth -->
+    <text font-family="Georgia, serif" font-size="16" font-weight="bold" letter-spacing="3.2px" fill="#FFF4D6" fill-opacity="0.35">
+      <textPath href="#arc-title-bottom" xlink:href="#arc-title-bottom" startOffset="50%" text-anchor="middle" dy="-1.2">OF THE SAME COIN</textPath>
+    </text>
+    <!-- Bottom Text Main Engraved Ink -->
+    <text font-family="Georgia, serif" font-size="16" font-weight="bold" letter-spacing="3.2px" fill="#2A1E14" fill-opacity="0.88">
+      <textPath href="#arc-title-bottom" xlink:href="#arc-title-bottom" startOffset="50%" text-anchor="middle">OF THE SAME COIN</textPath>
+    </text>
+
+    <!-- ============================================================ -->
+    <!-- Engraved Emblems: Sun (Left) and Crescent Moon (Right)       -->
+    <!-- ============================================================ -->
+
+    <!-- LEFT EMBLEM: Engraved Sun (center cx=576, cy=290) -->
+    <g id="engraved-sun" transform="translate(576, 290)">
+      <!-- Radiating sun rays -->
+      <!-- Triangular and flame rays -->
+      <g stroke="#2A1E14" stroke-width="1.3" stroke-linejoin="round" fill="#FFF4D6">
+        <!-- 8 primary rays -->
+        <polygon points="0,-27 3.5,-16 -3.5,-16"/>
+        <polygon points="19,-19 14,-7 9,-12"/>
+        <polygon points="27,0 16,3.5 16,-3.5"/>
+        <polygon points="19,19 7,14 12,9"/>
+        <polygon points="0,27 -3.5,16 3.5,16"/>
+        <polygon points="-19,19 -14,7 -9,12"/>
+        <polygon points="-27,0 -16,-3.5 -16,3.5"/>
+        <polygon points="-19,-19 -7,-14 -12,-9"/>
+      </g>
+      <!-- Wavy intermediate rays -->
+      <g stroke="#A8742A" stroke-width="1.2" fill="none">
+        <path d="M 0 -15 Q 4 -21 0 -26"/>
+        <path d="M 11 -11 Q 17 -14 18 -21"/>
+        <path d="M 15 0 Q 21 4 26 0"/>
+        <path d="M 11 11 Q 14 17 21 18"/>
+        <path d="M 0 15 Q -4 21 0 26"/>
+        <path d="M -11 11 Q -17 14 -18 21"/>
+        <path d="M -15 0 Q -21 -4 -26 0"/>
+        <path d="M -11 -11 Q -14 -17 -21 -18"/>
+      </g>
+
+      <!-- Center sun disc -->
+      <circle cx="0" cy="0" r="14.5" fill="#E8B66A" stroke="#2A1E14" stroke-width="1.6"/>
+      <circle cx="0" cy="0" r="12.5" fill="none" stroke="#A8742A" stroke-width="0.8"/>
+      <!-- Sun shading -->
+      <path d="M 0 14.5 A 14.5 14.5 0 0 0 14.5 0 Z" fill="url(#hatch)" stroke="none"/>
+
+      <!-- Engraved face on sun -->
+      <ellipse cx="-4.5" cy="-2.5" rx="1.6" ry="1.2" fill="#2A1E14"/>
+      <ellipse cx="4.5" cy="-2.5" rx="1.6" ry="1.2" fill="#2A1E14"/>
+      <!-- Gentle smile -->
+      <path d="M -4.5 4 Q 0 8 4.5 4" fill="none" stroke="#2A1E14" stroke-width="1.2" stroke-linecap="round"/>
+      <!-- Cute nose line -->
+      <path d="M 0 -1.5 L 0 1.5" fill="none" stroke="#2A1E14" stroke-width="1.0" stroke-linecap="round"/>
+      <!-- Cheek blush dots -->
+      <circle cx="-7" cy="1" r="1.5" fill="#C8643B" fill-opacity="0.6"/>
+      <circle cx="7" cy="1" r="1.5" fill="#C8643B" fill-opacity="0.6"/>
+    </g>
+
+    <!-- RIGHT EMBLEM: Engraved Crescent Moon (center cx=704, cy=290) -->
+    <g id="engraved-moon" transform="translate(704, 290)">
+      <!-- Main crescent moon body (facing left toward seam) -->
+      <path d="
+        M 8 -24
+        A 24 24 0 1 0 8 24
+        A 18 19 0 0 1 8 -24
+        Z"
+        fill="#C9D3E6" stroke="#0E1028" stroke-width="1.6" stroke-linejoin="round"/>
+
+      <!-- Shading on crescent -->
+      <path d="
+        M 8 -24
+        A 24 24 0 0 0 -16 16
+        A 22 22 0 0 1 8 -24
+        Z"
+        fill="url(#hatch-r)" stroke="none"/>
+
+      <!-- Engraved moon face profile along inner curve -->
+      <path d="
+        M 4 -18
+        C 0 -14 0 -8 4 -6
+        C 2 -4 1 -1 6 0
+        C 2 2 1 5 4 8
+        C -1 12 1 16 5 18
+      " fill="none" stroke="#0E1028" stroke-width="1.2" stroke-linecap="round"/>
+      <!-- Closed sleeping eyelid on moon -->
+      <path d="M -3 -8 Q 0 -5 3 -8" fill="none" stroke="#0E1028" stroke-width="1.2" stroke-linecap="round"/>
+      <!-- Cheek dot -->
+      <circle cx="0" cy="-2" r="1.5" fill="#9C8CD4" fill-opacity="0.6"/>
+
+      <!-- Night stars around moon in Tails half -->
+      <g fill="#0E1028">
+        <!-- Star 1 (upper right) -->
+        <polygon points="18,-15 19.5,-11 23.5,-9.5 19.5,-8 18,-4 16.5,-8 12.5,-9.5 16.5,-11"/>
+        <!-- Star 2 (lower right) -->
+        <polygon points="17,10 18.5,13.5 22,15 18.5,16.5 17,20 15.5,16.5 12,15 15.5,13.5"/>
+        <!-- Star 3 (small top) -->
+        <circle cx="-10" cy="-20" r="1.6"/>
+        <!-- Star 4 (small bottom) -->
+        <circle cx="-10" cy="20" r="1.6"/>
+      </g>
+    </g>
+
+    <!-- Stamped coin engraving decorative flourishes -->
+    <g fill="none" stroke="#2A1E14" stroke-width="0.9" opacity="0.6">
+      <circle cx="640" cy="180" r="2"/>
+      <circle cx="640" cy="400" r="2"/>
+    </g>
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- 4. PLAY BUTTON: Rounded Engraved Plaque in Gold with Guilloche -->
+  <!-- ============================================================== -->
+  <g id="play-button" filter="url(#btn-shadow)">
+    <!-- Main button plaque: width 204, height 54, centered at cx=640, cy=508 -->
+    <g filter="url(#wobble)">
+      <!-- Outer gold plaque -->
+      <rect x="538" y="481" width="204" height="54" rx="14" ry="14" fill="#E8B66A" stroke="#2A1E14" stroke-width="2.2"/>
+    </g>
+
+    <!-- Hatch shading on lower-right edge of plaque -->
+    <path d="M 640 535 L 728 535 Q 742 535 742 521 L 742 495 Q 742 535 640 535 Z" fill="url(#hatch)" stroke="none" opacity="0.45"/>
+
+    <!-- Top highlight line on plaque -->
+    <path d="M 552 484 Q 640 482 728 484" fill="none" stroke="#FFF4D6" stroke-width="1.6" stroke-opacity="0.8" stroke-linecap="round"/>
+
+    <!-- Guilloché Ribbon & Ornamental Border -->
+    <rect x="544" y="487" width="192" height="42" rx="9" ry="9" fill="none" stroke="#A8742A" stroke-width="1.3" stroke-dasharray="2.4 2.0"/>
+    <rect x="547" y="490" width="186" height="36" rx="7" ry="7" fill="none" stroke="#2A1E14" stroke-width="0.9"/>
+
+    <!-- Corner Guilloche Rosettes -->
+    <g fill="#A8742A" stroke="#2A1E14" stroke-width="0.7">
+      <circle cx="554" cy="497" r="2.8"/>
+      <circle cx="726" cy="497" r="2.8"/>
+      <circle cx="554" cy="519" r="2.8"/>
+      <circle cx="726" cy="519" r="2.8"/>
+    </g>
+
+    <!-- Left & Right Small Medallion Emblems on Button -->
+    <g stroke="#2A1E14" stroke-width="1" fill="#FFF4D6">
+      <polygon points="570,508 574,505 572,510 574,511"/>
+      <polygon points="710,508 706,505 708,510 706,511"/>
+    </g>
+
+    <!-- Button Text "PLAY" -->
+    <!-- Engraved depth / bevel highlight -->
+    <text x="641" y="517" font-family="Georgia, serif" font-size="23" font-weight="bold" letter-spacing="6px" fill="#FFF4D6" text-anchor="middle" fill-opacity="0.6">PLAY</text>
+    <!-- Main text in dark ink -->
+    <text x="640" y="516" font-family="Georgia, serif" font-size="23" font-weight="bold" letter-spacing="6px" fill="#2A1E14" text-anchor="middle">PLAY</text>
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- 5. BOTTOM CORNER LINKS: Settings and Credits                   -->
+  <!-- ============================================================== -->
+
+  <!-- Bottom-Left: Settings Link -->
+  <g id="settings-link" transform="translate(68, 668)">
+    <!-- Small engraved gear/coin rosette emblem -->
+    <g stroke="#2A1E14" stroke-width="1.2" fill="#E8B66A">
+      <circle cx="0" cy="-5" r="7.5"/>
+      <circle cx="0" cy="-5" r="3" fill="#8A4B22"/>
+      <path d="M 0 -14 L 0 -11 M 0 1 L 0 -2 M -9 -5 L -6 -5 M 6 -5 L 9 -5" stroke-width="1.4"/>
+    </g>
+    <!-- Text "Settings" -->
+    <text x="16" y="0" font-family="Georgia, serif" font-size="14" font-weight="bold" letter-spacing="2.2px" fill="#A8742A">SETTINGS</text>
+    <!-- Subtle engraved underline -->
+    <line x1="16" y1="4" x2="114" y2="4" stroke="#A8742A" stroke-width="1" stroke-dasharray="2 2" stroke-opacity="0.6"/>
+  </g>
+
+  <!-- Bottom-Right: Credits Link -->
+  <g id="credits-link" transform="translate(1212, 668)">
+    <!-- Text "Credits" -->
+    <text x="-16" y="0" font-family="Georgia, serif" font-size="14" font-weight="bold" letter-spacing="2.2px" fill="#7F8BB0" text-anchor="end">CREDITS</text>
+    <!-- Subtle engraved underline -->
+    <line x1="-16" y1="4" x2="-106" y2="4" stroke="#7F8BB0" stroke-width="1" stroke-dasharray="2 2" stroke-opacity="0.6"/>
+    <!-- Small engraved crescent/star emblem -->
+    <g stroke="#0E1028" stroke-width="1.1" fill="#C9D3E6">
+      <circle cx="0" cy="-5" r="7.5"/>
+      <path d="M 2 -10 A 5 5 0 1 0 2 0 A 3.8 3.8 0 1 1 2 -10 Z" fill="#2E3570" stroke="none"/>
+    </g>
+  </g>
+</svg>

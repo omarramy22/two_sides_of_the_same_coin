@@ -10,7 +10,7 @@ const BASE = import.meta.env.BASE_URL;
 let manifest: Promise<Manifest> | null = null;
 export const loadManifest = () => (manifest ??= fetch(`${BASE}manifest.json`).then((r) => r.json()));
 
-/** 2x texture for a manifest key (crisp at tile sizes up to 128px). */
+/** 2x texture for a manifest key (crisp up to 2x tile size). Pixi sizes `@2x` files in 1x units. */
 export async function texture(key: string): Promise<Texture> {
   const m = await loadManifest();
   if (!m[key]) throw new Error(`art: no "${key}" in manifest`);
@@ -49,7 +49,6 @@ export class Puppet extends Container {
     rig.parts.forEach((p, i) => {
       const c = new Container();
       const s = new Sprite(textures[i]);
-      s.scale.set(0.5); // 2x textures
       s.position.set(-p.pivot[0], -p.pivot[1]);
       c.addChild(s);
       const origin = p.parent ? byName[p.parent].pivot : rig.ground;

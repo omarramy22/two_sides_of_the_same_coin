@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="tails">
+  <g filter="url(#grain)"><rect width="64" height="64" fill="var(--floor)"/></g>
+  <!-- the coin socket, engraved into the floor; your half glows -->
+  <circle cx="32" cy="32" r="25" fill="var(--floor-dark)" fill-opacity="0.55"/>
+  <circle cx="32" cy="32" r="25" fill="url(#hatch-fine)"/>
+  <g filter="url(#wobble-soft)" fill="none" stroke-linecap="round">
+    <circle cx="32" cy="32" r="25" stroke="var(--ink)" stroke-width="1.5"/>
+    <circle cx="32" cy="32" r="22" stroke="var(--ink)" stroke-width="1" stroke-dasharray="1.2 1.8" stroke-opacity="0.7"/>
+    <path d="M32 9 V55" stroke="var(--ink)" stroke-width="1" stroke-opacity="0.5" stroke-dasharray="2 2"/>
+  </g>
+  <path d="M33 13 A19 19 0 0 1 33 51 Z" fill="var(--silver)" fill-opacity="0.4"/>
+  <g filter="url(#wobble-soft)" fill="none"><path d="M33 13 A19 19 0 0 1 33 51 Z" stroke="var(--silver)" stroke-width="2.6"/><path d="M33 13 A19 19 0 0 1 33 51 Z" stroke="var(--highlight)" stroke-width="1"/></g>
+  <circle cx="32" cy="32" r="19" fill="none" stroke="var(--silver-dark)" stroke-width="0.8" stroke-opacity="0.6"/>
+</svg>

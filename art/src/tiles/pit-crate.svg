@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="heads,tails">
+  <g filter="url(#grain)"><rect width="64" height="64" fill="var(--floor)"/></g>
+  <g filter="url(#wobble)" stroke="var(--ink)" stroke-width="1.6" stroke-linejoin="round">
+    <path d="M4 32 Q3 9 20 5 Q33 1 46 5 Q61 10 60 31 Q61 54 45 59 Q31 63 18 59 Q3 54 4 32 Z" fill="var(--floor-dark)"/>
+    <path d="M8 32 Q7 13 21 9 Q33 5 44 9 Q57 13 56 31 Q57 50 43 55 Q31 59 20 55 Q8 50 8 32 Z" fill="var(--pit)"/>
+    
+  </g>
+  <g filter="url(#wobble-soft)" stroke="#2A1E14" stroke-width="1.4" stroke-linejoin="round">
+    <rect x="15" y="15" width="34" height="36" rx="2" fill="#A0703C"/>
+    <path d="M15 27 H49 M15 39 H49" stroke="#6E4A24" stroke-width="1.2"/>
+    <path d="M15 15 L49 51 M49 15 L15 51" stroke="#6E4A24" stroke-width="1.1" stroke-opacity="0.8"/>
+    <rect x="15" y="15" width="34" height="36" rx="2" fill="url(#hatch)" stroke="none" fill-opacity="0.5"/>
+  </g>
+  <!-- sunken: shadow along the top inner edge -->
+  <path d="M9 30 Q8 13 21 9 Q33 5 44 9 Q56 13 55 29 Q50 15 32 13 Q15 14 9 30 Z" fill="#000" fill-opacity="0.35"/>
+</svg>

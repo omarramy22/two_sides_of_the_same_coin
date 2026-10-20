@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="heads,tails">
+  <g filter="url(#grain)"><rect width="64" height="64" fill="var(--floor)"/></g>
+  <!-- broken flagstone rim around the hole -->
+  <g filter="url(#wobble)" stroke="var(--ink)" stroke-width="1.6" stroke-linejoin="round">
+    <path d="M4 32 Q3 9 20 5 Q33 1 46 5 Q61 10 60 31 Q61 54 45 59 Q31 63 18 59 Q3 54 4 32 Z" fill="var(--floor-dark)"/>
+    <path d="M8 32 Q7 13 21 9 Q33 5 44 9 Q57 13 56 31 Q57 50 43 55 Q31 59 20 55 Q8 50 8 32 Z" fill="var(--pit)"/>
+    <path d="M21 9 L24 13 L27 9 M44 9 L41 14 L47 13 M52 46 L47 46 L50 51 M12 44 L17 43 M33 57 L32 52" fill="none" stroke-width="1.2"/>
+  </g>
+  <!-- depth: receding hatched rings, darker toward the middle -->
+  <ellipse cx="32" cy="33" rx="19" ry="18" fill="url(#hatch-cross)"/>
+  <ellipse cx="32" cy="35" rx="12" ry="11" fill="url(#hatch-cross)"/>
+  <ellipse cx="32" cy="37" rx="6" ry="5.5" fill="#000" fill-opacity="0.55"/>
+  <path d="M10 22 Q14 12 24 9" stroke="var(--highlight)" stroke-opacity="0.4" stroke-width="1.2" fill="none"/>
+</svg>

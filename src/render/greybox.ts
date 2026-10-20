@@ -1,9 +1,11 @@
-// Phase 1 greybox: flat shapes drawn straight from the engine State. No game rules here.
+// Board renderer: Phase 2 art sprites by default (`?greybox` forces the flat Phase 1 look).
+// Everything is drawn straight from the engine State and events. No game rules here.
 import { Application, Container, Graphics, Text } from 'pixi.js';
 import { History } from '../engine/history';
 import { isGate, isPlate, parseLevel } from '../engine/parse';
 import { gateJammed, gateOpen, isWon, tick } from '../engine/tick';
 import type { Dir, GameEvent, Level, LevelFile, State, W } from '../engine/types';
+import { actor, drawBackground, drawSeam, drawTerrain, loadArt, type Art } from './sprites';
 
 const files = import.meta.glob<LevelFile>('../levels/*.json', { eager: true, import: 'default' });
 const order = (id: string) => id.split('-').map(Number);
@@ -130,6 +132,12 @@ export function startGreybox(app: Application) {
   const queue: string[] = [];
   let moveAnim: MoveAnim | null = null;
   let flipEffect: FlipEffect | null = null;
+  let art: Art | null = null;
+  let actors = new Container();
+  if (!new URLSearchParams(location.search).has('greybox')) {
+    loadArt().then((a) => { art = a; draw(); }).catch((e) => console.warn('art not loaded, using greybox:', e));
+  }
+  const puppets = () => (art ? [art.sol, art.lune] : []);
 
   function load(i: number) {
     moveAnim = null;
@@ -166,6 +174,10 @@ export function startGreybox(app: Application) {
       const next = tick(lv, prev, dir, ev);
       if (next === prev) return;
       hist.push(next);
+      puppets().forEach((p, w) => {
+        p.walking = next.pos[w] !== prev.pos[w];
+        if (dir === 'left' || dir === 'right') p.facing = dir === 'left' ? -1 : 1;
+      });
       startMoveAnim(prev, next, ev);
     } else if (key === 'z' || key === 'Backspace') {
       moveAnim = null;
@@ -202,8 +214,10 @@ export function startGreybox(app: Application) {
         return;
       }
       moveAnim = null;
+      puppets().forEach((p) => (p.walking = false));
       draw();
     }
+    puppets().forEach((p) => p.update(app.ticker.deltaMS / 1000));
 
     // Process next queued key only when no animation is running
     if (queue.length > 0) {
@@ -231,6 +245,25 @@ export function startGreybox(app: Application) {
     }
   });
 
+  // Art sprites when loaded, flat shapes otherwise. (cx, cy) = cell centre; actors stand 0.3 tile below it.
+  function crateAt(g: Graphics, x: number, y: number, t: number, scale = 1, alpha = 1) {
+    if (art) actors.addChild(actor(art, 'tiles/crate', x + t / 2, y + t * 0.9, t, scale, alpha));
+    else drawCrate(g, x, y, t, scale, alpha);
+  }
+  function tarnishAt(g: Graphics, sc: Container, cx: number, cy: number, t: number, awake: boolean, ink: number, scale = 1, alpha = 1) {
+    if (art) actors.addChild(actor(art, `chars/tarnish/${awake ? 'awake' : 'asleep'}`, cx, cy + t * 0.3, t, scale, alpha));
+    else drawTarnish(g, sc, cx, cy, t, awake, ink, scale, alpha);
+  }
+  function heroAt(g: Graphics, w: W, cx: number, cy: number, t: number, fallen: boolean) {
+    if (!art) return drawHero(g, cx, cy, t, fallen, PAL[w].hero, PAL[w].ink);
+    const p = w ? art.lune : art.sol;
+    p.scale.set(t / 64);
+    p.position.set(cx, cy + t * 0.3);
+    p.zIndex = p.y;
+    p.alpha = fallen ? 0.5 : 1;
+    actors.addChild(p);
+  }
+
   function drawScene(
     state: State,
     opts: {
@@ -241,14 +274,17 @@ export function startGreybox(app: Application) {
       suppressMessages?: boolean;
     } = {},
   ) {
+    puppets().forEach((p) => p.removeFromParent()); // they persist across redraws
     scene.destroy({ children: true });
     scene = new Container();
     app.stage.addChild(scene);
 
     const layout = getLayout(lv);
     const { vw, vh, landscape, t, ox, oy, cell } = layout;
-    const g = new Graphics();
-    scene.addChild(g);
+    const back = new Container(), g = new Graphics();
+    actors = new Container();
+    actors.sortableChildren = true;
+    scene.addChild(back, g, actors);
 
     const label = (text: string, x: number, y: number, fill: number) => {
       const txt = new Text({ text, style: { fill, fontSize: Math.round(t * 0.4), fontFamily: 'sans-serif', fontWeight: 'bold' } });
@@ -257,19 +293,31 @@ export function startGreybox(app: Application) {
       scene.addChild(txt);
     };
 
-    // Seam between the worlds.
-    if (landscape) g.rect(ox + lv.w * t, oy, SEAM * t, lv.h * t).fill(0xb8a47a);
-    else g.rect(ox, oy + lv.h * t, lv.w * t, SEAM * t).fill(0xb8a47a);
-
     const terrain = opts.terrainState ?? state;
+
+    // Seam between the worlds.
+    if (art) {
+      const [sx] = cell(0, state.pos[0]), [lx] = cell(1, state.pos[1]);
+      drawBackground(art, back, vw, vh, (sx + lx) / 2);
+      for (const w of [0, 1] as W[]) drawTerrain(art, back, lv, terrain, w, cell, t);
+      if (landscape) drawSeam(art, back, true, ox + lv.w * t, oy, SEAM * t, lv.h * t);
+      else drawSeam(art, back, false, ox, oy + lv.h * t, lv.w * t, SEAM * t);
+    } else if (landscape) g.rect(ox + lv.w * t, oy, SEAM * t, lv.h * t).fill(0xb8a47a);
+    else g.rect(ox, oy + lv.h * t, lv.w * t, SEAM * t).fill(0xb8a47a);
 
     for (const w of [0, 1] as W[]) {
       const p = PAL[w];
       for (let i = 0; i < lv.w * lv.h; i++) {
         const [x, y] = cell(w, i), c = terrain.tiles[w][i];
         const cx = x + t / 2;
-        g.rect(x, y, t, t).fill(c === '#' ? p.wall : c === '|' ? 0x6b5b3a : p.floor);
-        if (c === 'G') g.rect(x + t * 0.1, y + t * 0.1, t * 0.8, t * 0.8).fill(p.goal);
+        if (art && '#.G^,;'.includes(c)) {
+          // terrain sprite already drawn
+        } else if (art) {
+          if (c === '|') g.rect(x, y, t, t).fill(0x6b5b3a);
+        } else g.rect(x, y, t, t).fill(c === '#' ? p.wall : c === '|' ? 0x6b5b3a : p.floor);
+        if (art && '#.G^,;'.includes(c)) {
+          // nothing
+        } else if (c === 'G') g.rect(x + t * 0.1, y + t * 0.1, t * 0.8, t * 0.8).fill(p.goal);
         else if (c === '^') g.rect(x + t * 0.05, y + t * 0.05, t * 0.9, t * 0.9).fill(p.pit);
         else if (c === ',' || c === ';') {
           g.rect(x + t * 0.06, y + t * 0.06, t * 0.88, t * 0.88).fill({ color: 0x5a4632, alpha: 0.5 });
@@ -320,9 +368,7 @@ export function startGreybox(app: Application) {
           g.moveTo(cx - t * 0.08, cyPlank + t * 0.04).lineTo(cx, cyPlank - t * 0.05).lineTo(cx + t * 0.08, cyPlank + t * 0.04).stroke({ width: 2.5, color: 0x2a1e14 });
         }
 
-        if (state.objs[w][i] === 'C' && !opts.skipCrates?.has(`${w}:${i}`)) {
-          drawCrate(g, x, y, t);
-        }
+        if (state.objs[w][i] === 'C' && !opts.skipCrates?.has(`${w}:${i}`)) crateAt(g, x, y, t);
       }
 
       for (let i = 0; i < lv.w * lv.h; i++) {
@@ -330,19 +376,30 @@ export function startGreybox(app: Application) {
         if (obj !== '@' && obj !== '?') continue;
         if (opts.skipTarnish?.has(`${w}:${i}`)) continue;
         const [x, y] = cell(w, i);
-        drawTarnish(g, scene, x + t / 2, y + t / 2, t, obj === '@', p.ink);
+        tarnishAt(g, scene, x + t / 2, y + t / 2, t, obj === '@', p.ink);
       }
 
       if (!opts.skipHeroes) {
         const [hx, hy] = cell(w, state.pos[w]);
-        drawHero(g, hx + t / 2, hy + t / 2, t, state.fallen[w], p.hero, p.ink);
+        heroAt(g, w, hx + t / 2, hy + t / 2, t, state.fallen[w]);
       }
     }
 
     // Alignment thread across the seam.
     if (!opts.skipHeroes && state.pos[0] === state.pos[1]) {
       const [ax, ay] = cell(0, state.pos[0]), [bx, by] = cell(1, state.pos[1]);
-      g.moveTo(ax + t / 2, ay + t / 2).lineTo(bx + t / 2, by + t / 2).stroke({ width: 3, color: 0xfff4d6, alpha: 0.9 });
+      if (art) {
+        // Pendants glow and a thread of light crosses the seam (SPEC.md §2.4); it stays out of the board.
+        const fx = new Graphics();
+        const [a, b] = [[ax + t / 2, ay + t / 2], [bx + t / 2, by + t / 2]];
+        for (const [x, y] of [a, b]) fx.circle(x, y, t * 0.32).fill({ color: 0xfff4d6, alpha: 0.28 }).circle(x, y, t * 0.12).fill({ color: 0xfff4d6, alpha: 0.6 });
+        const [s0, s1] = landscape
+          ? [[ox + (lv.w - 0.25) * t, a[1]], [ox + (lv.w + SEAM + 0.25) * t, b[1]]]
+          : [[a[0], oy + (lv.h - 0.25) * t], [b[0], oy + (lv.h + SEAM + 0.25) * t]];
+        fx.moveTo(s0[0], s0[1]).lineTo(s1[0], s1[1]).stroke({ width: t * 0.14, color: 0xfff4d6, alpha: 0.35 })
+          .moveTo(s0[0], s0[1]).lineTo(s1[0], s1[1]).stroke({ width: t * 0.05, color: 0xffffff, alpha: 0.9 });
+        scene.addChild(fx);
+      } else g.moveTo(ax + t / 2, ay + t / 2).lineTo(bx + t / 2, by + t / 2).stroke({ width: 3, color: 0xfff4d6, alpha: 0.9 });
     }
 
     const hud = new Text({
@@ -350,7 +407,8 @@ export function startGreybox(app: Application) {
       style: { fill: 0xe8f0ff, fontSize: 22, fontFamily: 'sans-serif' },
     });
     hud.position.set(MARGIN, (HUD - 22) / 2 + MARGIN / 2);
-    scene.addChild(hud);
+    const hudBack = new Graphics().roundRect(MARGIN - 10, hud.y - 6, hud.width + 20, hud.height + 12, 8).fill({ color: 0x0e1028, alpha: 0.6 });
+    scene.addChild(hudBack, hud);
 
     if (!opts.suppressMessages) {
       const caught = (state.fallen[0] && state.objs[0][state.pos[0]] === '@') || (state.fallen[1] && state.objs[1][state.pos[1]] === '@');
@@ -459,7 +517,7 @@ export function startGreybox(app: Application) {
         const isFill = ev.type === 'fill';
         const scale = isFill ? 1.0 - 0.4 * tEase : 1.0;
         const alpha = isFill ? Math.max(0, 1.0 - tEase) : 1.0;
-        drawCrate(g, x, y, t, scale, alpha);
+        crateAt(g, x, y, t, scale, alpha);
       }
     }
 
@@ -473,7 +531,7 @@ export function startGreybox(app: Application) {
         const isFall = ev.type === 'foeFall';
         const scale = isFall ? 1.0 - 0.4 * tEase : 1.0;
         const alpha = isFall ? Math.max(0, 1.0 - tEase) : 1.0;
-        drawTarnish(g, curScene, cx, cy, t, true, PAL[ev.world].ink, scale, alpha);
+        tarnishAt(g, curScene, cx, cy, t, true, PAL[ev.world].ink, scale, alpha);
       }
     }
 
@@ -483,7 +541,7 @@ export function startGreybox(app: Application) {
       const [tx, ty] = cell(w, moveAnim.next.pos[w]);
       const cx = (1 - tEase) * (fx + t / 2) + tEase * (tx + t / 2);
       const cy = (1 - tEase) * (fy + t / 2) + tEase * (ty + t / 2);
-      drawHero(g, cx, cy, t, false, PAL[w].hero, PAL[w].ink);
+      heroAt(g, w, cx, cy, t, false);
     }
 
     drawFlipOverlay(g, curScene, layout);

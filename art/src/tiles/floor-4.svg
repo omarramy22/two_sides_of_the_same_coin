@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="heads,tails">
+  <g filter="url(#grain)"><rect width="64" height="64" fill="var(--floor)"/></g>
+  <g filter="url(#wobble-soft)" stroke="var(--floor-dark)" stroke-width="1.1" stroke-linecap="round" fill="none" stroke-opacity="0.8">
+    <path d="M0 18 Q30 16 64 19 M18 18 Q17 40 19 64"/>
+  </g>
+  <g stroke="var(--floor-dark)" stroke-width="0.8" fill="none" stroke-opacity="0.7"><circle cx="42" cy="42" r="9"/><circle cx="42" cy="42" r="6.5" stroke-dasharray="1 1.6"/><path d="M42 35.5 V37 M42 47 V48.5 M35.5 42 H37 M47 42 H48.5 M37.4 37.4 L38.4 38.4 M45.6 45.6 L46.6 46.6 M37.4 46.6 L38.4 45.6 M45.6 38.4 L46.6 37.4"/><circle cx="42" cy="42" r="2"/></g>
+</svg>

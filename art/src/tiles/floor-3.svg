@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="heads,tails">
+  <g filter="url(#grain)"><rect width="64" height="64" fill="var(--floor)"/></g>
+  <g filter="url(#wobble-soft)" stroke="var(--floor-dark)" stroke-width="1.1" stroke-linecap="round" fill="none" stroke-opacity="0.8">
+    <path d="M0 30 Q22 28 44 31 Q54 32 64 30 M22 0 Q24 15 22 29 M44 31 Q42 48 45 64"/>
+  </g>
+  <g filter="url(#wobble-soft)" stroke="var(--accent-dark)" stroke-width="0.9" stroke-linejoin="round" fill="var(--accent)"><path d="M50 64 Q49 58 52 55 Q55 57 54 61 Q57 58 60 59 Q61 62 58 64 Z"/><path d="M4 2 Q8 0 11 3 Q8 6 5 5 Z"/></g>
+</svg>

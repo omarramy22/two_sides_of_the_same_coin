@@ -23,7 +23,7 @@ export async function startDemo(app: Application) {
   const foes = await Promise.all(['chars/tarnish/awake', 'chars/tarnish/asleep'].map(texture));
   foes.forEach((tx, i) => {
     const s = new Sprite(tx);
-    s.scale.set(scale / 2);
+    s.scale.set(scale);
     s.anchor.set(0.5, 88 / 96);
     s.position.set(1100 + i * 170, 200 + 260);
     stage.addChild(s);

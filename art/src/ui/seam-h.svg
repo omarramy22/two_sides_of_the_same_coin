@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="24" viewBox="0 0 64 24">
+  <!-- the coin's milled rim between the worlds: gold on the Heads side, silver on the Tails side -->
+  <defs><linearGradient id="gs" x1="0" x2="0" y1="0" y2="1"><stop offset="0.25" stop-color="#E8B66A"/><stop offset="0.75" stop-color="#C9D3E6"/></linearGradient></defs>
+  <rect width="64" height="24" fill="url(#gs)"/>
+  <path d="M1 3 V21 M5 3 V21 M9 3 V21 M13 3 V21 M17 3 V21 M21 3 V21 M25 3 V21 M29 3 V21 M33 3 V21 M37 3 V21 M41 3 V21 M45 3 V21 M49 3 V21 M53 3 V21 M57 3 V21 M61 3 V21" stroke="#000" stroke-opacity="0.35" stroke-width="1.2"/>
+  <path d="M2.4 3 V21 M6.4 3 V21 M10.4 3 V21 M14.4 3 V21 M18.4 3 V21 M22.4 3 V21 M26.4 3 V21 M30.4 3 V21 M34.4 3 V21 M38.4 3 V21 M42.4 3 V21 M46.4 3 V21 M50.4 3 V21 M54.4 3 V21 M58.4 3 V21 M62.4 3 V21" stroke="#fff" stroke-opacity="0.45" stroke-width="0.8"/>
+  <rect width="64" height="2.6" fill="#2A1E14"/><rect y="21.4" width="64" height="2.6" fill="#0E1028"/>
+</svg>
