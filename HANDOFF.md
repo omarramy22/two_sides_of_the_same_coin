@@ -53,6 +53,9 @@ All approved by the user unless marked.
 12. **Chapter 3 has 5 levels** too: mirage, shadow bridge, develop, freeze, capstone. 3-4 is labelled `introduce` (it teaches the freeze rule) because it mashes at 1.5%, above the 1% twist limit.
 13. **Chapter 2 has 5 levels** (the spec allows 5–6): two introduce levels (one per mechanic), develop, twist, capstone.
 14. **Game over with two retries** (user request, 2026-10-20; replaces "no game over" and the undo-to-retry prompt): being caught or falling opens a popup (`src/ui/gameover.ts`). *Try again* rewinds the fatal move, twice per attempt; after that only *Start over*, which (like any restart) refills the retries. Normal undo during play is unchanged.
+15. **A Tarnish per chapter** (user request, 2026-10-20): Chapter 1 keeps `chars/tarnish/awake|asleep`; chapters 2-6 use `chars/tarnish/chN.svg` (rendered `.awake`/`.asleep` via `data-palettes`, `foeTex()` in sprites.ts). Sunk Tarnish tiles take chapter colours from `_palettes.css`; the ending shows one from each chapter.
+16. **The surviving kid grieves** (user request, 2026-10-20): `mood = 'grieve'` in rig.ts (eyes shut, arms in, sobs, tears) when the partner is caught or falls; the game over popup waits 1.6 s so it is seen.
+17. **Judging rubric** is in SPEC.md §0: Gameplay & Fun 60%, Presentation 20%, Audio 10%, Visual 10%, Theme pass/fail. Undo stays unlimited (judges play briefly; retries are a safety net).
 
 ### User's design feedback (apply to every new level and mechanic)
 - Mechanics must feel **physically logical and fun, with visible cause → effect**. Chapter 2 fixed "strange" plates and seesaws with a physical metaphor: ropes over pulleys in the seam, a glint running from cause to effect, and character reactions.
