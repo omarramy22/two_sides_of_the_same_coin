@@ -1,5 +1,5 @@
 // src/ui/settings.ts: Overlay panel for volumes, accessibility, judge mode, and key rebindings.
-import { Container, Graphics } from 'pixi.js';
+import { Container, Graphics, Rectangle } from 'pixi.js';
 import type { Ctx } from '../app/context';
 import type { Scene } from '../app/scenes';
 import { DEFAULT_SETTINGS, type Action } from '../app/settings';
@@ -11,6 +11,8 @@ interface SettingRow {
   render(container: Container, focused: boolean, w: number): void;
   adjust?(dir: number): void;
   confirm?(): void;
+  /** Pointer tap at local x in a row of width w (sliders). */
+  click?(x: number, w: number): void;
 }
 
 const ACTION_DEFS: { action: Action; label: string }[] = [
@@ -56,64 +58,43 @@ export function createSettings(ctx: Ctx, onClose: () => void): Scene {
 
   function buildRows(): SettingRow[] {
     const list: SettingRow[] = [];
-    const s = ctx.settings();
+    // Rows read ctx.settings() when used, never a snapshot: a snapshot goes stale after the first change.
+    const s = ctx.settings;
 
-    // Volume Helpers
-    const getVol = (v: number | undefined) => (v !== undefined ? v : 1);
-
-    // 1. Master volume slider
-    list.push({
-      id: 'vol-master',
-      render(c, focused, w) {
-        drawSliderRow(c, 'Master Volume', getVol(s.master), focused, w);
-      },
-      adjust(dir) {
-        const cur = Math.round(getVol(s.master) * 10) / 10;
-        const next = Math.max(0, Math.min(1, Math.round((cur + dir * 0.1) * 10) / 10));
-        ctx.setSettings({ ...ctx.settings(), master: next });
+    // 1-3. Volume sliders: arrows step by 10%, a click sets the value under the pointer
+    const sliders: { key: 'master' | 'music' | 'sfx'; label: string }[] = [
+      { key: 'master', label: 'Master Volume' },
+      { key: 'music', label: 'Music Volume' },
+      { key: 'sfx', label: 'SFX Volume' },
+    ];
+    for (const { key, label } of sliders) {
+      const set = (v: number) => {
+        ctx.setSettings({ ...s(), [key]: Math.max(0, Math.min(1, Math.round(v * 10) / 10)) });
         audio.sfx('uiHover');
         renderRows();
-      },
-    });
-
-    // 2. Music volume slider
-    list.push({
-      id: 'vol-music',
-      render(c, focused, w) {
-        drawSliderRow(c, 'Music Volume', getVol(s.music), focused, w);
-      },
-      adjust(dir) {
-        const cur = Math.round(getVol(s.music) * 10) / 10;
-        const next = Math.max(0, Math.min(1, Math.round((cur + dir * 0.1) * 10) / 10));
-        ctx.setSettings({ ...ctx.settings(), music: next });
-        audio.sfx('uiHover');
-        renderRows();
-      },
-    });
-
-    // 3. SFX volume slider
-    list.push({
-      id: 'vol-sfx',
-      render(c, focused, w) {
-        drawSliderRow(c, 'SFX Volume', getVol(s.sfx), focused, w);
-      },
-      adjust(dir) {
-        const cur = Math.round(getVol(s.sfx) * 10) / 10;
-        const next = Math.max(0, Math.min(1, Math.round((cur + dir * 0.1) * 10) / 10));
-        ctx.setSettings({ ...ctx.settings(), sfx: next });
-        audio.sfx('uiHover');
-        renderRows();
-      },
-    });
-
+      };
+      list.push({
+        id: `vol-${key}`,
+        render(c, focused, w) {
+          drawSliderRow(c, label, s()[key], focused, w);
+        },
+        adjust(dir) {
+          set(s()[key] + dir * 0.1);
+        },
+        click(x, w) {
+          const { x: sx, w: sw } = sliderGeom(w);
+          set((x - sx) / sw);
+        },
+      });
+    }
     // 4. Mute all toggle
     list.push({
       id: 'toggle-mute',
       render(c, focused, w) {
-        drawToggleRow(c, 'Mute All', !!s.muted, focused, w);
+        drawToggleRow(c, 'Mute All', !!s().muted, focused, w);
       },
       confirm() {
-        ctx.setSettings({ ...ctx.settings(), muted: !s.muted });
+        ctx.setSettings({ ...ctx.settings(), muted: !s().muted });
         audio.sfx('uiClick');
         renderRows();
       },
@@ -126,10 +107,10 @@ export function createSettings(ctx: Ctx, onClose: () => void): Scene {
     list.push({
       id: 'toggle-motion',
       render(c, focused, w) {
-        drawToggleRow(c, 'Reduced Motion', !!s.reducedMotion, focused, w);
+        drawToggleRow(c, 'Reduced Motion', !!s().reducedMotion, focused, w);
       },
       confirm() {
-        ctx.setSettings({ ...ctx.settings(), reducedMotion: !s.reducedMotion });
+        ctx.setSettings({ ...ctx.settings(), reducedMotion: !s().reducedMotion });
         audio.sfx('uiClick');
         renderRows();
       },
@@ -142,10 +123,10 @@ export function createSettings(ctx: Ctx, onClose: () => void): Scene {
     list.push({
       id: 'toggle-contrast',
       render(c, focused, w) {
-        drawToggleRow(c, 'High-contrast Outlines', !!s.highContrast, focused, w);
+        drawToggleRow(c, 'High-contrast Outlines', !!s().highContrast, focused, w);
       },
       confirm() {
-        ctx.setSettings({ ...ctx.settings(), highContrast: !s.highContrast });
+        ctx.setSettings({ ...ctx.settings(), highContrast: !s().highContrast });
         audio.sfx('uiClick');
         renderRows();
       },
@@ -158,10 +139,10 @@ export function createSettings(ctx: Ctx, onClose: () => void): Scene {
     list.push({
       id: 'toggle-judge',
       render(c, focused, w) {
-        drawToggleRow(c, 'Judge Mode (Unlock All)', !!s.judgeMode, focused, w);
+        drawToggleRow(c, 'Judge Mode (Unlock All)', !!s().judgeMode, focused, w);
       },
       confirm() {
-        ctx.setSettings({ ...ctx.settings(), judgeMode: !s.judgeMode });
+        ctx.setSettings({ ...ctx.settings(), judgeMode: !s().judgeMode });
         audio.sfx('uiClick');
         renderRows();
       },
@@ -171,7 +152,7 @@ export function createSettings(ctx: Ctx, onClose: () => void): Scene {
     });
 
     // 8. Key rebind rows (one per action)
-    const keyMap = s.keys ?? DEFAULT_SETTINGS.keys;
+    const keyMap = s().keys ?? DEFAULT_SETTINGS.keys;
     for (const def of ACTION_DEFS) {
       const isRebinding = rebindingAction === def.action;
       const keyList = keyMap[def.action] ?? [];
@@ -245,6 +226,11 @@ export function createSettings(ctx: Ctx, onClose: () => void): Scene {
   }
 
   // Row Drawing Helpers
+  const sliderGeom = (w: number) => {
+    const sw = Math.min(160, w * 0.35);
+    return { x: w - sw - 70, w: sw };
+  };
+
   function drawSliderRow(c: Container, label: string, val: number, focused: boolean, w: number) {
     c.removeChildren();
     const g = new Graphics();
@@ -259,8 +245,7 @@ export function createSettings(ctx: Ctx, onClose: () => void): Scene {
     t.position.set(16, ROW_H / 2);
     c.addChild(t);
 
-    const sliderW = Math.min(160, w * 0.35);
-    const sliderX = w - sliderW - 70;
+    const { x: sliderX, w: sliderW } = sliderGeom(w);
     const sliderY = ROW_H / 2;
 
     // Groove
@@ -359,6 +344,8 @@ export function createSettings(ctx: Ctx, onClose: () => void): Scene {
       c.position.set(0, idx * ROW_H);
       c.eventMode = 'static';
       c.cursor = 'pointer';
+      // Rows redraw their children on hover; hit-testing the row itself keeps a tap from losing its target.
+      c.interactiveChildren = false;
       c.on('pointerover', () => {
         if (!rebindingAction) {
           focusedIndex = idx;
@@ -366,10 +353,11 @@ export function createSettings(ctx: Ctx, onClose: () => void): Scene {
           audio.sfx('uiHover');
         }
       });
-      c.on('pointertap', () => {
+      c.on('pointertap', (e) => {
         if (!rebindingAction) {
           focusedIndex = idx;
-          r.confirm?.();
+          if (r.click) r.click(e.getLocalPosition(c).x, Math.min(560, curW - 32));
+          else r.confirm?.();
         }
       });
       rowContainers.push(c);
@@ -384,6 +372,7 @@ export function createSettings(ctx: Ctx, onClose: () => void): Scene {
     rows.forEach((r, idx) => {
       const c = rowContainers[idx];
       if (c) {
+        c.hitArea = new Rectangle(0, 0, panelW, ROW_H);
         r.render(c, idx === focusedIndex, panelW);
       }
     });

@@ -18,11 +18,14 @@ import { ease } from '../render/tween';
 import { C, text } from '../ui/style';
 import { Hud } from '../ui/hud';
 import { createCredits } from '../ui/credits';
+import { createGameOver } from '../ui/gameover';
 import { createPause } from '../ui/pause';
 
 /** The level being played, for automation (tools/screenshots.ts). */
 export let activePlay: { index: number; state(): State; idle(): boolean } | null = null;
 const SHOTS = new URLSearchParams(location.search).has('shots');
+/** Retries from the spot before a fatal move; once spent, the level starts over. */
+const RETRIES = 2;
 
 const MOVE: Partial<Record<Action, Dir>> = { up: 'up', down: 'down', left: 'left', right: 'right' };
 /** Engine event -> sound. Bumps are quiet; the Tarnish and fills carry the drama. */
@@ -41,7 +44,7 @@ export function createPlay(ctx: Ctx, index: number): Scene {
 
   const queue: Action[] = [];
   let busy = false;            // level-complete sequence or wipe running: ignore input
-  let idle = 0, hintTier = 0, rewindTo = 0, demoShown = false;
+  let idle = 0, hintTier = 0, rewindTo = 0, demoShown = false, retries = RETRIES;
   let vw = 0, vh = 0;
 
   const refreshHud = () => hud.set({ id: lv.id, name: lv.name, moves: hist.moves, par: lv.par });
@@ -69,10 +72,8 @@ export function createPlay(ctx: Ctx, index: number): Scene {
     sounds(prev, next, ev);
     hintTier = Math.min(hintTier, 2);
     refreshHud();
-    if (next.fallen[0] || next.fallen[1]) {
-      const caught = ev.some((e) => e.type === 'caught');
-      hud.prompt(caught ? 'Caught! Undo to try again.' : 'A long way down… Undo to try again.');
-    } else hud.prompt(null);
+    hud.prompt(null);
+    if (next.fallen[0] || next.fallen[1]) void gameOver(ev.some((e) => e.type === 'caught'));
     if (isWon(next)) complete();
   }
 
@@ -136,6 +137,17 @@ export function createPlay(ctx: Ctx, index: number): Scene {
     board.tweens.add(0.22, (k) => (board.tint = k < 0.33 ? 0xe07a6b : k < 0.66 ? 0x9cd4e0 : 0xffffff));
   }
 
+  /** Let the fall or catch play out, then offer a retry (while any are left) or a fresh start. */
+  async function gameOver(caught: boolean) {
+    busy = true;
+    await board.tweens.wait(1.6); // long enough to see the partner cry
+    busy = false;
+    ctx.scenes.push(createGameOver(caught, retries, {
+      retry: () => { ctx.scenes.pop(); retries--; undo(); },
+      startOver: () => { ctx.scenes.pop(); void restart(); },
+    }));
+  }
+
   /** Restart is a fast coin-spin wipe. */
   async function restart() {
     if (hist.state === lv.start) return;
@@ -148,6 +160,7 @@ export function createPlay(ctx: Ctx, index: number): Scene {
     wipe.position.set(vw / 2, vh / 2);
     await board.tweens.add(0.2, (k) => { coin(k); wipe.scale.x = Math.cos(k * Math.PI); }, { ease: ease.inQuad });
     hist.restart();
+    retries = RETRIES;
     board.rebuild(hist.state);
     refreshHud();
     hud.prompt(null);
