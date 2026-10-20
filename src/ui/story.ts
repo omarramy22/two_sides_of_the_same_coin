@@ -334,15 +334,37 @@ const intro: Shot[] = [
 
 function vignette(n: number): Shot[] {
   return [
-    { // This layer is done: the two halves look at each other across the seam.
-      dur: 4, make(k) {
-        k.cam.addChild(floor(k, 0, n, 0, 0, VW / 2, VH), floor(k, 1, n, VW / 2, 0, VW / 2, VH), seam(k, VW / 2));
+    { // This layer is done: the two walk to the seam and meet, while the next layer's Tarnish creeps up behind.
+      dur: 5.6, make(k) {
+        const sm = seam(k, VW / 2);
+        k.cam.addChild(floor(k, 0, n, 0, 0, VW / 2, VH), floor(k, 1, n, VW / 2, 0, VW / 2, VH), sm);
+        // The stalker: small (far away), dimmed, hopping in from the left edge one step at a time.
+        const next = Math.min(n + 1, 6);
+        const foe = art(k, `chars/tarnish/ch${next}.awake`, -60, 260, 1.3);
+        foe.tint = 0x9a8aa8;
+        foe.alpha = 0.85;
+        k.cam.addChild(foe);
+        k.tick((_, t) => {
+          const hop = Math.max(0, Math.min(5, Math.floor((t - 0.6) / 0.8)));
+          const f = (t - 0.6) / 0.8 - hop;
+          foe.x = -60 + 60 * (hop + (f > 0 && hop < 5 ? Math.min(1, f * 3) : 0));
+          foe.y = 260 - (f > 0 && f < 0.33 && hop < 5 ? Math.sin(f * 3 * Math.PI) * 10 : 0);
+        });
+        for (let i = 0; i < 3; i++) k.tw.wait(0.8 + i * 1.6).then(() => audio.sfx('foeStep', 0));
         k.over.addChild(vignetteOverlay());
-        puppetAt(k, k.sol, VW / 2 - 160, 400, 2.4, 1);
-        puppetAt(k, k.lune, VW / 2 + 160, 400, 2.4, -1);
-        k.sol.mood = k.lune.mood = 'celebrate';
-        push(k, VW / 2, 330, 1, 1.08, 3.8);
-        k.tw.wait(1.8).then(() => { k.sol.mood = k.lune.mood = 'idle'; k.sol.lookAtPartner(2); k.lune.lookAtPartner(2); });
+        puppetAt(k, k.sol, VW / 2 - 260, 420, 2.4, 1);
+        puppetAt(k, k.lune, VW / 2 + 260, 420, 2.4, -1);
+        k.sol.walking = k.lune.walking = true;
+        push(k, VW / 2, 330, 1, 1.08, 5.4);
+        k.tw.add(2.2, (t) => { k.sol.x = VW / 2 - 260 + 215 * t; k.lune.x = VW / 2 + 260 - 215 * t; sm.alpha = 1 - 0.7 * t; }, { delay: 0.3, ease: ease.inOutSine })
+          .then(() => {
+            k.sol.walking = k.lune.walking = false;
+            k.sol.mood = k.lune.mood = 'celebrate';
+            audio.sfx('align');
+            burst(k, VW / 2, 340, GOLD_L, 24, 180);
+            thread(k, VW / 2 - 45, 350, VW / 2 + 45, 350, 0.5);
+          });
+        k.tw.wait(4.2).then(() => { k.sol.mood = k.lune.mood = 'idle'; });
       },
     },
     { // Deeper: the halves fall into the next layer, a little closer together each time.

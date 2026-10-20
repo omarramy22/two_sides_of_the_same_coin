@@ -29,6 +29,8 @@ class AudioManager {
   private ch6Theme: Chapter6Theme | null = null;
   private currentTheme: Chapter1Theme | Chapter2Theme | Chapter3Theme | null = null;
   private sfxPool: SfxPool | null = null;
+  /** The chapter whose music the current scene asked for, so it can start once audio unlocks. */
+  private wanted = 0;
 
   private pendingVolumes: VolumeSettings = {
     master: 0.8,
@@ -77,6 +79,8 @@ class AudioManager {
         }
 
         this._unlocked = true;
+        // A scene that asked for music before the first gesture (a level, the intro) gets it now.
+        if (this.wanted) this.playMusic(this.wanted);
       } catch {
         // Audio unavailable or blocked: remain gracefully disabled without throwing
         this._unlocked = false;
@@ -97,6 +101,7 @@ class AudioManager {
   }
 
   playMusic(chapter: number): void {
+    this.wanted = chapter;
     if (!this._unlocked || !this.ch1Theme || !this.ch2Theme || !this.ch3Theme || !this.ch4Theme || !this.ch5Theme || !this.ch6Theme) return;
     try {
       const target = chapter >= 6 ? this.ch6Theme : chapter === 5 ? this.ch5Theme : chapter === 4 ? this.ch4Theme : chapter === 3 ? this.ch3Theme : chapter === 2 ? this.ch2Theme : this.ch1Theme;
@@ -118,6 +123,7 @@ class AudioManager {
   }
 
   stopMusic(fadeSec?: number): void {
+    this.wanted = 0;
     if (!this._unlocked) return;
     try {
       this.currentTheme?.stop(fadeSec);
