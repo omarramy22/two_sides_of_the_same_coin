@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <g filter="url(#wobble-soft)" stroke="var(--lune-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M39 86.5 Q39.5 82.5 43.5 82.5 Q47.2 82.5 47.4 86.5 Q43.5 88.6 39 86.5 Z" fill="var(--lune-boot)"/>
+  </g>
+</svg>

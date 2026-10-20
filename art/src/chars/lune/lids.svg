@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <ellipse cx="43" cy="41.6" rx="2.9" ry="2.8" fill="var(--lune-skin)"/>
+  <ellipse cx="53" cy="41.6" rx="2.9" ry="2.8" fill="var(--lune-skin)"/>
+  <path d="M40.6 42 Q43 43.6 45.4 42 M50.6 42 Q53 43.6 55.4 42" fill="none" stroke="var(--lune-ink)" stroke-width="1.2" stroke-linecap="round"/>
+</svg>

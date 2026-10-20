@@ -1,0 +1,227 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <!-- Soft glow for pollen motes -->
+    <filter id="mote-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- NEAR LAYER: Foreground framing details at the very edges only -->
+
+  <!-- ============================================================== -->
+  <!-- TOP-LEFT: The frayed well rope and hanging ivy                  -->
+  <!-- ============================================================== -->
+
+  <!-- 1. The Frayed Well Rope (comes down at x ~115, y: -10 to 275) -->
+  <g filter="url(#wobble)" stroke="#2A1E14" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Rope main twisted strands -->
+    <g stroke-width="1.6">
+      <!-- Outer twisted contour -->
+      <!-- Segment 1 -->
+      <path d="M 104 -10 Q 102 15 106 30 Q 118 35 128 25 Q 126 5 122 -10 Z" fill="#C99A55"/>
+      <path d="M 112 3 Q 115 18 120 28" fill="none" stroke="#2A1E14" stroke-width="1.2"/>
+      <path d="M 120 5 L 126 15 L 128 25 L 122 28 Z" fill="url(#hatch)" stroke="none"/>
+
+      <!-- Segment 2 -->
+      <path d="M 106 30 Q 101 55 108 72 Q 120 76 130 65 Q 128 45 128 25 Z" fill="#B58343"/>
+      <path d="M 114 42 Q 117 58 122 68" fill="none" stroke="#2A1E14" stroke-width="1.2"/>
+      <path d="M 122 45 L 128 55 L 130 65 L 124 68 Z" fill="url(#hatch)" stroke="none"/>
+
+      <!-- Segment 3 -->
+      <path d="M 108 72 Q 103 98 110 115 Q 122 118 132 108 Q 130 85 130 65 Z" fill="#C99A55"/>
+      <path d="M 116 85 Q 119 100 124 112" fill="none" stroke="#2A1E14" stroke-width="1.2"/>
+      <path d="M 124 88 L 130 98 L 132 108 L 126 112 Z" fill="url(#hatch)" stroke="none"/>
+
+      <!-- Segment 4 -->
+      <path d="M 110 115 Q 104 140 111 158 Q 123 162 133 150 Q 132 128 132 108 Z" fill="#B58343"/>
+      <path d="M 117 128 Q 120 144 125 155" fill="none" stroke="#2A1E14" stroke-width="1.2"/>
+      <path d="M 125 130 L 131 142 L 133 150 L 127 154 Z" fill="url(#hatch)" stroke="none"/>
+
+      <!-- Segment 5 -->
+      <path d="M 111 158 Q 106 182 112 200 Q 124 204 134 192 Q 133 170 133 150 Z" fill="#C99A55"/>
+      <path d="M 118 170 Q 121 186 126 197" fill="none" stroke="#2A1E14" stroke-width="1.2"/>
+      <path d="M 126 172 L 132 184 L 134 192 L 128 196 Z" fill="url(#hatch)" stroke="none"/>
+
+      <!-- Rope whipping cord / twine binding just above fray -->
+      <path d="M 110 200 L 135 194 L 136 214 L 109 220 Z" fill="#8A4B22"/>
+      <path d="M 110 205 L 135 199 M 109 210 L 135 204 M 109 215 L 136 209" fill="none" stroke="#FFF4D6" stroke-width="1" stroke-opacity="0.5"/>
+      <path d="M 125 197 L 135 194 L 136 214 L 126 216 Z" fill="url(#hatch)" stroke="none"/>
+    </g>
+
+    <!-- Frayed rope tassels and splayed fibers -->
+    <g fill="#C99A55" stroke="#2A1E14" stroke-width="1.3">
+      <!-- Main splayed tufts -->
+      <path d="M 111 220 Q 98 240 92 262 Q 97 264 105 248 Q 112 235 116 220 Z"/>
+      <path d="M 116 220 Q 112 245 110 274 Q 116 276 120 252 Q 123 234 122 218 Z" fill="#B58343"/>
+      <path d="M 122 218 Q 128 244 132 278 Q 138 274 136 250 Q 134 230 128 217 Z"/>
+      <path d="M 128 217 Q 138 236 148 260 Q 152 256 144 238 Q 138 225 134 215 Z" fill="#9E5D2E"/>
+
+      <!-- Individual frayed wisps and curling hemp threads -->
+      <path d="M 94 258 Q 88 270 85 284" fill="none" stroke-width="1.0"/>
+      <path d="M 98 254 Q 94 275 97 288" fill="none" stroke-width="0.9"/>
+      <path d="M 108 268 Q 106 285 104 295" fill="none" stroke-width="1.0"/>
+      <path d="M 115 272 Q 117 288 114 300" fill="none" stroke-width="0.9"/>
+      <path d="M 130 274 Q 133 290 138 302" fill="none" stroke-width="1.0"/>
+      <path d="M 135 265 Q 142 280 147 292" fill="none" stroke-width="0.9"/>
+      <path d="M 146 250 Q 156 264 162 272" fill="none" stroke-width="1.0"/>
+      <path d="M 142 240 Q 152 248 160 254" fill="none" stroke-width="0.8"/>
+    </g>
+
+    <!-- Rope highlights -->
+    <path d="M 106 5 Q 104 20 108 30 M 108 45 Q 106 60 110 72 M 110 88 Q 108 102 112 115 M 112 130 Q 110 145 114 158" fill="none" stroke="#FFF4D6" stroke-width="1.3" stroke-opacity="0.6"/>
+  </g>
+
+  <!-- 2. Hanging Ivy Vines & Leaves (Top-Left Corner) -->
+  <g filter="url(#wobble-soft)" stroke="#2A1E14" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Vine stems -->
+    <path d="M 0 10 Q 40 18 68 45 Q 85 70 88 115 Q 92 155 86 195 Q 82 225 78 245" fill="none" stroke="#4A7032" stroke-width="2.2"/>
+    <path d="M 45 15 Q 80 40 105 85 Q 115 125 106 160" fill="none" stroke="#4A7032" stroke-width="1.6"/>
+    <path d="M 15 -5 Q 25 35 32 75 Q 36 110 28 140" fill="none" stroke="#4A7032" stroke-width="1.5"/>
+
+    <!-- Leaf 1: Topmost large leaf near corner -->
+    <g transform="translate(32, 22) rotate(-15)">
+      <path d="M 0 0 C 15 -18 32 -10 38 2 C 45 15 32 30 18 32 C 5 35 -10 22 0 0 Z" fill="#6F9E4C" stroke-width="1.5"/>
+      <path d="M 18 32 C 28 28 36 18 38 2 L 32 15 Z" fill="url(#hatch)" stroke="none"/>
+      <path d="M 0 0 Q 18 16 28 24 M 10 9 Q 22 4 28 2 M 16 15 Q 25 22 22 28" fill="none" stroke="#4A7032" stroke-width="0.9"/>
+      <path d="M 2 -4 Q 15 -12 26 -6" fill="none" stroke="#FFF4D6" stroke-width="1.0" stroke-opacity="0.5"/>
+    </g>
+
+    <!-- Leaf 2: Draping near rope -->
+    <g transform="translate(68, 52) rotate(25)">
+      <path d="M 0 0 C 20 -15 36 -5 40 8 C 42 22 28 34 12 30 C 0 26 -10 12 0 0 Z" fill="#6F9E4C" stroke-width="1.5"/>
+      <path d="M 12 30 C 24 30 36 20 40 8 L 30 18 Z" fill="url(#hatch)" stroke="none"/>
+      <path d="M 0 0 Q 16 14 26 22 M 10 8 Q 24 3 32 5 M 15 14 Q 22 22 20 27" fill="none" stroke="#4A7032" stroke-width="0.9"/>
+    </g>
+
+    <!-- Leaf 3: Overlapping rope slightly -->
+    <g transform="translate(86, 92) rotate(48)">
+      <path d="M 0 0 C 16 -12 30 -4 34 6 C 36 18 24 28 10 25 C -2 22 -6 10 0 0 Z" fill="#4A7032" stroke-width="1.4"/>
+      <path d="M 10 25 C 20 25 30 16 34 6 L 24 14 Z" fill="url(#hatch)" stroke="none"/>
+      <path d="M 0 0 Q 14 12 22 18" fill="none" stroke="#2E6B5C" stroke-width="0.8"/>
+    </g>
+
+    <!-- Leaf 4: Lower hanging leaf -->
+    <g transform="translate(88, 142) rotate(65)">
+      <path d="M 0 0 C 18 -10 32 -2 35 10 C 34 22 20 30 8 26 C -4 20 -4 8 0 0 Z" fill="#6F9E4C" stroke-width="1.4"/>
+      <path d="M 8 26 C 18 26 28 18 35 10 L 25 18 Z" fill="url(#hatch)" stroke="none"/>
+      <path d="M 0 0 Q 15 12 24 20" fill="none" stroke="#4A7032" stroke-width="0.8"/>
+    </g>
+
+    <!-- Leaf 5: Tip leaf dangling -->
+    <g transform="translate(78, 205) rotate(82)">
+      <path d="M 0 0 C 14 -8 25 -2 28 8 C 28 18 16 24 6 20 C -2 16 -4 6 0 0 Z" fill="#8CB858" stroke-width="1.3"/>
+      <path d="M 0 0 Q 12 10 20 15" fill="none" stroke="#4A7032" stroke-width="0.8"/>
+    </g>
+
+    <!-- Small side leaves on inner vine -->
+    <g transform="translate(26, 75) rotate(-35)">
+      <path d="M 0 0 C 12 -10 24 -4 26 4 C 28 14 18 20 8 18 C 0 15 -4 8 0 0 Z" fill="#4A7032" stroke-width="1.3"/>
+    </g>
+    <g transform="translate(24, 120) rotate(-15)">
+      <path d="M 0 0 C 14 -8 24 -2 26 6 C 26 15 16 22 6 18 C -2 14 -2 6 0 0 Z" fill="#6F9E4C" stroke-width="1.3"/>
+    </g>
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- TOP-RIGHT: Hanging Ivy & Night-Blooming Vines (Cool Moonlit)   -->
+  <!-- ============================================================== -->
+  <g filter="url(#wobble-soft)" stroke="#0E1028" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Vine stems -->
+    <path d="M 1280 10 Q 1240 18 1210 48 Q 1192 75 1190 120 Q 1186 160 1192 200 Q 1195 228 1200 248" fill="none" stroke="#2E6B5C" stroke-width="2.2"/>
+    <path d="M 1235 15 Q 1200 42 1175 88 Q 1165 128 1174 165" fill="none" stroke="#2E6B5C" stroke-width="1.6"/>
+    <path d="M 1265 -5 Q 1255 35 1248 75 Q 1244 110 1252 140" fill="none" stroke="#2E6B5C" stroke-width="1.5"/>
+
+    <!-- Right Leaf 1: Topmost corner leaf -->
+    <g transform="translate(1248, 22) scale(-1, 1) rotate(-15)">
+      <path d="M 0 0 C 15 -18 32 -10 38 2 C 45 15 32 30 18 32 C 5 35 -10 22 0 0 Z" fill="#4FA08A" stroke-width="1.5"/>
+      <path d="M 18 32 C 28 28 36 18 38 2 L 32 15 Z" fill="url(#hatch-r)" stroke="none"/>
+      <path d="M 0 0 Q 18 16 28 24" fill="none" stroke="#2E6B5C" stroke-width="0.9"/>
+      <path d="M 2 -4 Q 15 -12 26 -6" fill="none" stroke="#E8F0FF" stroke-width="1.0" stroke-opacity="0.5"/>
+    </g>
+
+    <!-- Right Leaf 2: Upper vine leaf -->
+    <g transform="translate(1212, 52) scale(-1, 1) rotate(25)">
+      <path d="M 0 0 C 20 -15 36 -5 40 8 C 42 22 28 34 12 30 C 0 26 -10 12 0 0 Z" fill="#4FA08A" stroke-width="1.5"/>
+      <path d="M 12 30 C 24 30 36 20 40 8 L 30 18 Z" fill="url(#hatch-r)" stroke="none"/>
+      <path d="M 0 0 Q 16 14 26 22" fill="none" stroke="#2E6B5C" stroke-width="0.9"/>
+    </g>
+
+    <!-- Right Leaf 3: Mid hanging leaf (lavender touch) -->
+    <g transform="translate(1194, 95) scale(-1, 1) rotate(45)">
+      <path d="M 0 0 C 16 -12 30 -4 34 6 C 36 18 24 28 10 25 C -2 22 -6 10 0 0 Z" fill="#7D6FA8" stroke-width="1.4"/>
+      <path d="M 10 25 C 20 25 30 16 34 6 L 24 14 Z" fill="url(#hatch-r)" stroke="none"/>
+      <path d="M 0 0 Q 14 12 22 18" fill="none" stroke="#4A3D72" stroke-width="0.8"/>
+      <path d="M 2 -3 Q 12 -8 22 -4" fill="none" stroke="#E8F0FF" stroke-width="0.9" stroke-opacity="0.5"/>
+    </g>
+
+    <!-- Right Leaf 4: Lower hanging leaf -->
+    <g transform="translate(1190, 148) scale(-1, 1) rotate(65)">
+      <path d="M 0 0 C 18 -10 32 -2 35 10 C 34 22 20 30 8 26 C -4 20 -4 8 0 0 Z" fill="#4FA08A" stroke-width="1.4"/>
+      <path d="M 8 26 C 18 26 28 18 35 10 L 25 18 Z" fill="url(#hatch-r)" stroke="none"/>
+      <path d="M 0 0 Q 15 12 24 20" fill="none" stroke="#2E6B5C" stroke-width="0.8"/>
+    </g>
+
+    <!-- Right Leaf 5: Tip leaf dangling -->
+    <g transform="translate(1200, 210) scale(-1, 1) rotate(82)">
+      <path d="M 0 0 C 14 -8 25 -2 28 8 C 28 18 16 24 6 20 C -2 16 -4 6 0 0 Z" fill="#66B89E" stroke-width="1.3"/>
+      <path d="M 0 0 Q 12 10 20 15" fill="none" stroke="#2E6B5C" stroke-width="0.8"/>
+    </g>
+
+    <!-- Small side leaves on right inner vine -->
+    <g transform="translate(1254, 75) scale(-1, 1) rotate(-35)">
+      <path d="M 0 0 C 12 -10 24 -4 26 4 C 28 14 18 20 8 18 C 0 15 -4 8 0 0 Z" fill="#2E6B5C" stroke-width="1.3"/>
+    </g>
+    <g transform="translate(1256, 120) scale(-1, 1) rotate(-15)">
+      <path d="M 0 0 C 14 -8 24 -2 26 6 C 26 15 16 22 6 18 C -2 14 -2 6 0 0 Z" fill="#4FA08A" stroke-width="1.3"/>
+    </g>
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- FLOATING POLLEN MOTES: Subtle drifting atmospheric particles   -->
+  <!-- ============================================================== -->
+  <!-- Warm golden pollen motes on the left (Heads side) -->
+  <g filter="url(#mote-glow)">
+    <circle cx="160" cy="110" r="3.2" fill="#FFF4D6" fill-opacity="0.42"/>
+    <circle cx="160" cy="110" r="1.5" fill="#FFE08A" fill-opacity="0.8"/>
+
+    <circle cx="215" cy="180" r="2.4" fill="#FFF4D6" fill-opacity="0.38"/>
+    <circle cx="215" cy="180" r="1.1" fill="#FFE08A" fill-opacity="0.75"/>
+
+    <circle cx="120" cy="245" r="4.0" fill="#FFF4D6" fill-opacity="0.35"/>
+    <circle cx="120" cy="245" r="1.8" fill="#FFE08A" fill-opacity="0.7"/>
+
+    <circle cx="180" cy="340" r="2.8" fill="#FFF4D6" fill-opacity="0.30"/>
+    <circle cx="240" cy="420" r="3.5" fill="#FFF4D6" fill-opacity="0.32"/>
+    <circle cx="130" cy="510" r="2.2" fill="#FFF4D6" fill-opacity="0.28"/>
+    <circle cx="210" cy="590" r="3.8" fill="#FFF4D6" fill-opacity="0.36"/>
+    <circle cx="105" cy="630" r="2.5" fill="#FFF4D6" fill-opacity="0.25"/>
+
+    <circle cx="310" cy="140" r="2.6" fill="#FFF4D6" fill-opacity="0.28"/>
+    <circle cx="280" cy="620" r="3.0" fill="#FFF4D6" fill-opacity="0.26"/>
+  </g>
+
+  <!-- Cool silvery pollen / luminous spores on the right (Tails side) -->
+  <g filter="url(#mote-glow)">
+    <circle cx="1120" cy="110" r="3.2" fill="#E8F0FF" fill-opacity="0.40"/>
+    <circle cx="1120" cy="110" r="1.5" fill="#C9D3E6" fill-opacity="0.8"/>
+
+    <circle cx="1065" cy="180" r="2.4" fill="#E8F0FF" fill-opacity="0.35"/>
+    <circle cx="1065" cy="180" r="1.1" fill="#C9D3E6" fill-opacity="0.7"/>
+
+    <circle cx="1160" cy="245" r="4.0" fill="#E8F0FF" fill-opacity="0.32"/>
+    <circle cx="1160" cy="245" r="1.8" fill="#C9D3E6" fill-opacity="0.65"/>
+
+    <circle cx="1100" cy="340" r="2.8" fill="#E8F0FF" fill-opacity="0.28"/>
+    <circle cx="1040" cy="420" r="3.5" fill="#E8F0FF" fill-opacity="0.30"/>
+    <circle cx="1150" cy="510" r="2.2" fill="#E8F0FF" fill-opacity="0.25"/>
+    <circle cx="1070" cy="590" r="3.8" fill="#E8F0FF" fill-opacity="0.32"/>
+    <circle cx="1175" cy="630" r="2.5" fill="#E8F0FF" fill-opacity="0.22"/>
+
+    <circle cx="970" cy="140" r="2.6" fill="#E8F0FF" fill-opacity="0.25"/>
+    <circle cx="1000" cy="620" r="3.0" fill="#E8F0FF" fill-opacity="0.25"/>
+  </g>
+</svg>

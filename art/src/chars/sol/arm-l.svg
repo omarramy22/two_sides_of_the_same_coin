@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <g filter="url(#wobble-soft)" stroke="var(--sol-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M37.5 61 Q29.5 64.5 29.5 73 Q32.5 75.5 35.5 72.5 Q35.5 67 39.5 63.5 Z" fill="var(--sol-cloak)"/>
+    <path d="M33 66 Q31 69 31.5 73 L29.8 72.6 Q29.6 67 33 66 Z" fill="url(#hatch)" stroke="none"/>
+    <circle cx="31.5" cy="75" r="3.3" fill="var(--sol-skin)"/>
+  </g>
+</svg>

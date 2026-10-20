@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <g filter="url(#wobble-soft)" stroke="var(--sol-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M48.5 86.5 Q49 82 54 82 Q59 82 59 86.5 Q53.5 89 48.5 86.5 Z" fill="var(--sol-boot)"/>
+  </g>
+</svg>

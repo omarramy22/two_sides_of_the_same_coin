@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <!-- the wrap around the neck -->
+  <g filter="url(#wobble)" stroke="var(--lune-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M38.5 55 Q48 51.5 57.5 55 Q58.5 58.5 56 60 Q48 57.5 40 60 Q37.5 58.5 38.5 55 Z" fill="var(--silver)"/>
+    <path d="M38.5 55.6 Q38 58.6 40 60 Q42.5 59 44.5 58.6 Q41 57.6 38.5 55.6 Z" fill="url(#hatch-r)" stroke="none"/>
+    <path d="M44 54.3 Q48 53.4 52 54.3" fill="none" stroke="var(--silver-light)" stroke-width="1.1"/>
+  </g>
+</svg>

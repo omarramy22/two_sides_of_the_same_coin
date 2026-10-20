@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <g filter="url(#wobble-soft)" stroke="var(--sol-ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <!-- hair behind the face (a short bob) -->
+    <path d="M32.5 42 Q31 25 48 23.5 Q65 25 63.5 42 L63.5 47 Q60.5 50.5 58.5 45 L37.5 45 Q35.5 50.5 32.5 47 Z" fill="var(--sol-hair)"/>
+    <circle cx="48" cy="40.5" r="14" fill="var(--sol-skin)"/>
+    <!-- shade on the lower right of the face -->
+    <path d="M57.5 31 A14 14 0 0 1 48 54.5 A12 12.5 0 0 0 57.5 31 Z" fill="url(#hatch-fine)" stroke="none"/>
+    <!-- fringe -->
+    <path d="M34.5 35.5 Q39 26.5 48 27 Q57 26.5 61.5 35.5 Q57.5 31.5 54.5 34.5 Q51.5 30 48 33.5 Q44.5 30 41.5 34.5 Q38.5 31.5 34.5 35.5 Z" fill="var(--sol-hair)" stroke-width="1.4"/>
+    <ellipse cx="40" cy="46.5" rx="3" ry="1.7" fill="var(--blush)" fill-opacity="0.5" stroke="none"/>
+    <ellipse cx="56" cy="46.5" rx="3" ry="1.7" fill="var(--blush)" fill-opacity="0.5" stroke="none"/>
+    <path d="M45.2 48.6 Q48 51 50.8 48.6" fill="none" stroke-width="1.4"/>
+  </g>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <g filter="url(#wobble)" stroke="#2A1E14" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <ellipse cx="48" cy="88" rx="14" ry="3.6" fill="#000" fill-opacity="0.25" stroke="none"/>
+    <!-- stubby legs -->
+    <path d="M40.5 81 L40 86.6 Q42.5 88 44.6 86.6 L44.6 82 Z M50 82 L50 86.6 Q52.2 88 54.4 86.6 L54 81 Z" fill="var(--rust-dark)" stroke-width="1.5"/>
+    <!-- coin edge (its thickness), seen on the right -->
+    <path d="M48 47.5 Q66.5 48 67.5 65.5 Q66.5 83 48 83.5 Z" fill="var(--rust-dark)"/>
+    <path d="M57 50 L57 81 M60.6 51.8 L60.6 79.4 M63.8 55 L63.8 76.2 M66 59.6 L66 71.6" stroke="var(--rust-light)" stroke-width="1" stroke-opacity="0.6"/>
+    <!-- coin face, with a chipped, serrated top: the "crown" -->
+    <path d="M30.5 65.5 Q30.5 52 38 48.6 L38.6 46 L41.2 47.4 L43 45 L45.4 46.8 L47.4 44.8 L49.4 46.8 L51.8 45.4 L53 47.8 L55.6 47.2 L55.4 49.6 Q63.5 54 63.5 65.5 Q63.2 83 47 83.4 Q30.8 83 30.5 65.5 Z" fill="var(--rust)"/>
+    <path d="M55.6 51 Q61.8 56 61.6 66.5 Q60.8 80 49.5 81.8 Q58 74 57.6 64 Q57.4 56.6 55.6 51 Z" fill="url(#hatch)" stroke="none"/>
+    <!-- worn engraved ring of the old coin -->
+    <ellipse cx="47" cy="65.5" rx="13.2" ry="14" fill="none" stroke="var(--rust-dark)" stroke-width="1" stroke-dasharray="2 1.6"/>
+    <path d="M47 75.4 L47.9 77.4 L50 77.6 L48.4 79 L48.9 81 L47 79.9 L45.1 81 L45.6 79 L44 77.6 L46.1 77.4 Z" fill="none" stroke-width="0.8" stroke-opacity="0.7"/>
+    <!-- verdigris patina blooms -->
+    <path d="M33 70 Q35 66 38.5 68.5 Q39 73 35.6 74.6 Q33 73.4 33 70 Z M52.5 76.4 Q55.6 73.4 58 76 Q56.6 79.6 53.4 79.4 Z M38 54.6 Q41 53 42.4 55.6 Q40.4 58 38 57 Z" fill="var(--verdigris)" fill-opacity="0.85" stroke="none"/>
+    <!-- angry brows and glowing eyes -->
+    <path d="M37.5 57 L44.5 60 M56.5 57 L49.5 60" stroke-width="2.2"/>
+    <ellipse cx="41.6" cy="63.4" rx="2.9" ry="3.3" fill="var(--eye-glow)" stroke-width="1.4"/>
+    <ellipse cx="52.4" cy="63.4" rx="2.9" ry="3.3" fill="var(--eye-glow)" stroke-width="1.4"/>
+    <circle cx="42.2" cy="64" r="1.2" fill="#2A1E14" stroke="none"/>
+    <circle cx="51.8" cy="64" r="1.2" fill="#2A1E14" stroke="none"/>
+    <!-- jagged grin -->
+    <path d="M41.5 72 L43.5 70.6 L45.5 72.4 L47.5 70.6 L49.5 72.4 L51.5 70.6 L53 72" fill="none" stroke-width="1.4"/>
+    <path d="M36.5 53.5 Q38.5 50.8 41.5 50" fill="none" stroke="var(--rust-light)" stroke-width="1.3"/>
+  </g>
+</svg>

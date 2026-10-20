@@ -1,0 +1,17 @@
+{
+  "canvas": [96, 96],
+  "ground": [48, 88],
+  "parts": [
+    { "name": "shadow", "pivot": [48, 88] },
+    { "name": "foot-l", "pivot": [42, 85] },
+    { "name": "foot-r", "pivot": [54, 85] },
+    { "name": "body", "pivot": [48, 84] },
+    { "name": "pendant", "parent": "body", "pivot": [48, 59] },
+    { "name": "arm-l", "parent": "body", "pivot": [37, 62] },
+    { "name": "arm-r", "parent": "body", "pivot": [59, 62] },
+    { "name": "head", "parent": "body", "pivot": [48, 54] },
+    { "name": "eyes", "parent": "head", "pivot": [48, 42] },
+    { "name": "lids", "parent": "head", "pivot": [48, 42], "hidden": true },
+    { "name": "hat", "parent": "head", "pivot": [48, 30] }
+  ]
+}

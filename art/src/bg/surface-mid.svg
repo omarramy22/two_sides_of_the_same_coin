@@ -1,0 +1,218 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <!-- Subtle drop shadow for the stone framing -->
+    <filter id="block-shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0E1028" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- MID LAYER: Inner well stone wall courses framing the playfield -->
+  <!-- Central ~60% (x: 260 to 1020, y: 50 to 580) is kept clear for the game board -->
+
+  <!-- ============================================================== -->
+  <!-- LEFT SIDE: Warm masonry blocks (Heads / Sol side)               -->
+  <!-- ============================================================== -->
+  <g filter="url(#wobble)" stroke="#2A1E14" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+
+    <!-- Course 0: Top-left corner curving block -->
+    <path d="M -10 -10 L 210 -10 L 195 65 Q 110 50 -10 40 Z" fill="#8A4B22"/>
+    <path d="M 195 65 L 180 78 Q 100 62 -10 52 L -10 40 Q 110 50 195 65 Z" fill="#5E3216"/>
+    <path d="M 120 -10 L 115 48 M 50 -10 L 46 43" stroke="#2A1E14" stroke-width="1.4"/>
+    <path d="M 130 5 L 190 55 L 195 65 L 125 55 Z" fill="url(#hatch)" stroke="none"/>
+    <path d="M 10 5 Q 90 12 170 20" fill="none" stroke="#FFF4D6" stroke-width="1.1" stroke-opacity="0.4"/>
+
+    <!-- Course 1: Upper-left wall blocks (y: 65 to 190) -->
+    <!-- Block 1A: Outer edge -->
+    <path d="M -10 40 L 140 54 Q 135 125 125 135 L -10 120 Z" fill="#A8742A"/>
+    <path d="M 60 48 L 56 124" stroke="#2A1E14" stroke-width="1.4"/>
+    <path d="M 85 122 L 125 135 L 140 54 L 128 65 Z" fill="url(#hatch)" stroke="none"/>
+    <path d="M 5 50 Q 60 55 120 62" fill="none" stroke="#FFF4D6" stroke-width="1.1" stroke-opacity="0.4"/>
+
+    <!-- Block 1B: Inward projecting stone -->
+    <path d="M 140 54 L 235 68 Q 242 105 230 148 L 125 135 Q 135 100 140 54 Z" fill="#9E5D2E"/>
+    <path d="M 195 72 L 235 68 L 230 148 L 175 142 Z" fill="url(#hatch)" stroke="none"/>
+    <path d="M 148 64 Q 185 70 220 78" fill="none" stroke="#FFF4D6" stroke-width="1.2" stroke-opacity="0.45"/>
+    <!-- Engraved chisel marks -->
+    <path d="M 155 90 L 175 96 M 158 105 L 178 111 M 190 92 L 210 98" stroke="#5E3216" stroke-width="0.9"/>
+
+    <!-- Course 2: Mid-upper blocks (y: 135 to 270) -->
+    <!-- Block 2A: Main warm ashlar -->
+    <path d="M -10 120 L 125 135 Q 120 205 110 215 L -10 200 Z" fill="#6E2E1C"/>
+    <path d="M 45 127 L 40 204" stroke="#2A1E14" stroke-width="1.4"/>
+    <path d="M 75 208 L 110 215 L 125 135 L 105 148 Z" fill="url(#hatch)" stroke="none"/>
+
+    <!-- Block 2B: Stepping stone contouring the well -->
+    <path d="M 125 135 L 248 152 Q 256 195 244 235 L 110 215 Q 120 175 125 135 Z" fill="#C27A45"/>
+    <path d="M 175 142 L 170 224" stroke="#2A1E14" stroke-width="1.4"/>
+    <path d="M 210 158 L 248 152 L 244 235 L 195 228 Z" fill="url(#hatch)" stroke="none"/>
+    <path d="M 135 145 Q 185 152 235 160" fill="none" stroke="#FFF4D6" stroke-width="1.3" stroke-opacity="0.5"/>
+    <!-- Crack detail -->
+    <path d="M 188 175 Q 198 185 192 196 Q 200 206 196 218" fill="none" stroke="#5E3216" stroke-width="1.1"/>
+
+    <!-- Course 3: Center-left wall blocks (y: 215 to 370) -->
+    <!-- Block 3A -->
+    <path d="M -10 200 L 110 215 Q 105 285 95 295 L -10 280 Z" fill="#8A4B22"/>
+    <path d="M 110 215 L 232 233 Q 240 280 228 325 L 95 295 Q 105 255 110 215 Z" fill="#A8742A"/>
+    <path d="M 160 223 L 152 308" stroke="#2A1E14" stroke-width="1.4"/>
+    <path d="M 195 238 L 232 233 L 228 325 L 180 314 Z" fill="url(#hatch)" stroke="none"/>
+    <path d="M 118 225 Q 170 232 220 240" fill="none" stroke="#FFF4D6" stroke-width="1.2" stroke-opacity="0.4"/>
+
+    <!-- Block 3B: Prominent middle ashlar block -->
+    <path d="M 95 295 L 228 325 Q 236 375 220 418 L 85 378 Q 92 335 95 295 Z" fill="#6E2E1C"/>
+    <path d="M 152 308 L 145 397" stroke="#2A1E14" stroke-width="1.4"/>
+    <path d="M 185 330 L 228 325 L 220 418 L 170 405 Z" fill="url(#hatch)" stroke="none"/>
+    <path d="M 105 306 Q 160 320 215 334" fill="none" stroke="#FFF4D6" stroke-width="1.3" stroke-opacity="0.5"/>
+    <!-- Engraved mason mark (sun symbol) on Block 3B -->
+    <g stroke="#2A1E14" stroke-width="0.9" fill="none" opacity="0.65">
+      <circle cx="130" cy="350" r="7"/>
+      <path d="M 130 340 L 130 343 M 130 357 L 130 360 M 120 350 L 123 350 M 137 350 L 140 350"/>
+    </g>
+
+    <!-- Course 4: Lower-mid left blocks (y: 378 to 510) -->
+    <path d="M -10 280 L 85 378 Q 78 450 70 460 L -10 440 Z" fill="#5E3216"/>
+    <path d="M 85 378 L 220 418 Q 230 468 210 512 L 70 460 Q 78 415 85 378 Z" fill="#C27A45"/>
+    <path d="M 145 397 L 138 485" stroke="#2A1E14" stroke-width="1.4"/>
+    <path d="M 175 425 L 220 418 L 210 512 L 160 495 Z" fill="url(#hatch)" stroke="none"/>
+    <path d="M 95 388 Q 150 406 205 426" fill="none" stroke="#FFF4D6" stroke-width="1.2" stroke-opacity="0.45"/>
+
+    <!-- Course 5: Lower-left curving into bottom (y: 460 to 620) -->
+    <path d="M -10 440 L 70 460 Q 65 540 60 550 L -10 535 Z" fill="#8A4B22"/>
+    <path d="M 70 460 L 210 512 Q 225 565 195 615 L 60 550 Q 65 505 70 460 Z" fill="#A8742A"/>
+    <path d="M 138 485 L 125 580" stroke="#2A1E14" stroke-width="1.4"/>
+    <path d="M 165 520 L 210 512 L 195 615 L 145 590 Z" fill="url(#hatch)" stroke="none"/>
+    <path d="M 80 472 Q 140 500 198 522" fill="none" stroke="#FFF4D6" stroke-width="1.2" stroke-opacity="0.4"/>
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- RIGHT SIDE: Cool masonry blocks (Tails / Lune side)             -->
+  <!-- ============================================================== -->
+  <g filter="url(#wobble)" stroke="#0E1028" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+
+    <!-- Course 0: Top-right corner curving block -->
+    <path d="M 1290 -10 L 1070 -10 L 1085 65 Q 1170 50 1290 40 Z" fill="#2E3570"/>
+    <path d="M 1085 65 L 1100 78 Q 1180 62 1290 52 L 1290 40 Q 1170 50 1085 65 Z" fill="#1C2046"/>
+    <path d="M 1160 -10 L 1165 48 M 1230 -10 L 1234 43" stroke="#0E1028" stroke-width="1.4"/>
+    <path d="M 1150 5 L 1090 55 L 1085 65 L 1155 55 Z" fill="url(#hatch-r)" stroke="none"/>
+    <path d="M 1270 5 Q 1190 12 1110 20" fill="none" stroke="#E8F0FF" stroke-width="1.1" stroke-opacity="0.4"/>
+
+    <!-- Course 1: Upper-right wall blocks (y: 65 to 190) -->
+    <!-- Block 1A: Outer edge -->
+    <path d="M 1290 40 L 1140 54 Q 1145 125 1155 135 L 1290 120 Z" fill="#4A5A8C"/>
+    <path d="M 1220 48 L 1224 124" stroke="#0E1028" stroke-width="1.4"/>
+    <path d="M 1195 122 L 1155 135 L 1140 54 L 1152 65 Z" fill="url(#hatch-r)" stroke="none"/>
+    <path d="M 1275 50 Q 1220 55 1160 62" fill="none" stroke="#E8F0FF" stroke-width="1.1" stroke-opacity="0.4"/>
+
+    <!-- Block 1B: Inward projecting stone -->
+    <path d="M 1140 54 L 1045 68 Q 1038 105 1050 148 L 1155 135 Q 1145 100 1140 54 Z" fill="#3A4476"/>
+    <path d="M 1085 72 L 1045 68 L 1050 148 L 1105 142 Z" fill="url(#hatch-r)" stroke="none"/>
+    <path d="M 1132 64 Q 1095 70 1060 78" fill="none" stroke="#E8F0FF" stroke-width="1.2" stroke-opacity="0.45"/>
+    <!-- Engraved marks -->
+    <path d="M 1125 90 L 1105 96 M 1122 105 L 1102 111 M 1090 92 L 1070 98" stroke="#12153A" stroke-width="0.9"/>
+
+    <!-- Course 2: Mid-upper blocks (y: 135 to 270) -->
+    <path d="M 1290 120 L 1155 135 Q 1160 205 1170 215 L 1290 200 Z" fill="#1C2046"/>
+    <path d="M 1235 127 L 1240 204" stroke="#0E1028" stroke-width="1.4"/>
+    <path d="M 1205 208 L 1170 215 L 1155 135 L 1175 148 Z" fill="url(#hatch-r)" stroke="none"/>
+
+    <path d="M 1155 135 L 1032 152 Q 1024 195 1036 235 L 1170 215 Q 1160 175 1155 135 Z" fill="#5B6AA0"/>
+    <path d="M 1105 142 L 1110 224" stroke="#0E1028" stroke-width="1.4"/>
+    <path d="M 1070 158 L 1032 152 L 1036 235 L 1085 228 Z" fill="url(#hatch-r)" stroke="none"/>
+    <path d="M 1145 145 Q 1095 152 1045 160" fill="none" stroke="#E8F0FF" stroke-width="1.3" stroke-opacity="0.5"/>
+    <!-- Cool crack detail -->
+    <path d="M 1092 175 Q 1082 185 1088 196 Q 1080 206 1084 218" fill="none" stroke="#12153A" stroke-width="1.1"/>
+
+    <!-- Course 3: Center-right wall blocks (y: 215 to 370) -->
+    <path d="M 1290 200 L 1170 215 Q 1175 285 1185 295 L 1290 280 Z" fill="#2E3570"/>
+    <path d="M 1170 215 L 1048 233 Q 1040 280 1052 325 L 1185 295 Q 1175 255 1170 215 Z" fill="#7F8BB0"/>
+    <path d="M 1120 223 L 1128 308" stroke="#0E1028" stroke-width="1.4"/>
+    <path d="M 1085 238 L 1048 233 L 1052 325 L 1100 314 Z" fill="url(#hatch-r)" stroke="none"/>
+    <path d="M 1162 225 Q 1110 232 1060 240" fill="none" stroke="#E8F0FF" stroke-width="1.2" stroke-opacity="0.4"/>
+
+    <!-- Block 3B: Prominent middle ashlar block -->
+    <path d="M 1185 295 L 1052 325 Q 1044 375 1060 418 L 1195 378 Q 1188 335 1185 295 Z" fill="#1C2046"/>
+    <path d="M 1128 308 L 1135 397" stroke="#0E1028" stroke-width="1.4"/>
+    <path d="M 1095 330 L 1052 325 L 1060 418 L 1110 405 Z" fill="url(#hatch-r)" stroke="none"/>
+    <path d="M 1175 306 Q 1120 320 1065 334" fill="none" stroke="#E8F0FF" stroke-width="1.3" stroke-opacity="0.5"/>
+    <!-- Engraved mason mark (crescent symbol) on Block 3B -->
+    <g stroke="#0E1028" stroke-width="0.9" fill="none" opacity="0.65">
+      <path d="M 1150 342 A 7 7 0 1 0 1155 356 A 5.5 5.5 0 1 1 1150 342 Z"/>
+    </g>
+
+    <!-- Course 4: Lower-mid right blocks (y: 378 to 510) -->
+    <path d="M 1290 280 L 1195 378 Q 1202 450 1210 460 L 1290 440 Z" fill="#12153A"/>
+    <path d="M 1195 378 L 1060 418 Q 1050 468 1070 512 L 1210 460 Q 1202 415 1195 378 Z" fill="#5B6AA0"/>
+    <path d="M 1135 397 L 1142 485" stroke="#0E1028" stroke-width="1.4"/>
+    <path d="M 1105 425 L 1060 418 L 1070 512 L 1120 495 Z" fill="url(#hatch-r)" stroke="none"/>
+    <path d="M 1185 388 Q 1130 406 1075 426" fill="none" stroke="#E8F0FF" stroke-width="1.2" stroke-opacity="0.45"/>
+
+    <!-- Course 5: Lower-right curving into bottom (y: 460 to 620) -->
+    <path d="M 1290 440 L 1210 460 Q 1215 540 1220 550 L 1290 535 Z" fill="#2E3570"/>
+    <path d="M 1210 460 L 1070 512 Q 1055 565 1085 615 L 1220 550 Q 1215 505 1210 460 Z" fill="#7F8BB0"/>
+    <path d="M 1142 485 L 1155 580" stroke="#0E1028" stroke-width="1.4"/>
+    <path d="M 1115 520 L 1070 512 L 1085 615 L 1135 590 Z" fill="url(#hatch-r)" stroke="none"/>
+    <path d="M 1200 472 Q 1140 500 1082 522" fill="none" stroke="#E8F0FF" stroke-width="1.2" stroke-opacity="0.4"/>
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- BOTTOM WALL COURSES: Curving along bottom, meeting at seam     -->
+  <!-- ============================================================== -->
+  <!-- Bottom-left warm stone blocks -->
+  <g filter="url(#wobble)" stroke="#2A1E14" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Block B1: Leftmost bottom stone -->
+    <path d="M 60 550 L 195 615 Q 200 680 180 730 L -10 730 L -10 535 Z" fill="#6E2E1C"/>
+    <path d="M 155 625 L 195 615 L 180 730 L 135 730 Z" fill="url(#hatch)" stroke="none"/>
+
+    <!-- Block B2: Lower curve block -->
+    <path d="M 195 615 L 350 648 Q 345 700 330 730 L 180 730 Q 200 680 195 615 Z" fill="#8A4B22"/>
+    <path d="M 270 632 L 260 730" stroke="#2A1E14" stroke-width="1.4"/>
+    <path d="M 310 655 L 350 648 L 330 730 L 290 730 Z" fill="url(#hatch)" stroke="none"/>
+    <path d="M 205 622 Q 275 640 340 652" fill="none" stroke="#FFF4D6" stroke-width="1.2" stroke-opacity="0.4"/>
+
+    <!-- Block B3: Curving toward center -->
+    <path d="M 350 648 L 505 665 Q 498 710 480 730 L 330 730 Q 345 700 350 648 Z" fill="#A8742A"/>
+    <path d="M 430 658 L 420 730" stroke="#2A1E14" stroke-width="1.4"/>
+    <path d="M 465 670 L 505 665 L 480 730 L 440 730 Z" fill="url(#hatch)" stroke="none"/>
+    <path d="M 360 653 Q 430 662 495 670" fill="none" stroke="#FFF4D6" stroke-width="1.2" stroke-opacity="0.4"/>
+
+    <!-- Block B4: Warm half of center keystone area -->
+    <path d="M 505 665 L 640 672 L 640 730 L 480 730 Q 498 710 505 665 Z" fill="#C27A45"/>
+    <path d="M 570 669 L 565 730" stroke="#2A1E14" stroke-width="1.4"/>
+    <path d="M 605 675 L 640 672 L 640 730 L 600 730 Z" fill="url(#hatch)" stroke="none"/>
+    <path d="M 515 668 Q 575 672 635 674" fill="none" stroke="#FFF4D6" stroke-width="1.3" stroke-opacity="0.45"/>
+  </g>
+
+  <!-- Bottom-right cool stone blocks -->
+  <g filter="url(#wobble)" stroke="#0E1028" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Block B4-Cool: Cool half of center keystone area -->
+    <path d="M 640 672 L 775 665 Q 782 710 800 730 L 640 730 Z" fill="#5B6AA0"/>
+    <path d="M 710 669 L 715 730" stroke="#0E1028" stroke-width="1.4"/>
+    <path d="M 675 675 L 640 672 L 640 730 L 680 730 Z" fill="url(#hatch-r)" stroke="none"/>
+    <path d="M 765 668 Q 705 672 645 674" fill="none" stroke="#E8F0FF" stroke-width="1.3" stroke-opacity="0.45"/>
+
+    <!-- Block B3-Cool: Curving out from center -->
+    <path d="M 775 665 L 930 648 Q 935 700 950 730 L 800 730 Q 782 710 775 665 Z" fill="#7F8BB0"/>
+    <path d="M 850 658 L 860 730" stroke="#0E1028" stroke-width="1.4"/>
+    <path d="M 815 670 L 775 665 L 800 730 L 840 730 Z" fill="url(#hatch-r)" stroke="none"/>
+    <path d="M 920 653 Q 850 662 785 670" fill="none" stroke="#E8F0FF" stroke-width="1.2" stroke-opacity="0.4"/>
+
+    <!-- Block B2-Cool: Lower curve block -->
+    <path d="M 930 648 L 1085 615 Q 1080 680 1100 730 L 950 730 Q 935 700 930 648 Z" fill="#2E3570"/>
+    <path d="M 1010 632 L 1020 730" stroke="#0E1028" stroke-width="1.4"/>
+    <path d="M 970 655 L 930 648 L 950 730 L 990 730 Z" fill="url(#hatch-r)" stroke="none"/>
+    <path d="M 1075 622 Q 1005 640 940 652" fill="none" stroke="#E8F0FF" stroke-width="1.2" stroke-opacity="0.4"/>
+
+    <!-- Block B1-Cool: Rightmost bottom stone -->
+    <path d="M 1085 615 L 1220 550 L 1290 535 L 1290 730 L 1100 730 Q 1080 680 1085 615 Z" fill="#1C2046"/>
+    <path d="M 1125 625 L 1085 615 L 1100 730 L 1145 730 Z" fill="url(#hatch-r)" stroke="none"/>
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- CENTER SEAM: The meeting of the two worlds at bottom (x = 640)  -->
+  <!-- ============================================================== -->
+  <g filter="url(#wobble-soft)">
+    <!-- Vertical dividing seam line -->
+    <line x1="640" y1="670" x2="640" y2="730" stroke="#2A1E14" stroke-width="2.2" stroke-linecap="butt"/>
+    <!-- Milled reeded seam edge ornamentation -->
+    <line x1="640" y1="672" x2="640" y2="730" stroke="#FFF4D6" stroke-width="1" stroke-dasharray="2 3" stroke-opacity="0.6"/>
+  </g>
+</svg>

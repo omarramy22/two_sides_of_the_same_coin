@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <!-- calmer, half-lidded eyes -->
+  <path d="M41 41.8 Q43 39.6 45 41.8 Q43 44.6 41 41.8 Z M51 41.8 Q53 39.6 55 41.8 Q53 44.6 51 41.8 Z" fill="var(--lune-ink)"/>
+  <circle cx="43.6" cy="41.4" r="0.7" fill="#fff"/>
+  <circle cx="53.6" cy="41.4" r="0.7" fill="#fff"/>
+  <path d="M40.4 40.6 Q43 38.8 45.6 40.6 M50.4 40.6 Q53 38.8 55.6 40.6" fill="none" stroke="var(--lune-ink)" stroke-width="1.1" stroke-linecap="round"/>
+</svg>

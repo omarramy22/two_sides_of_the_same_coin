@@ -1,0 +1,71 @@
+/* Palette tokens (SPEC.md §5.2). Tiles use theme tokens and render once per world;
+   characters use the global tokens. */
+:root {
+  /* Sol */
+  --sol-ink: #2A1E14;
+  --sol-skin: #F4C9A0;
+  --sol-skin-shade: #D99A72;
+  --sol-hair: #6B3A1E;
+  --sol-cloak: #C8643B;
+  --sol-cloak-shade: #8A4B22;
+  --sol-tunic: #2E8C8A;
+  --sol-boot: #5A3218;
+  --gold: #E8B66A;
+  --gold-light: #FFF4D6;
+  --gold-dark: #A8742A;
+
+  /* Lune */
+  --lune-ink: #0E1028;
+  --lune-skin: #EBD2C6;
+  --lune-skin-shade: #B99AA8;
+  --lune-hair: #232859;
+  --lune-tunic: #4A5A8C;
+  --lune-tunic-shade: #2E3570;
+  --lune-boot: #1C2046;
+  --silver: #C9D3E6;
+  --silver-light: #E8F0FF;
+  --silver-dark: #7F8BB0;
+  --lavender: #9C8CD4;
+
+  /* The Tarnish */
+  --rust: #B5543A;
+  --rust-light: #E08A5A;
+  --rust-dark: #6E2E1C;
+  --verdigris: #4FA08A;
+  --verdigris-dark: #2E6B5C;
+  --eye-glow: #FFE08A;
+  --sleep: #7D6B55;
+  --sleep-dark: #4E4234;
+
+  --blush: #E07A6B;
+}
+
+.theme-heads {
+  --ink: #2A1E14;
+  --floor: #EBC985;
+  --floor-light: #F6D58E;
+  --floor-dark: #C99A55;
+  --wall-top: #C27A45;
+  --wall-face: #8A4B22;
+  --wall-shade: #5E3216;
+  --accent: #6F9E4C;
+  --accent-dark: #4A7032;
+  --accent2: #2E8C8A;
+  --highlight: #FFF4D6;
+  --pit: #2A1E14;
+}
+
+.theme-tails {
+  --ink: #0E1028;
+  --floor: #2E3570;
+  --floor-light: #4A5A8C;
+  --floor-dark: #232859;
+  --wall-top: #5B6AA0;
+  --wall-face: #1C2046;
+  --wall-shade: #12153A;
+  --accent: #9C8CD4;
+  --accent-dark: #6A5BA6;
+  --accent2: #E07A6B;
+  --highlight: #E8F0FF;
+  --pit: #05061A;
+}

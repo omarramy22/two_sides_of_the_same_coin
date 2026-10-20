@@ -8,7 +8,9 @@
     "build": "tsc --noEmit && vite build",
     "test": "vitest run --passWithNoTests",
     "verify-levels": "tsx tools/verify-levels.ts",
-    "shots": "tsx tools/screenshots.ts"
+    "shots": "tsx tools/screenshots.ts",
+    "art": "tsx tools/render-art.ts",
+    "art:sheet": "tsx tools/contact-sheet.ts"
   },
   "dependencies": {
     "pixi.js": "^8.22.0",

@@ -1,0 +1,182 @@
+{
+  "bg/surface-far": {
+    "src": "bg/surface-far.png",
+    "src2x": "bg/surface-far@2x.png",
+    "w": 1280,
+    "h": 720
+  },
+  "bg/surface-mid": {
+    "src": "bg/surface-mid.png",
+    "src2x": "bg/surface-mid@2x.png",
+    "w": 1280,
+    "h": 720
+  },
+  "bg/surface-near": {
+    "src": "bg/surface-near.png",
+    "src2x": "bg/surface-near@2x.png",
+    "w": 1280,
+    "h": 720
+  },
+  "chars/lune/arm-l": {
+    "src": "chars/lune/arm-l.png",
+    "src2x": "chars/lune/arm-l@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/lune/arm-r": {
+    "src": "chars/lune/arm-r.png",
+    "src2x": "chars/lune/arm-r@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/lune/body": {
+    "src": "chars/lune/body.png",
+    "src2x": "chars/lune/body@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/lune/eyes": {
+    "src": "chars/lune/eyes.png",
+    "src2x": "chars/lune/eyes@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/lune/foot-l": {
+    "src": "chars/lune/foot-l.png",
+    "src2x": "chars/lune/foot-l@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/lune/foot-r": {
+    "src": "chars/lune/foot-r.png",
+    "src2x": "chars/lune/foot-r@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/lune/head": {
+    "src": "chars/lune/head.png",
+    "src2x": "chars/lune/head@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/lune/hood": {
+    "src": "chars/lune/hood.png",
+    "src2x": "chars/lune/hood@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/lune/hood-rim": {
+    "src": "chars/lune/hood-rim.png",
+    "src2x": "chars/lune/hood-rim@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/lune/lids": {
+    "src": "chars/lune/lids.png",
+    "src2x": "chars/lune/lids@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/lune/pendant": {
+    "src": "chars/lune/pendant.png",
+    "src2x": "chars/lune/pendant@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/lune/scarf": {
+    "src": "chars/lune/scarf.png",
+    "src2x": "chars/lune/scarf@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/lune/scarf-tail": {
+    "src": "chars/lune/scarf-tail.png",
+    "src2x": "chars/lune/scarf-tail@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/lune/shadow": {
+    "src": "chars/lune/shadow.png",
+    "src2x": "chars/lune/shadow@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/sol/arm-l": {
+    "src": "chars/sol/arm-l.png",
+    "src2x": "chars/sol/arm-l@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/sol/arm-r": {
+    "src": "chars/sol/arm-r.png",
+    "src2x": "chars/sol/arm-r@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/sol/body": {
+    "src": "chars/sol/body.png",
+    "src2x": "chars/sol/body@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/sol/eyes": {
+    "src": "chars/sol/eyes.png",
+    "src2x": "chars/sol/eyes@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/sol/foot-l": {
+    "src": "chars/sol/foot-l.png",
+    "src2x": "chars/sol/foot-l@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/sol/foot-r": {
+    "src": "chars/sol/foot-r.png",
+    "src2x": "chars/sol/foot-r@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/sol/hat": {
+    "src": "chars/sol/hat.png",
+    "src2x": "chars/sol/hat@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/sol/head": {
+    "src": "chars/sol/head.png",
+    "src2x": "chars/sol/head@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/sol/lids": {
+    "src": "chars/sol/lids.png",
+    "src2x": "chars/sol/lids@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/sol/pendant": {
+    "src": "chars/sol/pendant.png",
+    "src2x": "chars/sol/pendant@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/sol/shadow": {
+    "src": "chars/sol/shadow.png",
+    "src2x": "chars/sol/shadow@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/tarnish/asleep": {
+    "src": "chars/tarnish/asleep.png",
+    "src2x": "chars/tarnish/asleep@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/tarnish/awake": {
+    "src": "chars/tarnish/awake.png",
+    "src2x": "chars/tarnish/awake@2x.png",
+    "w": 96,
+    "h": 96
+  }
+}
