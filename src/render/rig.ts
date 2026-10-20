@@ -1,5 +1,5 @@
 // Layered character puppets (SPEC.md §5.3): parts from art/src/chars/<name>/, posed procedurally.
-import { Assets, Container, Sprite, type Texture } from 'pixi.js';
+import { Assets, Container, Graphics, Sprite, type Texture } from 'pixi.js';
 
 interface RigPart { name: string; parent?: string; pivot: [number, number]; hidden?: boolean }
 interface RigDef { canvas: [number, number]; ground: [number, number]; parts: RigPart[] }
@@ -41,6 +41,8 @@ export class Puppet extends Container {
   private glanceUntil = 0;
   private walkPhase = 0;
   private body = new Container();
+  /** Teardrops under the eyes, drawn only while grieving. */
+  private tears = new Graphics();
 
   constructor(rig: RigDef, textures: Texture[]) {
     super();
@@ -63,13 +65,16 @@ export class Puppet extends Container {
       else if (i < byName[p.parent].i) this.parts[p.parent].addChildAt(c, 0);
       else this.parts[p.parent].addChild(c);
     });
+    this.parts.head?.addChild(this.tears);
+    if (this.parts.eyes) this.tears.position.copyFrom(this.parts.eyes.position);
   }
 
   /** Each part's rest offset; animation is applied on top of it. */
   private base: Record<string, { x: number; y: number }> = {};
   private bumpT = 0;
-  /** 'celebrate': hop with arms up, waving toward the partner. 'sad': droops while waiting. */
-  mood: 'idle' | 'celebrate' | 'sad' = 'idle';
+  /** 'celebrate': hop with arms up, waving toward the partner. 'sad': droops while waiting.
+   *  'grieve': the partner was caught or fell: eyes shut, arms hugged in, sobbing, tears. */
+  mood: 'idle' | 'celebrate' | 'sad' | 'grieve' = 'idle';
 
   /** Squash against a wall and shake the head (input still used the turn). */
   bump() { this.bumpT = 0.32; }
@@ -92,8 +97,13 @@ export class Puppet extends Container {
     const breath = Math.sin(t * Math.PI * (0.9 - 0.35 * sad));
     let sx = 1 - 0.012 * breath, sy = 1 + 0.025 * breath;
 
-    // Blink every 3-6 s.
-    if (t > this.nextBlink) {
+    const grieve = this.mood === 'grieve';
+    // Blink every 3-6 s. Grieving keeps the eyes shut (and ends in a blink, which reopens them).
+    if (grieve) {
+      P.lids.visible = true;
+      P.eyes.visible = false;
+      this.nextBlink = t;
+    } else if (t > this.nextBlink) {
       P.lids.visible = true;
       P.eyes.visible = false;
       if (t > this.nextBlink + 0.13) {
@@ -139,6 +149,23 @@ export class Puppet extends Container {
       armR = -2.1 + (toward > 0 ? Math.sin(t * 12) * 0.35 : 0);
     }
     if (sad) { armL = 0.08; armR = -0.08; headRot += 0.05 * this.partnerSide * this.facing; }
+    // Grieve: arms hugged in, head bowed, shoulders hitching with each sob.
+    const sob = Math.abs(Math.sin(t * 9));
+    if (grieve) {
+      armL = -0.3 - 0.08 * sob;
+      armR = 0.3 + 0.08 * sob;
+      headY = 2.4 + 0.6 * sob;
+      headRot = 0.04 * Math.sin(t * 9);
+      sy *= 1 - 0.035 * sob;
+      bodyY += 0.8 * sob;
+    }
+    this.tears.clear();
+    if (grieve) {
+      for (const [x, k0] of [[-5.5, 0], [5.5, 0.5]]) {
+        const k = (t * 1.4 + k0) % 1; // each drop rolls down the cheek and fades
+        this.tears.ellipse(x, 2.5 + 11 * k, 1.9, 2.7).fill({ color: 0x8fd0ff, alpha: 1 - k }).stroke({ width: 0.8, color: 0x2a1e14, alpha: 0.8 * (1 - k) });
+      }
+    }
 
     P.body.scale.set(sx, sy);
     this.body.y = bodyY;

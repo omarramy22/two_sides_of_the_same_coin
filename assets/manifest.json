@@ -269,6 +269,66 @@
     "w": 96,
     "h": 96
   },
+  "chars/tarnish/ch2.asleep": {
+    "src": "chars/tarnish/ch2.asleep.png",
+    "src2x": "chars/tarnish/ch2.asleep@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/tarnish/ch2.awake": {
+    "src": "chars/tarnish/ch2.awake.png",
+    "src2x": "chars/tarnish/ch2.awake@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/tarnish/ch3.asleep": {
+    "src": "chars/tarnish/ch3.asleep.png",
+    "src2x": "chars/tarnish/ch3.asleep@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/tarnish/ch3.awake": {
+    "src": "chars/tarnish/ch3.awake.png",
+    "src2x": "chars/tarnish/ch3.awake@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/tarnish/ch4.asleep": {
+    "src": "chars/tarnish/ch4.asleep.png",
+    "src2x": "chars/tarnish/ch4.asleep@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/tarnish/ch4.awake": {
+    "src": "chars/tarnish/ch4.awake.png",
+    "src2x": "chars/tarnish/ch4.awake@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/tarnish/ch5.asleep": {
+    "src": "chars/tarnish/ch5.asleep.png",
+    "src2x": "chars/tarnish/ch5.asleep@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/tarnish/ch5.awake": {
+    "src": "chars/tarnish/ch5.awake.png",
+    "src2x": "chars/tarnish/ch5.awake@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/tarnish/ch6.asleep": {
+    "src": "chars/tarnish/ch6.asleep.png",
+    "src2x": "chars/tarnish/ch6.asleep@2x.png",
+    "w": 96,
+    "h": 96
+  },
+  "chars/tarnish/ch6.awake": {
+    "src": "chars/tarnish/ch6.awake.png",
+    "src2x": "chars/tarnish/ch6.awake@2x.png",
+    "w": 96,
+    "h": 96
+  },
   "story/dawn-sky": {
     "src": "story/dawn-sky.jpg",
     "src2x": "story/dawn-sky@2x.jpg",

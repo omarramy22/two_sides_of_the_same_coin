@@ -233,3 +233,8 @@
   --highlight: #F4F8FF;
   --pit: #0E1028;
 }
+
+/* The Tarnish, one file per chapter (chars/tarnish/chN.svg): awake glares; asleep shuts its eyes and dulls. */
+.theme-awake .tarnish-asleep { display: none; }
+.theme-asleep .tarnish-awake { display: none; }
+.theme-asleep svg { filter: saturate(0.3) brightness(0.82); }

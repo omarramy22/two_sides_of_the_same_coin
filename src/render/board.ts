@@ -5,7 +5,7 @@ import { light } from '../engine/tick';
 import type { Dir, GameEvent, Level, State, W } from '../engine/types';
 import { Mechanisms } from './mechanisms';
 import type { Puppet } from './rig';
-import { actor, drawSeam, drawTerrain, palette, type Art } from './sprites';
+import { actor, drawSeam, drawTerrain, foeTex, palette, type Art } from './sprites';
 import { ease, Particles, Tweens } from './tween';
 
 const SEAM = 0.4;
@@ -139,7 +139,7 @@ export class Board extends Container {
     this.crates.set(`${w}:${i}`, s);
   }
   private addFoe(w: W, i: number, awake: boolean) {
-    const s = actor(this.art, `chars/tarnish/${awake ? 'awake' : 'asleep'}`, ...this.feet(i), this.t);
+    const s = actor(this.art, foeTex(this.lv, awake), ...this.feet(i), this.t);
     this.halves[w].actors.addChild(s);
     this.foes.set(`${w}:${i}`, s);
   }
@@ -354,7 +354,7 @@ export class Board extends Container {
       const awake = next.objs[e.world][e.at] === '@', base = s.scale.y, [ox, oy] = this.halfAt(e.world), [fx, fy] = this.feet(e.at);
       return this.tweens.add(0.14, (k) => (s.scale.y = base * (1 - 0.75 * k)), { delay: 0.1 + n * 0.04, ease: ease.inQuad })
         .then(() => {
-          s.texture = this.art.tex[`chars/tarnish/${awake ? 'awake' : 'asleep'}`];
+          s.texture = this.art.tex[foeTex(this.lv, awake)];
           this.fx.burst(ox + fx, oy + fy - t * 0.4, { n: 12, color: 0xfff4d6, size: t * 0.035, speed: t * 1.8, life: 0.5 });
           return this.tweens.add(0.22, (k) => (s.scale.y = base * (0.25 + 0.75 * k)), { ease: ease.outBack });
         });
@@ -379,7 +379,7 @@ export class Board extends Container {
   /** Who is waiting, who is celebrating (SPEC §5.3 personality). */
   private updateMoods() {
     const s = this.state, on = [0, 1].map((w) => (s.tiles[w][s.pos[w]] === 'G' || s.tiles[w][s.pos[w]] === '$') && !s.fallen[w]);
-    this.puppets.forEach((p, w) => (p.mood = on[0] && on[1] ? 'celebrate' : on[w] ? 'sad' : 'idle'));
+    this.puppets.forEach((p, w) => (p.mood = s.fallen[1 - w] && !s.fallen[w] ? 'grieve' : on[0] && on[1] ? 'celebrate' : on[w] ? 'sad' : 'idle'));
   }
 
   private dust(w: W, x: number, y: number, n: number) {
@@ -451,7 +451,7 @@ export class Board extends Container {
     this.puppets.forEach((p, w) => ring(w as W, p.x, p.y, 0xffffff));
     for (const [key, s] of this.foes) {
       const w = Number(key[0]) as W;
-      ring(w, s.x, s.y, s.texture === this.art.tex['chars/tarnish/awake'] ? 0xff6a5a : 0x9a9a9a);
+      ring(w, s.x, s.y, s.texture === this.art.tex[foeTex(this.lv, true)] ? 0xff6a5a : 0x9a9a9a);
     }
     for (const [key, s] of this.crates) ring(Number(key[0]) as W, s.x, s.y, 0xffe08a);
   }

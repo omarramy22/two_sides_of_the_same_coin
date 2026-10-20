@@ -12,6 +12,11 @@ export interface Art {
 
 /** Tile palette for a world in a chapter: 'heads'/'tails' in Chapter 1, then 'heads2', 'heads3'... */
 export const palette = (lv: Level, w: W) => `${w ? 'tails' : 'heads'}${['', '', '2', '3', '4', '5', '6'][Math.min(chapter(lv), 6)]}`;
+/** The Tarnish's texture: each chapter has its own (Chapter 1 keeps the original rusted coin). */
+export const foeTex = (lv: Level, awake: boolean) => {
+  const c = Math.min(chapter(lv), 6);
+  return c > 1 ? `chars/tarnish/ch${c}.${awake ? 'awake' : 'asleep'}` : `chars/tarnish/${awake ? 'awake' : 'asleep'}`;
+};
 const chapter = (lv: Level) => Number(lv.id.split('-')[0]);
 /** Background set per chapter (Chapter 1 'surface', Chapter 2 'roots', Chapter 3 'stone', Chapter 4 'waters', Chapter 5 'dark', Chapter 6 'rim'). */
 const BG = ['', 'surface', 'roots', 'stone', 'waters', 'dark', 'rim'];
