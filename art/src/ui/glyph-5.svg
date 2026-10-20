@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <!-- Link Glyph 5: Crescent Moon ☾ (Centered, bold engraved gold shape) -->
+  <!-- Base crescent body -->
+  <path d="M 12 3.5 A 8.5 8.5 0 0 0 12 20.5 A 7.5 7.5 0 0 1 12 3.5 Z" fill="var(--gold, #E8B66A)"/>
+
+  <!-- Shaded bevel along inner concave arc and lower horn -->
+  <path d="M 12 12 A 8.5 8.5 0 0 0 12 20.5 A 7.5 7.5 0 0 1 8.5 12 Z" fill="var(--gold-dark, #A8742A)"/>
+  <path d="M 12 12 A 8.5 8.5 0 0 0 12 20.5 A 7.5 7.5 0 0 1 8.5 12 Z" fill="url(#hatch-fine)" opacity="0.35"/>
+
+  <!-- Engraved spine bevel line -->
+  <path d="M 12 4.5 Q 5.5 12 12 19.5" fill="none" stroke="var(--gold-dark, #A8742A)" stroke-width="1.0"/>
+
+  <!-- Highlight along lit outer-left crescent rim -->
+  <path d="M 10 4.2 A 8 8 0 0 0 4 12" stroke="var(--gold-light, #FFF4D6)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+
+  <!-- Ink outline with subtle wobble -->
+  <g filter="url(#wobble-soft)">
+    <path d="M 12 3.5 A 8.5 8.5 0 0 0 12 20.5 A 7.5 7.5 0 0 1 12 3.5 Z" fill="none" stroke="#2A1E14" stroke-width="1.6" stroke-linejoin="round"/>
+  </g>
+</svg>

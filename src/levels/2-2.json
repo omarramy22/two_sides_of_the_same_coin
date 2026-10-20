@@ -1,14 +1,14 @@
 {
   "id": "2-2",
-  "name": "Seesaw",
+  "name": "Balance Stones",
   "role": "introduce",
-  "par": 8,
-  "designNote": "Aha: a seesaw end can't rise under someone. Sol's first stomp fails while Lune stands on the low end; once she steps off, it flips.",
-  "heads": ["#########",
-            "#S..|..G#",
-            "#########"],
-  "tails": ["#########",
-            "#L../..G#",
-            "#########"],
-  "hints": ["Push into the raised end to press it down.", "It won't flip while Lune stands on the other end.", null]
+  "par": 9,
+  "designNote": "Teaches balance stones. Shove a raised stone down and its twin across the seam is yanked up. Lune clears her stone, then Sol has to shove his, and it only drops once Lune has stepped off hers.",
+  "heads": ["##########",
+            "#S..../.G#",
+            "##########"],
+  "tails": ["##########",
+            "#.L...|.G#",
+            "##########"],
+  "hints": ["Walk into a raised stone to shove it down.", "A stone can't rise while someone stands on it.", null]
 }

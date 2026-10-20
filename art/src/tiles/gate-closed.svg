@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="heads,tails,heads2,tails2">
+  <!-- Recessed doorway / pit shadow behind the closed bars -->
+  <path d="M 14 18 L 50 18 L 50 56 L 14 56 Z" fill="var(--pit)"/>
+  <path d="M 14 18 L 50 18 L 50 56 L 14 56 Z" fill="url(#hatch-cross)" opacity="0.6"/>
+
+  <!-- Left & Right Stone Posts: Top Faces (y: 0 to 44) -->
+  <path d="M 0 0 L 14 0 L 14 44 L 0 44 Z" fill="var(--wall-top)"/>
+  <path d="M 50 0 L 64 0 L 64 44 L 50 44 Z" fill="var(--wall-top)"/>
+
+  <!-- Heavy Stone Lintel (spanning across top, y: 0 to 20) -->
+  <path d="M 0 0 L 64 0 L 64 19 L 0 19 Z" fill="var(--wall-top)"/>
+  <!-- Lintel bottom rim / under-arch face -->
+  <path d="M 14 19 L 50 19 L 50 22 L 14 22 Z" fill="var(--wall-face)"/>
+  <path d="M 32 19 L 50 19 L 50 22 L 32 22 Z" fill="url(#hatch)" stroke="none"/>
+
+  <!-- Threshold Sill at the bottom (y: 52 to 58 top, 58 to 64 face) -->
+  <path d="M 14 52 L 50 52 L 50 58 L 14 58 Z" fill="var(--wall-top)"/>
+
+  <!-- Front Faces at the bottom (like wall tiles, y: 44 to 64 on posts, 58 to 64 on sill) -->
+  <!-- Left post front face -->
+  <path d="M 0 44 L 14 44 L 14 64 L 0 64 Z" fill="var(--wall-face)"/>
+  <path d="M 0 44 L 14 44 L 14 64 L 0 64 Z" fill="url(#hatch)" stroke="none"/>
+  <!-- Right post front face -->
+  <path d="M 50 44 L 64 44 L 64 64 L 50 64 Z" fill="var(--wall-face)"/>
+  <path d="M 50 44 L 64 44 L 64 64 L 50 64 Z" fill="url(#hatch)" stroke="none"/>
+  <!-- Sill front face -->
+  <path d="M 14 58 L 50 58 L 50 64 L 14 64 Z" fill="var(--wall-face)"/>
+  <path d="M 14 58 L 50 58 L 50 64 L 14 64 Z" fill="url(#hatch)" stroke="none"/>
+
+  <!-- Base stone shade lines at bottom -->
+  <path d="M 0 62 L 64 62 L 64 64 L 0 64 Z" fill="var(--wall-shade)"/>
+
+  <!-- Portcullis: Dark Iron Bars (#3A3A44) with Highlight Strokes -->
+  <g id="portcullis-bars">
+    <!-- 5 Heavy Vertical Bars with spiked tips -->
+    <!-- Bar 1 -->
+    <path d="M 18 20 L 21 20 L 21 52 L 19.5 56 L 18 52 Z" fill="#3A3A44"/>
+    <path d="M 18.5 21 L 18.5 52" stroke="#7A7A8E" stroke-width="0.9" stroke-linecap="round"/>
+    <!-- Bar 2 -->
+    <path d="M 25 20 L 28 20 L 28 52 L 26.5 56 L 25 52 Z" fill="#3A3A44"/>
+    <path d="M 25.5 21 L 25.5 52" stroke="#7A7A8E" stroke-width="0.9" stroke-linecap="round"/>
+    <!-- Bar 3 (Center) -->
+    <path d="M 30.5 20 L 33.5 20 L 33.5 52 L 32 56 L 30.5 52 Z" fill="#3A3A44"/>
+    <path d="M 31 21 L 31 52" stroke="#7A7A8E" stroke-width="0.9" stroke-linecap="round"/>
+    <!-- Bar 4 -->
+    <path d="M 36 20 L 39 20 L 39 52 L 37.5 56 L 36 52 Z" fill="#3A3A44"/>
+    <path d="M 36.5 21 L 36.5 52" stroke="#7A7A8E" stroke-width="0.9" stroke-linecap="round"/>
+    <!-- Bar 5 -->
+    <path d="M 43 20 L 46 20 L 46 52 L 44.5 56 L 43 52 Z" fill="#3A3A44"/>
+    <path d="M 43.5 21 L 43.5 52" stroke="#7A7A8E" stroke-width="0.9" stroke-linecap="round"/>
+
+    <!-- Horizontal Crossbars -->
+    <!-- Upper crossbar -->
+    <path d="M 14 30 L 50 30 L 50 33 L 14 33 Z" fill="#3A3A44"/>
+    <path d="M 14 30.5 L 50 30.5" stroke="#7A7A8E" stroke-width="0.9"/>
+    <path d="M 14 33 L 50 33" stroke="#222228" stroke-width="0.8"/>
+    <!-- Lower crossbar -->
+    <path d="M 14 43 L 50 43 L 50 46 L 14 46 Z" fill="#3A3A44"/>
+    <path d="M 14 43.5 L 50 43.5" stroke="#7A7A8E" stroke-width="0.9"/>
+    <path d="M 14 46 L 50 46" stroke="#222228" stroke-width="0.8"/>
+
+    <!-- Iron Rivets at intersections -->
+    <g fill="#1A1A22">
+      <circle cx="19.5" cy="31.5" r="1.1"/><circle cx="19.5" cy="44.5" r="1.1"/>
+      <circle cx="26.5" cy="31.5" r="1.1"/><circle cx="26.5" cy="44.5" r="1.1"/>
+      <circle cx="32" cy="31.5" r="1.1"/><circle cx="32" cy="44.5" r="1.1"/>
+      <circle cx="37.5" cy="31.5" r="1.1"/><circle cx="37.5" cy="44.5" r="1.1"/>
+      <circle cx="44.5" cy="31.5" r="1.1"/><circle cx="44.5" cy="44.5" r="1.1"/>
+    </g>
+  </g>
+
+  <!-- Masonry linework and outlines -->
+  <g filter="url(#wobble-soft)" stroke="var(--ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" fill="none">
+    <!-- Outer borders -->
+    <path d="M 0 0 L 64 0 L 64 64 L 50 64 L 50 58 L 14 58 L 14 64 L 0 64 Z"/>
+    <!-- Inner doorway arch outline -->
+    <path d="M 14 58 L 14 19 L 50 19 L 50 58"/>
+    <!-- Post top-face to front-face dividing lines -->
+    <path d="M 0 44 L 14 44 M 50 44 L 64 44"/>
+  </g>
+
+  <!-- Stone highlights on lit edges -->
+  <g stroke="var(--highlight)" stroke-opacity="0.5" stroke-width="1.3" stroke-linecap="round" fill="none">
+    <path d="M 2 2 L 62 2"/>
+    <path d="M 2 2 L 2 42 M 52 2 L 52 42"/>
+    <path d="M 16 53 L 48 53"/>
+  </g>
+
+  <!-- Lintel Socket for link glyph (~radius 7, centered at 32, 10.5) -->
+  <circle cx="32" cy="10.5" r="6.8" fill="var(--wall-shade)"/>
+  <circle cx="32" cy="10.5" r="6.8" fill="url(#hatch-cross)"/>
+  <g filter="url(#wobble-soft)" fill="none">
+    <circle cx="32" cy="10.5" r="6.8" stroke="var(--ink)" stroke-width="1.4"/>
+    <path d="M 25.5 10 A 6.5 6.5 0 0 1 38.5 10" stroke="#000" stroke-opacity="0.5" stroke-width="1.2"/>
+  </g>
+
+  <!-- Brass rope ring mounted above the lintel (near top edge, centred at x=32) -->
+  <g filter="url(#wobble-soft)">
+    <!-- Mounting collar on lintel -->
+    <path d="M 29.5 4 L 34.5 4 L 34 1 L 30 1 Z" fill="var(--gold-dark)" stroke="var(--ink)" stroke-width="1.1" stroke-linejoin="round"/>
+    <!-- Brass ring looping up -->
+    <ellipse cx="32" cy="4" rx="4.2" ry="3.5" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.3"/>
+    <ellipse cx="32" cy="4" rx="2.2" ry="1.8" fill="var(--wall-top)" stroke="var(--ink)" stroke-width="1.0"/>
+    <path d="M 30 2.5 A 3.5 3 0 0 1 33.5 1.5" stroke="var(--gold-light)" stroke-width="1" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>

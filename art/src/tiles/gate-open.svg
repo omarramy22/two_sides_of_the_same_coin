@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="heads,tails,heads2,tails2">
+  <!-- Floor visible through open doorway: subtle flagstone perspective & depth lines -->
+  <g stroke="var(--floor-dark)" stroke-width="1.1" stroke-linecap="round" fill="none" opacity="0.6">
+    <path d="M 14 36 L 50 36 M 14 50 L 50 50"/>
+    <path d="M 32 36 L 32 64"/>
+  </g>
+  <!-- Floor shadow inside doorway cast by lintel -->
+  <path d="M 14 19 L 50 19 L 50 28 L 14 28 Z" fill="#000" fill-opacity="0.18"/>
+
+  <!-- Left & Right Stone Posts: Top Faces (y: 0 to 44) -->
+  <path d="M 0 0 L 14 0 L 14 44 L 0 44 Z" fill="var(--wall-top)"/>
+  <path d="M 50 0 L 64 0 L 64 44 L 50 44 Z" fill="var(--wall-top)"/>
+
+  <!-- Heavy Stone Lintel (spanning across top, y: 0 to 19) -->
+  <path d="M 0 0 L 64 0 L 64 19 L 0 19 Z" fill="var(--wall-top)"/>
+  <!-- Lintel underside face -->
+  <path d="M 14 19 L 50 19 L 50 21.5 L 14 21.5 Z" fill="var(--wall-face)"/>
+
+  <!-- Doorway Inner Jambs (reveals inside the opening with iron slide tracks) -->
+  <!-- Left jamb inner face -->
+  <path d="M 14 19 L 16.5 22 L 16.5 58 L 14 58 Z" fill="var(--wall-shade)"/>
+  <line x1="15" y1="22" x2="15" y2="58" stroke="#1A1A22" stroke-width="1.2"/>
+  <!-- Right jamb inner face -->
+  <path d="M 47.5 22 L 50 19 L 50 58 L 47.5 58 Z" fill="var(--wall-shade)"/>
+  <line x1="49" y1="22" x2="49" y2="58" stroke="#1A1A22" stroke-width="1.2"/>
+
+  <!-- Post Front Faces at the bottom (y: 44 to 64) -->
+  <path d="M 0 44 L 14 44 L 14 64 L 0 64 Z" fill="var(--wall-face)"/>
+  <path d="M 0 44 L 14 44 L 14 64 L 0 64 Z" fill="url(#hatch)" stroke="none"/>
+  <path d="M 50 44 L 64 44 L 64 64 L 50 64 Z" fill="var(--wall-face)"/>
+  <path d="M 50 44 L 64 44 L 64 64 L 50 64 Z" fill="url(#hatch)" stroke="none"/>
+
+  <!-- Base stone shade lines on posts -->
+  <path d="M 0 62 L 14 62 L 14 64 L 0 64 Z" fill="var(--wall-shade)"/>
+  <path d="M 50 62 L 64 62 L 64 64 L 50 64 Z" fill="var(--wall-shade)"/>
+
+  <!-- Hoisted Portcullis: only the bar tips / iron spikes visible beneath the lintel -->
+  <g id="hoisted-bar-tips">
+    <!-- Bar tip 1 -->
+    <path d="M 18 19 L 21 19 L 19.5 24 Z" fill="#3A3A44"/>
+    <path d="M 18.5 19 L 19.5 23" stroke="#7A7A8E" stroke-width="0.8"/>
+    <!-- Bar tip 2 -->
+    <path d="M 25 19 L 28 19 L 26.5 24 Z" fill="#3A3A44"/>
+    <path d="M 25.5 19 L 26.5 23" stroke="#7A7A8E" stroke-width="0.8"/>
+    <!-- Bar tip 3 (center) -->
+    <path d="M 30.5 19 L 33.5 19 L 32 24 Z" fill="#3A3A44"/>
+    <path d="M 31 19 L 32 23" stroke="#7A7A8E" stroke-width="0.8"/>
+    <!-- Bar tip 4 -->
+    <path d="M 36 19 L 39 19 L 37.5 24 Z" fill="#3A3A44"/>
+    <path d="M 36.5 19 L 37.5 23" stroke="#7A7A8E" stroke-width="0.8"/>
+    <!-- Bar tip 5 -->
+    <path d="M 43 19 L 46 19 L 44.5 24 Z" fill="#3A3A44"/>
+    <path d="M 43.5 19 L 44.5 23" stroke="#7A7A8E" stroke-width="0.8"/>
+    <!-- Bottom crossbar peeking out under lintel -->
+    <line x1="16.5" y1="20" x2="47.5" y2="20" stroke="#3A3A44" stroke-width="1.8"/>
+    <line x1="16.5" y1="20" x2="47.5" y2="20" stroke="#7A7A8E" stroke-width="0.8"/>
+  </g>
+
+  <!-- Masonry linework and outlines -->
+  <g filter="url(#wobble-soft)" stroke="var(--ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" fill="none">
+    <!-- Outer borders and open doorway outline -->
+    <path d="M 0 0 L 64 0 L 64 64 L 50 64 L 50 19 L 14 19 L 14 64 L 0 64 Z"/>
+    <!-- Post top-to-front face dividing lines -->
+    <path d="M 0 44 L 14 44 M 50 44 L 64 44"/>
+  </g>
+
+  <!-- Stone highlights on lit edges -->
+  <g stroke="var(--highlight)" stroke-opacity="0.5" stroke-width="1.3" stroke-linecap="round" fill="none">
+    <path d="M 2 2 L 62 2"/>
+    <path d="M 2 2 L 2 42 M 52 2 L 52 42"/>
+    <path d="M 14 20.5 L 50 20.5"/>
+  </g>
+
+  <!-- Lintel Socket for link glyph (~radius 7, centered at 32, 10.5) -->
+  <circle cx="32" cy="10.5" r="6.8" fill="var(--wall-shade)"/>
+  <circle cx="32" cy="10.5" r="6.8" fill="url(#hatch-cross)"/>
+  <g filter="url(#wobble-soft)" fill="none">
+    <circle cx="32" cy="10.5" r="6.8" stroke="var(--ink)" stroke-width="1.4"/>
+    <path d="M 25.5 10 A 6.5 6.5 0 0 1 38.5 10" stroke="#000" stroke-opacity="0.5" stroke-width="1.2"/>
+  </g>
+
+  <!-- Brass rope ring mounted above the lintel (near top edge, centred at x=32) -->
+  <g filter="url(#wobble-soft)">
+    <!-- Mounting collar on lintel -->
+    <path d="M 29.5 4 L 34.5 4 L 34 1 L 30 1 Z" fill="var(--gold-dark)" stroke="var(--ink)" stroke-width="1.1" stroke-linejoin="round"/>
+    <!-- Brass ring -->
+    <ellipse cx="32" cy="4" rx="4.2" ry="3.5" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.3"/>
+    <ellipse cx="32" cy="4" rx="2.2" ry="1.8" fill="var(--wall-top)" stroke="var(--ink)" stroke-width="1.0"/>
+    <path d="M 30 2.5 A 3.5 3 0 0 1 33.5 1.5" stroke="var(--gold-light)" stroke-width="1" fill="none" stroke-linecap="round"/>
+
+    <!-- Little slack loop of rope at the ring (tells the story of the hoisted gate) -->
+    <path d="M 32 4.5 Q 36 6 38 4 Q 40 1 37 0.5 Q 34 0.5 33 3.5" fill="none" stroke="#C99A55" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M 33 4.2 Q 36.5 5.5 38 3.5" fill="none" stroke="#FFF4D6" stroke-width="0.8" stroke-linecap="round"/>
+    <path d="M 31 3.8 L 33 5" fill="none" stroke="var(--ink)" stroke-width="1.2"/>
+  </g>
+</svg>

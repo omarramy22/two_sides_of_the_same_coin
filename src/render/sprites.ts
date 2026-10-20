@@ -9,7 +9,11 @@ export interface Art {
   lune: Puppet;
 }
 
-const PAL = ['heads', 'tails'] as const;
+/** Tile palette for a world in a chapter: Chapter 1 'heads'/'tails', Chapter 2 'heads2'/'tails2'. */
+export const palette = (lv: Level, w: W) => `${w ? 'tails' : 'heads'}${chapter(lv) >= 2 ? '2' : ''}`;
+const chapter = (lv: Level) => Number(lv.id.split('-')[0]);
+/** Background set per chapter (Chapter 1 'surface', Chapter 2 'roots'). */
+const BG = ['', 'surface', 'roots'];
 
 /** Loads every texture the board needs once. Rejects if `npm run art` hasn't been run. */
 export async function loadArt(): Promise<Art> {
@@ -52,7 +56,7 @@ export function sprite(art: Art, key: string, x: number, y: number, t: number): 
  * (plates, gates, seesaws), since Chapter 2 art isn't made yet.
  */
 export function drawTerrain(art: Art, layer: Container, lv: Level, terrain: State, w: W, cell: (w: W, i: number) => [number, number], t: number) {
-  const p = PAL[w];
+  const p = palette(lv, w);
   for (let i = 0; i < lv.w * lv.h; i++) {
     const [x, y] = cell(w, i), c = terrain.tiles[w][i];
     if (c === '#') { layer.addChild(sprite(art, `tiles/wall-${wallMask(lv, terrain.tiles[w], i)}.${p}`, x, y, t)); continue; }
@@ -75,10 +79,11 @@ export function actor(art: Art, key: string, cx: number, feetY: number, t: numbe
 }
 
 /** Background layers scaled to cover the window, with a little parallax toward `focus`. */
-export function drawBackground(art: Art, layer: Container, vw: number, vh: number, focusX: number) {
+export function drawBackground(art: Art, layer: Container, vw: number, vh: number, focusX: number, chapterNo = 1) {
+  const set = BG[Math.min(chapterNo, BG.length - 1)] || 'surface';
   const k = Math.max(vw / 1280, vh / 720) * 1.03;
   ['far', 'mid', 'near'].forEach((name, depth) => {
-    const s = new Sprite(art.tex[`bg/surface-${name}`]);
+    const s = new Sprite(art.tex[`bg/${set}-${name}`] ?? art.tex[`bg/surface-${name}`]);
     s.scale.set(k);
     s.anchor.set(0.5);
     s.position.set(vw / 2 - (focusX - vw / 2) * 0.01 * depth, vh / 2);

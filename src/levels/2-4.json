@@ -1,0 +1,22 @@
+{
+  "id": "2-4",
+  "name": "Follow Me",
+  "role": "twist",
+  "par": 17,
+  "designNote": "Aha: the Tarnish chasing Sol is heavy enough to hold his plate. Lead it so it is standing on the plate at the moment Sol walks through his door, and the door drops shut behind him with the Tarnish on the other side. Lining the halves up to put a Tarnish to sleep (and wake the other) is how you get it into position.",
+  "heads": ["#########",
+            "#S.....@#",
+            "#...a...#",
+            "#.......#",
+            "#####A###",
+            "#....G..#",
+            "#########"],
+  "tails": ["#########",
+            "#L......#",
+            "#.......#",
+            "#.......#",
+            "#....?..#",
+            "#....G..#",
+            "#########"],
+  "hints": ["The Tarnish is heavy.", "Let it follow Sol onto the plate, then walk through the door while it stands there.", null]
+}

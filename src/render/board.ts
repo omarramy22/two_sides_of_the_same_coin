@@ -1,9 +1,8 @@
 // The game board: both worlds, the seam and everything on them. Sprites persist; the board only
 // animates the difference between two engine States (SPEC.md §8 hard rule). No game rules here.
 import { Container, Graphics, Sprite, Text } from 'pixi.js';
-import { isGate, isPlate } from '../engine/parse';
-import { gateJammed, gateOpen } from '../engine/tick';
 import type { Dir, GameEvent, Level, State, W } from '../engine/types';
+import { Mechanisms } from './mechanisms';
 import type { Puppet } from './rig';
 import { actor, drawSeam, drawTerrain, type Art } from './sprites';
 import { ease, Particles, Tweens } from './tween';
@@ -41,12 +40,18 @@ export class Board extends Container {
   private shakeT = 0;
   private clock = 0;
   readonly puppets: [Puppet, Puppet];
-  private mechanisms: boolean;
+  private mech: Mechanisms;
 
   constructor(private art: Art, readonly lv: Level, public state: State, public opts: BoardOpts) {
     super();
     this.puppets = [art.sol, art.lune];
-    this.mechanisms = [...lv.start.tiles.join('')].some((c) => isPlate(c) || isGate(c) || c === '/' || c === '|');
+    const board = this;
+    this.mech = new Mechanisms(art, lv, {
+      get t() { return board.t; },
+      get landscape() { return board.landscape; },
+      halfAt: (w) => board.halfAt(w),
+      cell: (i) => board.cell(i),
+    }, [this.halves[0].overlay, this.halves[1].overlay], this.seam, this.fx, this.tweens);
     this.inner.addChild(this.seam, ...this.halves, this.glow, this.ghosts, this.fx);
     this.addChild(this.inner);
   }
@@ -116,6 +121,8 @@ export class Board extends Container {
     const { lv, t } = this;
     if (this.landscape) drawSeam(this.art, this.seam, true, lv.w * t, 0, SEAM * t, lv.h * t);
     else drawSeam(this.art, this.seam, false, 0, lv.h * t, lv.w * t, SEAM * t);
+    this.halves.forEach((h) => h.overlay.removeChildren().forEach((c) => c.destroy({ children: true })));
+    this.mech.build(s);
     this.updateMoods();
   }
 
@@ -136,37 +143,6 @@ export class Board extends Container {
       const half = this.halves[w];
       half.tiles.removeChildren().forEach((c) => c.destroy());
       drawTerrain(this.art, half.tiles, this.lv, s, w, (_w, i) => this.cell(i), this.t);
-      half.overlay.removeChildren().forEach((c) => c.destroy({ children: true }));
-      this.drawMechanisms(half.overlay, s, w);
-    }
-  }
-
-  private drawMechanisms(layer: Container, s: State, w: W) {
-    const { t, lv } = this, g = new Graphics();
-    layer.addChild(g);
-    const label = (c: string, x: number, y: number) => {
-      const txt = new Text({ text: c, style: { fill: w ? 0xe8f0ff : 0x2a1e14, fontSize: Math.round(t * 0.38), fontFamily: 'Georgia, serif', fontWeight: 'bold' } });
-      txt.anchor.set(0.5);
-      txt.position.set(x + t / 2, y + t / 2);
-      layer.addChild(txt);
-    };
-    for (let i = 0; i < lv.w * lv.h; i++) {
-      const c = s.tiles[w][i], [x, y] = this.cell(i), cx = x + t / 2;
-      if (isPlate(c)) {
-        g.roundRect(x + t * 0.2, y + t * 0.2, t * 0.6, t * 0.6, t * 0.08).fill(0x9c8cd4).stroke({ width: 2, color: 0x2a1e14 });
-        label(c, x, y);
-      } else if (isGate(c)) {
-        if (gateOpen(lv, s, w, i)) {
-          const jam = gateJammed(lv, s, w, i);
-          g.rect(x + 3, y + 3, t - 6, t - 6).stroke({ width: jam ? 5 : 2, color: jam ? 0xe07a6b : 0x4a5a8c });
-        } else g.rect(x, y, t, t).fill(0x4a5a8c).stroke({ width: 2, color: 0x2a1e14 });
-        label(c, x, y);
-      } else if (c === '/' || c === '|') {
-        const up = c === '|', py = y + t * (up ? 0.22 : 0.36), ph = t * (up ? 0.38 : 0.28), pw = t * (up ? 0.86 : 0.8);
-        if (up) g.roundRect(cx - pw / 2, py + t * 0.12, pw, ph, 4).fill({ color: 0x000000, alpha: 0.3 });
-        g.poly([cx, py + ph - 1, cx - t * 0.08, py + ph + t * 0.12, cx + t * 0.08, py + ph + t * 0.12]).fill(0x2a1e14);
-        g.roundRect(cx - pw / 2, py, pw, ph, 4).fill(up ? 0xc08850 : 0xa0703c).stroke({ width: 2, color: 0x2a1e14 });
-      }
     }
   }
 
@@ -256,9 +232,11 @@ export class Board extends Container {
     // Terrain follows once the movers arrive. Fills redraw it themselves when they land; gates
     // depend on who stands where, so levels with mechanisms redraw every move.
     const changed = next.tiles[0] !== prev.tiles[0] || next.tiles[1] !== prev.tiles[1];
-    if ((changed || this.mechanisms) && !ev.some((e) => e.type === 'fill' || e.type === 'foeFall')) {
+    if (changed && !ev.some((e) => e.type === 'fill' || e.type === 'foeFall')) {
       jobs.push(this.tweens.wait(STEP).then(() => this.refreshTerrain(this.state)));
     }
+    // Plates, doors and stones move once the movers arrive; characters react to their partner's doings.
+    if (this.mech.any) jobs.push(this.tweens.wait(STEP * 0.6).then(() => this.react(prev, next)));
     this.updateMoods();
     return Promise.all(jobs).then(() => {});
   }
@@ -287,6 +265,20 @@ export class Board extends Container {
         });
     });
     return Promise.all([pulse, ...swaps]).then(() => {});
+  }
+
+  /** A door slammed by the partner, or a stone popping up next to you, gets a flinch and a glance across. */
+  private react(prev: State, next: State) {
+    const near = (w: W, i: number) => {
+      const p = next.pos[w], dx = Math.abs((p % this.lv.w) - (i % this.lv.w)), dy = Math.abs(Math.floor(p / this.lv.w) - Math.floor(i / this.lv.w));
+      return dx + dy <= 1;
+    };
+    for (const d of this.mech.update(prev, next)) {
+      if (d.byPartner && near(d.w, d.i)) { this.puppets[d.w].bump(); this.puppets[d.w].lookAtPartner(1.2); }
+    }
+    for (const w of [0, 1] as W[]) for (let i = 0; i < next.tiles[w].length; i++) {
+      if (next.tiles[w][i] === '|' && prev.tiles[w][i] === '/' && near(w, i)) this.puppets[w].bump();
+    }
   }
 
   /** Who is waiting, who is celebrating (SPEC §5.3 personality). */

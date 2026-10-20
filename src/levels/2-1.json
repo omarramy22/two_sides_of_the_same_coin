@@ -1,14 +1,20 @@
 {
   "id": "2-1",
-  "name": "Door Switch",
+  "name": "Counterweight",
   "role": "introduce",
-  "par": 7,
-  "designNote": "Aha: when Lune stands on her plate, Sol's door shuts. One side's gain is the other side's loss.",
+  "par": 16,
+  "designNote": "Teaches the plate rope. A crate on Sol's plate hoists his door open and drops Lune's shut, so Lune has to slip through her door before the crate lands.",
   "heads": ["#########",
-            "#S..A..G#",
+            "#S.C.a..#",
+            "#.......#",
+            "#######A#",
+            "#......G#",
             "#########"],
   "tails": ["#########",
-            "#L.a...G#",
+            "#L......#",
+            "#.......#",
+            "#A#######",
+            "#G......#",
             "#########"],
-  "hints": ["Watch Sol's door when Lune steps on the plate.", "Keep walking. The door opens again once Lune steps off.", null]
+  "hints": ["Watch Lune's door when the crate reaches the plate.", "Let Lune through her door first, then push the crate onto the plate.", null]
 }

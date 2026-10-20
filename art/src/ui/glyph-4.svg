@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <!-- Link Glyph 4: Four-Point Star ✦ (Centered, bold engraved gold shape) -->
+  <!-- 8 Facets alternating light and shade for minted coin brilliance -->
+  <!-- Top ray -->
+  <polygon points="12,2.5 12,12 9.5,9.5" fill="var(--gold, #E8B66A)"/>
+  <polygon points="12,2.5 14.5,9.5 12,12" fill="var(--gold-dark, #A8742A)"/>
+  <!-- Right ray -->
+  <polygon points="21.5,12 12,12 14.5,9.5" fill="var(--gold, #E8B66A)"/>
+  <polygon points="21.5,12 14.5,14.5 12,12" fill="var(--gold-dark, #A8742A)"/>
+  <!-- Bottom ray -->
+  <polygon points="12,21.5 14.5,14.5 12,12" fill="var(--gold-dark, #A8742A)"/>
+  <polygon points="12,21.5 12,12 9.5,14.5" fill="var(--gold, #E8B66A)"/>
+  <!-- Left ray -->
+  <polygon points="2.5,12 9.5,14.5 12,12" fill="var(--gold-dark, #A8742A)"/>
+  <polygon points="2.5,12 12,12 9.5,9.5" fill="var(--gold, #E8B66A)"/>
+
+  <!-- Hatching on bottom-right facets -->
+  <polygon points="12,12 21.5,12 14.5,14.5" fill="url(#hatch-fine)" opacity="0.35"/>
+  <polygon points="12,12 14.5,14.5 12,21.5" fill="url(#hatch-fine)" opacity="0.4"/>
+
+  <!-- Bevel spines -->
+  <line x1="12" y1="2.5" x2="12" y2="21.5" stroke="var(--gold-dark, #A8742A)" stroke-width="1.0"/>
+  <line x1="2.5" y1="12" x2="21.5" y2="12" stroke="var(--gold-dark, #A8742A)" stroke-width="1.0"/>
+
+  <!-- Highlights on upper-left ray ridges -->
+  <line x1="12" y1="3" x2="12" y2="10" stroke="var(--gold-light, #FFF4D6)" stroke-width="1.0"/>
+  <line x1="3" y1="12" x2="10" y2="12" stroke="var(--gold-light, #FFF4D6)" stroke-width="1.0"/>
+
+  <!-- Ink outline with subtle wobble -->
+  <g filter="url(#wobble-soft)">
+    <polygon points="12,2.5 14.5,9.5 21.5,12 14.5,14.5 12,21.5 9.5,14.5 2.5,12 9.5,9.5" fill="none" stroke="#2A1E14" stroke-width="1.6" stroke-linejoin="round"/>
+  </g>
+</svg>

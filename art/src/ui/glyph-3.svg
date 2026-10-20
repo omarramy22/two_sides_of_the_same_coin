@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <!-- Link Glyph 3: Triangle ▲ (Centered, bold engraved gold shape) -->
+  <!-- Left facet (lit) -->
+  <polygon points="12,3.5 3.5,19.5 12,14" fill="var(--gold, #E8B66A)"/>
+  <!-- Right facet (shaded bevel) -->
+  <polygon points="12,3.5 20.5,19.5 12,14" fill="var(--gold-dark, #A8742A)"/>
+  <!-- Bottom facet (deep bevel) -->
+  <polygon points="3.5,19.5 20.5,19.5 12,14" fill="var(--gold-dark, #A8742A)"/>
+  <polygon points="3.5,19.5 20.5,19.5 12,14" fill="url(#hatch-fine)" opacity="0.4"/>
+
+  <!-- Bevel spine lines meeting at center -->
+  <line x1="12" y1="3.5" x2="12" y2="14" stroke="var(--gold-dark, #A8742A)" stroke-width="1.1"/>
+  <line x1="3.5" y1="19.5" x2="12" y2="14" stroke="var(--gold-dark, #A8742A)" stroke-width="1.1"/>
+  <line x1="20.5" y1="19.5" x2="12" y2="14" stroke="var(--gold-dark, #A8742A)" stroke-width="1.1"/>
+
+  <!-- Lit left edge highlight -->
+  <line x1="4.2" y1="18.5" x2="11.5" y2="4.2" stroke="var(--gold-light, #FFF4D6)" stroke-width="1.1" stroke-linecap="round"/>
+
+  <!-- Ink outline with subtle wobble -->
+  <g filter="url(#wobble-soft)">
+    <polygon points="12,3.5 20.5,19.5 3.5,19.5" fill="none" stroke="#2A1E14" stroke-width="1.6" stroke-linejoin="round"/>
+  </g>
+</svg>

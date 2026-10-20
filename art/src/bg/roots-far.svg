@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="720" viewBox="0 0 1280 720" data-format="jpeg">
+  <defs>
+    <!-- Deep abyss radial gradient: deeper and darker than Chapter 1 -->
+    <radialGradient id="roots-abyss" cx="50%" cy="50%" r="55%" fx="50%" fy="50%">
+      <stop offset="0%" stop-color="#05080E"/>
+      <stop offset="35%" stop-color="#0A1016"/>
+      <stop offset="60%" stop-color="#12181E"/>
+      <stop offset="85%" stop-color="#1A1F24"/>
+      <stop offset="100%" stop-color="#242226"/>
+    </radialGradient>
+
+    <!-- Warm earthy umber / olive ambient glow for left side (Heads) -->
+    <radialGradient id="roots-warm-ambient" cx="25%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#8A7446" stop-opacity="0.16"/>
+      <stop offset="45%" stop-color="#5B4A28" stop-opacity="0.10"/>
+      <stop offset="80%" stop-color="#3C2F18" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#1E160C" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Cool teal-moonlit ambient glow for right side (Tails) -->
+    <radialGradient id="roots-cool-ambient" cx="75%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#3F6A6E" stop-opacity="0.16"/>
+      <stop offset="45%" stop-color="#1B3038" stop-opacity="0.12"/>
+      <stop offset="80%" stop-color="#0F1E24" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#050C10" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Coin tiny glint glow deep in the well -->
+    <radialGradient id="coin-glint-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFF4D6" stop-opacity="0.95"/>
+      <stop offset="25%" stop-color="#E8B66A" stop-opacity="0.55"/>
+      <stop offset="60%" stop-color="#7FC8A9" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#05080E" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Left/right half clipping masks -->
+    <clipPath id="clip-roots-left">
+      <rect x="0" y="0" width="640" height="720"/>
+    </clipPath>
+    <clipPath id="clip-roots-right">
+      <rect x="640" y="0" width="640" height="720"/>
+    </clipPath>
+  </defs>
+
+  <!-- Deep shaft abyss background -->
+  <rect width="1280" height="720" fill="url(#roots-abyss)"/>
+
+  <!-- Left half warm earthy umber ambient tint -->
+  <rect x="0" y="0" width="640" height="720" fill="url(#roots-warm-ambient)"/>
+
+  <!-- Right half cool teal-moonlit ambient tint -->
+  <rect x="640" y="0" width="640" height="720" fill="url(#roots-cool-ambient)"/>
+
+  <!-- Subtle grain overlay for stone and earth texture -->
+  <rect width="1280" height="720" fill="#000" fill-opacity="0.05" filter="url(#grain)"/>
+
+  <!-- Concentric masonry courses receding into the well depths -->
+  <!-- NOTE: NO radial lines: they read as a spider web -->
+  <g filter="url(#wobble-soft)">
+    <!-- Warm side stone courses (left half) -->
+    <g clip-path="url(#clip-roots-left)" stroke="#7A6234" stroke-opacity="0.34" fill="none" stroke-linecap="round">
+      <ellipse cx="640" cy="360" rx="630" ry="355" stroke-width="1.6"/>
+      <ellipse cx="640" cy="360" rx="555" ry="312" stroke-width="1.5"/>
+      <ellipse cx="640" cy="360" rx="485" ry="272" stroke-width="1.4"/>
+      <ellipse cx="640" cy="360" rx="420" ry="235" stroke-width="1.3"/>
+      <ellipse cx="640" cy="360" rx="360" ry="202" stroke-width="1.2"/>
+      <ellipse cx="640" cy="360" rx="305" ry="171" stroke-width="1.1"/>
+      <ellipse cx="640" cy="360" rx="255" ry="143" stroke-width="1.0"/>
+      <ellipse cx="640" cy="360" rx="210" ry="118" stroke-width="0.9"/>
+      <ellipse cx="640" cy="360" rx="170" ry="95" stroke-width="0.8"/>
+      <ellipse cx="640" cy="360" rx="135" ry="76" stroke-width="0.8"/>
+      <ellipse cx="640" cy="360" rx="102" ry="57" stroke-width="0.7"/>
+      <ellipse cx="640" cy="360" rx="72" ry="40" stroke-width="0.6"/>
+      <ellipse cx="640" cy="360" rx="45" ry="25" stroke-width="0.5"/>
+    </g>
+
+    <!-- Cool side stone courses (right half) -->
+    <g clip-path="url(#clip-roots-right)" stroke="#3F6A6E" stroke-opacity="0.34" fill="none" stroke-linecap="round">
+      <ellipse cx="640" cy="360" rx="630" ry="355" stroke-width="1.6"/>
+      <ellipse cx="640" cy="360" rx="555" ry="312" stroke-width="1.5"/>
+      <ellipse cx="640" cy="360" rx="485" ry="272" stroke-width="1.4"/>
+      <ellipse cx="640" cy="360" rx="420" ry="235" stroke-width="1.3"/>
+      <ellipse cx="640" cy="360" rx="360" ry="202" stroke-width="1.2"/>
+      <ellipse cx="640" cy="360" rx="305" ry="171" stroke-width="1.1"/>
+      <ellipse cx="640" cy="360" rx="255" ry="143" stroke-width="1.0"/>
+      <ellipse cx="640" cy="360" rx="210" ry="118" stroke-width="0.9"/>
+      <ellipse cx="640" cy="360" rx="170" ry="95" stroke-width="0.8"/>
+      <ellipse cx="640" cy="360" rx="135" ry="76" stroke-width="0.8"/>
+      <ellipse cx="640" cy="360" rx="102" ry="57" stroke-width="0.7"/>
+      <ellipse cx="640" cy="360" rx="72" ry="40" stroke-width="0.6"/>
+      <ellipse cx="640" cy="360" rx="45" ry="25" stroke-width="0.5"/>
+    </g>
+  </g>
+
+  <!-- Faint depth shadow hatch bands in lower quadrants -->
+  <g fill="none">
+    <path d="M 640 436 A 210 118 0 0 1 850 360 A 255 143 0 0 0 640 503 Z" fill="url(#hatch)" stroke="none" opacity="0.38"/>
+    <path d="M 640 503 A 255 143 0 0 1 895 360 A 305 171 0 0 0 640 531 Z" fill="url(#hatch)" stroke="none" opacity="0.32"/>
+    <path d="M 640 436 A 210 118 0 0 0 430 360 A 255 143 0 0 1 640 503 Z" fill="url(#hatch-r)" stroke="none" opacity="0.32"/>
+  </g>
+
+  <!-- Thick ancient roots crossing the shaft walls near the edges -->
+  <!-- Left Side Roots (Warm Earth / Umber) -->
+  <g filter="url(#wobble)" stroke="#2A1E14" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Heavy root climbing top-left across outer rings -->
+    <path d="M -10 160 Q 90 180 180 150 Q 240 120 280 40 Q 295 10 310 -10 L 285 -10 Q 265 15 250 50 Q 215 110 160 135 Q 80 160 -10 140 Z" fill="#4A341E" stroke-width="1.8"/>
+    <path d="M 0 148 Q 90 168 170 142 Q 220 120 260 55" fill="none" stroke="#6E4A28" stroke-width="1.2"/>
+    <path d="M 120 155 L 180 150 L 175 142 L 115 147 Z" fill="url(#hatch)" stroke="none"/>
+
+    <!-- Root crawling across mid-left outer wall courses -->
+    <path d="M -10 390 Q 70 380 140 410 Q 210 445 250 530 L 230 540 Q 195 465 130 430 Q 65 400 -10 410 Z" fill="#3D2816" stroke-width="1.6"/>
+    <path d="M 10 398 Q 75 390 135 420 Q 190 450 235 520" fill="none" stroke="#5E3E22" stroke-width="1.1"/>
+
+    <!-- Root knot in bottom-left outer masonry -->
+    <path d="M 120 730 Q 150 660 190 620 Q 240 590 320 610 L 315 628 Q 245 610 205 635 Q 170 670 140 730 Z" fill="#4A341E" stroke-width="1.6"/>
+  </g>
+
+  <!-- Right Side Roots (Deep Teal / Moonlit Bark) -->
+  <g filter="url(#wobble)" stroke="#0B1620" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Heavy root climbing top-right across outer rings -->
+    <path d="M 1290 160 Q 1190 180 1100 150 Q 1040 120 1000 40 Q 985 10 970 -10 L 995 -10 Q 1015 15 1030 50 Q 1065 110 1120 135 Q 1200 160 1290 140 Z" fill="#1B2E34" stroke-width="1.8"/>
+    <path d="M 1280 148 Q 1190 168 1110 142 Q 1060 120 1020 55" fill="none" stroke="#2B464E" stroke-width="1.2"/>
+    <path d="M 1160 155 L 1100 150 L 1105 142 L 1165 147 Z" fill="url(#hatch-r)" stroke="none"/>
+
+    <!-- Root crawling across mid-right outer wall courses -->
+    <path d="M 1290 390 Q 1210 380 1140 410 Q 1070 445 1030 530 L 1050 540 Q 1085 465 1150 430 Q 1215 400 1290 410 Z" fill="#14242A" stroke-width="1.6"/>
+    <path d="M 1270 398 Q 1205 390 1145 420 Q 1090 450 1045 520" fill="none" stroke="#223A42" stroke-width="1.1"/>
+
+    <!-- Root knot in bottom-right outer masonry -->
+    <path d="M 1160 730 Q 1130 660 1090 620 Q 1040 590 960 610 L 965 628 Q 1035 610 1075 635 Q 1110 670 1140 730 Z" fill="#1B2E34" stroke-width="1.6"/>
+  </g>
+
+  <!-- Central calm void (playfield area is clear) -->
+  <ellipse cx="640" cy="360" rx="36" ry="20" fill="#05080E"/>
+  <ellipse cx="640" cy="360" rx="20" ry="11" fill="#020306"/>
+
+  <!-- Subtle split line down the center seam -->
+  <line x1="640" y1="20" x2="640" y2="340" stroke="#7FC8A9" stroke-opacity="0.08" stroke-width="1" stroke-dasharray="2 4"/>
+  <line x1="640" y1="380" x2="640" y2="700" stroke="#7FC8A9" stroke-opacity="0.08" stroke-width="1" stroke-dasharray="2 4"/>
+
+  <!-- Faint coin glint deep in the centre -->
+  <g id="coin-glint">
+    <!-- Soft aura glow -->
+    <circle cx="640" cy="360" r="15" fill="url(#coin-glint-glow)"/>
+    <circle cx="640" cy="360" r="5.5" fill="#FFF4D6" fill-opacity="0.75"/>
+
+    <!-- Tiny two-sided coin: 6.8px wide, 4.2px high -->
+    <!-- Left half: gold -->
+    <path d="M 640 357.9 A 3.4 2.1 0 0 0 640 362.1 Z" fill="#E8B66A"/>
+    <!-- Right half: cool mint / silver -->
+    <path d="M 640 357.9 A 3.4 2.1 0 0 1 640 362.1 Z" fill="#DFF5EC"/>
+
+    <!-- Star glint twinkle -->
+    <polygon points="640,351.5 641.3,358.9 648.5,360 641.3,361.1 640,368.5 638.7,361.1 631.5,360 638.7,358.9" fill="#FFFFFF" fill-opacity="0.95"/>
+    <line x1="635" y1="355" x2="645" y2="365" stroke="#FFF4D6" stroke-width="0.8" stroke-opacity="0.75"/>
+    <line x1="645" y1="355" x2="635" y2="365" stroke="#DFF5EC" stroke-width="0.8" stroke-opacity="0.75"/>
+  </g>
+</svg>

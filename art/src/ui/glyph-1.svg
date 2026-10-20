@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <!-- Link Glyph 1: Diamond ◆ (Centered, bold engraved gold shape) -->
+  <!-- Left facet (lit) -->
+  <polygon points="12,3 3,12 12,21" fill="var(--gold, #E8B66A)"/>
+  <!-- Right facet (shaded bevel) -->
+  <polygon points="12,3 21,12 12,21" fill="var(--gold-dark, #A8742A)"/>
+  <polygon points="12,3 21,12 12,21" fill="url(#hatch-fine)" opacity="0.35"/>
+
+  <!-- Center bevel spine -->
+  <line x1="12" y1="3" x2="12" y2="21" stroke="var(--gold-dark, #A8742A)" stroke-width="1.2"/>
+  <!-- Top-left lit rim highlight -->
+  <line x1="3.5" y1="12" x2="11.5" y2="3.5" stroke="var(--gold-light, #FFF4D6)" stroke-width="1.0" stroke-linecap="round"/>
+
+  <!-- Ink outline with subtle wobble -->
+  <g filter="url(#wobble-soft)">
+    <polygon points="12,3 21,12 12,21 3,12" fill="none" stroke="#2A1E14" stroke-width="1.6" stroke-linejoin="round"/>
+  </g>
+</svg>

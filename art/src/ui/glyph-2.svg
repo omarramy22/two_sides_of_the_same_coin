@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <!-- Link Glyph 2: Circle ● (Centered, bold engraved gold shape) -->
+  <circle cx="12" cy="12" r="8.5" fill="var(--gold, #E8B66A)"/>
+  <!-- Shaded bottom-right crescent bevel -->
+  <path d="M 6 18 A 8.5 8.5 0 0 0 20.5 12 A 8.5 8.5 0 0 1 12 20.5 A 8.5 8.5 0 0 1 6 18 Z" fill="var(--gold-dark, #A8742A)"/>
+  <path d="M 6 18 A 8.5 8.5 0 0 0 20.5 12 A 8.5 8.5 0 0 1 12 20.5 A 8.5 8.5 0 0 1 6 18 Z" fill="url(#hatch-fine)" opacity="0.35"/>
+
+  <!-- Engraved inner coin ring -->
+  <circle cx="12" cy="12" r="5.2" fill="none" stroke="var(--gold-dark, #A8742A)" stroke-width="1.0" stroke-dasharray="1.2 1.5"/>
+  <!-- Center raised coin boss -->
+  <circle cx="12" cy="12" r="2.2" fill="var(--gold-dark, #A8742A)"/>
+  <circle cx="11.4" cy="11.4" r="0.8" fill="var(--gold-light, #FFF4D6)"/>
+
+  <!-- Top-left rim highlight -->
+  <path d="M 5.5 12 A 7.5 7.5 0 0 1 12 4.5" stroke="var(--gold-light, #FFF4D6)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+
+  <!-- Ink outline with subtle wobble -->
+  <g filter="url(#wobble-soft)">
+    <circle cx="12" cy="12" r="8.5" fill="none" stroke="#2A1E14" stroke-width="1.6"/>
+  </g>
+</svg>

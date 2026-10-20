@@ -7,8 +7,8 @@ import { recordSolve, stars } from '../app/save';
 import type { Scene } from '../app/scenes';
 import type { Action } from '../app/settings';
 import { History } from '../engine/history';
-import { gateOpen, isWon, tick } from '../engine/tick';
-import { isGate } from '../engine/parse';
+import { gateJammed, gateOpen, isWon, occupied, tick } from '../engine/tick';
+import { isGate, isPlate } from '../engine/parse';
 import type { Dir, GameEvent, State, W } from '../engine/types';
 import { Hinter } from '../hints/hints';
 import { chapterOf } from '../levels';
@@ -48,7 +48,7 @@ export function createPlay(ctx: Ctx, index: number): Scene {
   function layout(w: number, h: number) {
     vw = w; vh = h;
     back.removeChildren().forEach((c) => c.destroy());
-    drawBackground(ctx.art, back, w, h, w / 2);
+    drawBackground(ctx.art, back, w, h, w / 2, chapterOf(lv));
     hud.layout(w, h);
     const top = Hud.heightFor(w), m = 16;
     const { t, landscape } = Board.fit(lv, w - 2 * m, h - top - 2 * m);
@@ -87,14 +87,23 @@ export function createPlay(ctx: Ctx, index: number): Scene {
     }
     // Gates: one sound per world that changed, so the cross-world cause is heard on both sides.
     for (const w of [0, 1] as W[]) {
-      let opened = false, closed = false;
+      let opened = false, closed = false, jammed = false, down = false, up = false;
       for (let i = 0; i < next.tiles[w].length; i++) {
-        if (!isGate(next.tiles[w][i])) continue;
+        const c = next.tiles[w][i];
+        if (isPlate(c)) {
+          const a = occupied(prev, w, i), b = occupied(next, w, i);
+          down ||= !a && b; up ||= a && !b;
+        }
+        if (!isGate(c)) continue;
         const a = gateOpen(lv, prev, w, i), b = gateOpen(lv, next, w, i);
         opened ||= !a && b; closed ||= a && !b;
+        jammed ||= gateJammed(lv, next, w, i) && !gateJammed(lv, prev, w, i);
       }
+      if (down) audio.sfx('plateDown', w);
+      if (up) audio.sfx('plateUp', w);
       if (opened) audio.sfx('gateOpen', w);
       if (closed) audio.sfx('gateClose', w);
+      if (jammed) audio.sfx('gateJam', w);
     }
     const aligned = next.pos[0] === next.pos[1];
     if (aligned && prev.pos[0] !== prev.pos[1] && !ev.some((e) => e.type === 'flip')) audio.sfx('align');

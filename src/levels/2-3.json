@@ -1,0 +1,18 @@
+{
+  "id": "2-3",
+  "name": "Doorstop",
+  "role": "develop",
+  "par": 12,
+  "designNote": "Aha: Lune's crate on her plate drops Sol's door shut right behind him, and that shut door becomes the wall Sol leans back on while Lune shuffles over to line up with her goal.",
+  "heads": ["##########",
+            "#S...B..G#",
+            "#.###.####",
+            "#........#",
+            "##########"],
+  "tails": ["##########",
+            "#.L.C..b.#",
+            "#........#",
+            "#.....G..#",
+            "##########"],
+  "hints": ["Lune's plate pulls on Sol's door.", "Get Sol through before Lune's crate lands. Then the shut door is something to lean on.", null]
+}

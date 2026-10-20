@@ -1,6 +1,7 @@
 import * as Tone from 'tone';
 import { Mixer, type VolumeSettings } from './mixer';
 import { Chapter1Theme } from './themes/ch1';
+import { Chapter2Theme } from './themes/ch2';
 import { SfxPool } from './sfx';
 
 export type SfxName =
@@ -16,6 +17,8 @@ class AudioManager {
 
   private mixer: Mixer | null = null;
   private ch1Theme: Chapter1Theme | null = null;
+  private ch2Theme: Chapter2Theme | null = null;
+  private currentTheme: Chapter1Theme | Chapter2Theme | null = null;
   private sfxPool: SfxPool | null = null;
 
   private pendingVolumes: VolumeSettings = {
@@ -47,6 +50,7 @@ class AudioManager {
         // Initialize audio subsystem
         this.mixer = new Mixer();
         this.ch1Theme = new Chapter1Theme(this.mixer);
+        this.ch2Theme = new Chapter2Theme(this.mixer);
         this.sfxPool = new SfxPool(this.mixer);
 
         // Apply any volume configuration requested prior to unlock
@@ -80,20 +84,31 @@ class AudioManager {
   }
 
   playMusic(chapter: number): void {
-    if (!this._unlocked || !this.ch1Theme) return;
+    if (!this._unlocked || !this.ch1Theme || !this.ch2Theme) return;
     try {
-      // Currently only chapter 1 exists; all other chapters fall back to 1
-      void chapter;
-      void this.ch1Theme.start();
+      const target = chapter === 2 ? this.ch2Theme : this.ch1Theme;
+      if (this.currentTheme === target) return;
+      if (this.currentTheme) {
+        this.currentTheme.stop(0.2);
+        setTimeout(() => {
+          if (this.currentTheme === target) {
+            void target.start();
+          }
+        }, 300);
+      } else {
+        void target.start();
+      }
+      this.currentTheme = target;
     } catch {
       // Safe no-op
     }
   }
 
   stopMusic(fadeSec?: number): void {
-    if (!this._unlocked || !this.ch1Theme) return;
+    if (!this._unlocked) return;
     try {
-      this.ch1Theme.stop(fadeSec);
+      this.currentTheme?.stop(fadeSec);
+      this.currentTheme = null;
     } catch {
       // Safe no-op
     }
@@ -109,9 +124,9 @@ class AudioManager {
   }
 
   resolve(): void {
-    if (!this._unlocked || !this.ch1Theme) return;
+    if (!this._unlocked) return;
     try {
-      this.ch1Theme.resolve();
+      (this.currentTheme ?? this.ch1Theme)?.resolve();
     } catch {
       // Safe no-op
     }
