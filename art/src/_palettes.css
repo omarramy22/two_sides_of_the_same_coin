@@ -69,3 +69,34 @@
   --highlight: #E8F0FF;
   --pit: #05061A;
 }
+
+/* Chapter 2, The Roots: deeper in the well, earth and roots. Same token names; tiles render per palette. */
+.theme-heads2 {
+  --ink: #2A1E14;
+  --floor: #CDBB82;
+  --floor-light: #E2D29C;
+  --floor-dark: #A68F55;
+  --wall-top: #8A7446;
+  --wall-face: #5B4A28;
+  --wall-shade: #3C2F18;
+  --accent: #6F9E4C;
+  --accent-dark: #4A7032;
+  --accent2: #2E8C8A;
+  --highlight: #F4EBC8;
+  --pit: #1E160C;
+}
+
+.theme-tails2 {
+  --ink: #0B1620;
+  --floor: #23394A;
+  --floor-light: #33506A;
+  --floor-dark: #182A38;
+  --wall-top: #3F6A6E;
+  --wall-face: #1B3038;
+  --wall-shade: #0F1E24;
+  --accent: #7FC8A9;
+  --accent-dark: #4E9178;
+  --accent2: #E07A6B;
+  --highlight: #DFF5EC;
+  --pit: #050C10;
+}
