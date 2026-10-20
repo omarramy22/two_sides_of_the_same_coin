@@ -116,7 +116,7 @@ export class Mixer {
 
     try {
       if (typeof fetch === 'undefined') return null;
-      const res = await fetch('/manifest.json');
+      const res = await fetch(`${import.meta.env.BASE_URL}manifest.json`);
       if (!res.ok) return null;
 
       const manifest = (await res.json()) as Record<string, { src?: string }>;
@@ -126,7 +126,8 @@ export class Mixer {
 
       if (!headsSrc || !tailsSrc) return null;
 
-      const normalizePath = (p: string) => (p.startsWith('/') ? p : `/${p}`);
+      // Manifest paths are relative to the site root, which may be a subfolder (itch.io).
+      const normalizePath = (p: string) => `${import.meta.env.BASE_URL}${p.replace(/^\//, '')}`;
 
       const headsPlayer = new Tone.Player({
         url: normalizePath(headsSrc),
