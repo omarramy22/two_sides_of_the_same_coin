@@ -269,6 +269,42 @@
     "w": 96,
     "h": 96
   },
+  "story/dawn-sky": {
+    "src": "story/dawn-sky.jpg",
+    "src2x": "story/dawn-sky@2x.jpg",
+    "w": 1280,
+    "h": 720
+  },
+  "story/hills": {
+    "src": "story/hills.png",
+    "src2x": "story/hills@2x.png",
+    "w": 1280,
+    "h": 720
+  },
+  "story/night-sky": {
+    "src": "story/night-sky.jpg",
+    "src2x": "story/night-sky@2x.jpg",
+    "w": 1280,
+    "h": 720
+  },
+  "story/well": {
+    "src": "story/well.png",
+    "src2x": "story/well@2x.png",
+    "w": 480,
+    "h": 440
+  },
+  "story/wisher-moon": {
+    "src": "story/wisher-moon.png",
+    "src2x": "story/wisher-moon@2x.png",
+    "w": 240,
+    "h": 360
+  },
+  "story/wisher-sun": {
+    "src": "story/wisher-sun.png",
+    "src2x": "story/wisher-sun@2x.png",
+    "w": 240,
+    "h": 360
+  },
   "tiles/altar-light-used.heads5": {
     "src": "tiles/altar-light-used.heads5.png",
     "src2x": "tiles/altar-light-used.heads5@2x.png",

@@ -79,9 +79,12 @@ export function createTitle(ctx: Ctx): Scene {
   const playBtn = new Button('Play', () => ctx.go.play(playIndex), 220, 56, 28);
   const albumBtn = new Button('Level album', () => ctx.go.album(), 180, 44, 20);
   const introBtn = new Button('Watch intro', () => ctx.go.story({ kind: 'intro' }, () => ctx.go.title()), 180, 44, 20);
-  root.addChild(playBtn, albumBtn, introBtn);
+  // The ending is a reward: offered once the finale is solved (or for judges).
+  const endingBtn = ctx.save.best['6-5'] !== undefined || ctx.settings().judgeMode
+    ? new Button('Watch ending', () => ctx.go.story({ kind: 'ending' }, () => ctx.go.title()), 180, 44, 20) : null;
+  root.addChild(playBtn, albumBtn, introBtn, ...(endingBtn ? [endingBtn] : []));
 
-  const focus = new FocusList([playBtn, albumBtn, introBtn]);
+  const focus = new FocusList([playBtn, albumBtn, introBtn, ...(endingBtn ? [endingBtn] : [])]);
 
   // Corner text buttons: Settings (bottom-left) and Credits (bottom-right)
   const settingsBtn = new Container();
@@ -184,6 +187,7 @@ export function createTitle(ctx: Ctx): Scene {
     const albumY = playY + playBtn.h + 16;
     albumBtn.position.set(w / 2 - albumBtn.w / 2, albumY);
     introBtn.position.set(w / 2 - introBtn.w / 2, albumY + albumBtn.h + 12);
+    endingBtn?.position.set(w / 2 - endingBtn.w / 2, albumY + (albumBtn.h + 12) * 2);
 
     // Settings (bottom-left) and Credits (bottom-right)
     settingsBtn.position.set(24, h - 36);

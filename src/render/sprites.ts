@@ -18,7 +18,7 @@ const BG = ['', 'surface', 'roots', 'stone', 'waters', 'dark', 'rim'];
 
 /** Loads every texture the board needs once. Rejects if `npm run art` hasn't been run. */
 export async function loadArt(): Promise<Art> {
-  const keys = Object.keys(await loadManifest()).filter((k) => /^(tiles|ui|bg|chars\/tarnish)\//.test(k));
+  const keys = Object.keys(await loadManifest()).filter((k) => /^(tiles|ui|bg|story|title|chars\/tarnish)\//.test(k));
   const tex = Object.fromEntries(await Promise.all(keys.map(async (k) => [k, await texture(k)] as const)));
   const [sol, lune] = await Promise.all([loadPuppet('sol'), loadPuppet('lune')]);
   sol.partnerSide = 1;

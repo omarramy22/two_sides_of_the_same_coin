@@ -24,8 +24,10 @@ export class Tweens {
       if (tw.delay > 0) { tw.delay -= dt; continue; }
       tw.t = Math.min(tw.dur, tw.t + dt);
       const k = tw.t / tw.dur;
-      tw.update(tw.ease(k));
-      if (k >= 1) { this.list.splice(this.list.indexOf(tw), 1); tw.done?.(); }
+      // A tween whose target was destroyed meanwhile just ends; one bad tween must not stall the rest.
+      let ok = true;
+      try { tw.update(tw.ease(k)); } catch { ok = false; }
+      if (k >= 1 || !ok) { this.list.splice(this.list.indexOf(tw), 1); tw.done?.(); }
     }
   }
   /** Jump every tween to its end (undo/restart/level load must never wait on animation). */

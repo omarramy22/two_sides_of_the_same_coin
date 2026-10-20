@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="440" viewBox="0 0 480 440">
+  <!-- The wishing well, side view: a drum of fitted stones, a little shingled roof on two posts,
+       a crank, a rope and a bucket. The mouth (dark ellipse) is at y 250. -->
+  <ellipse cx="240" cy="428" rx="200" ry="12" fill="#000" fill-opacity="0.35"/>
+  <g filter="url(#wobble)" stroke="#1E160E" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+    <!-- posts -->
+    <path d="M118 64 L130 64 L132 262 L116 262 Z" fill="#7A5434"/>
+    <path d="M350 64 L362 64 L364 262 L348 262 Z" fill="#7A5434"/>
+    <path d="M126 70 L130 260 L124 260 Z M358 70 L362 260 L356 260 Z" fill="url(#hatch)" stroke="none"/>
+    <!-- roof -->
+    <path d="M80 82 L240 18 L400 82 L386 96 L240 40 L94 96 Z" fill="#8E4B2A"/>
+    <path d="M94 96 L240 40 L386 96 Q240 104 94 96 Z" fill="#5E2E18"/>
+    <path d="M120 74 L240 28 M150 78 L240 40 M180 70 L240 46 M300 70 L240 46 M330 78 L240 40 M360 74 L240 28" stroke-width="1.4" fill="none"/>
+    <path d="M240 18 L400 82 L386 96 L240 40 Z" fill="url(#hatch)" stroke="none"/>
+    <!-- crank axle, handle, rope and bucket -->
+    <path d="M118 128 L362 128 L362 140 L118 140 Z" fill="#6A4628"/>
+    <path d="M362 134 L392 134 L392 168 L404 168" fill="none" stroke-width="4"/>
+    <path d="M232 122 Q240 116 248 122 L248 146 Q240 152 232 146 Z" fill="#B8935E"/>
+    <path d="M240 146 L240 196" fill="none" stroke-width="2.2"/>
+    <path d="M222 196 L258 196 L254 230 L226 230 Z" fill="#7A5434"/>
+    <path d="M222 204 L258 204 M224 220 L256 220" stroke="#3A3A44" stroke-width="3"/>
+    <path d="M226 196 Q240 182 254 196" fill="none" stroke-width="2"/>
+    <!-- the stone drum -->
+    <path d="M80 250 L80 410 Q240 446 400 410 L400 250 Z" fill="#6E6052"/>
+    <path d="M260 254 L400 250 L400 410 Q330 428 260 434 Z" fill="url(#hatch)" stroke="none"/>
+    <g stroke-width="1.8" fill="none" stroke="#2E241A">
+      <path d="M80 292 Q240 316 400 292 M80 334 Q240 358 400 334 M80 376 Q240 400 400 376"/>
+      <path d="M128 262 V300 M196 266 V306 M266 266 V306 M334 262 V300 M100 300 V342 M162 306 V348 M232 308 V350 M300 306 V348 M370 300 V342 M128 344 V386 M196 350 V392 M266 350 V392 M334 344 V386 M100 386 V420 M162 392 V428 M232 394 V432 M300 392 V428 M370 386 V420"/>
+    </g>
+    <!-- the rim and the dark mouth -->
+    <ellipse cx="240" cy="250" rx="168" ry="34" fill="#8C7A66"/>
+    <ellipse cx="240" cy="254" rx="140" ry="22" fill="#06070F"/>
+    <path d="M106 246 Q240 222 374 246" fill="none" stroke="#C9B79C" stroke-width="2"/>
+  </g>
+  <!-- moss and grass at the foot -->
+  <path d="M86 404 Q100 392 116 404 Q130 392 146 406" fill="#4A7032" stroke="#1E160E" stroke-width="1.6"/>
+  <path d="M340 410 Q352 396 366 408 Q380 398 394 410" fill="#4A7032" stroke="#1E160E" stroke-width="1.6"/>
+  <!-- moonlight catching the rim and the roof edge -->
+  <path d="M120 238 Q200 220 300 224" stroke="#E8F0FF" stroke-opacity="0.6" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <path d="M100 84 L230 30" stroke="#E8F0FF" stroke-opacity="0.45" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+</svg>

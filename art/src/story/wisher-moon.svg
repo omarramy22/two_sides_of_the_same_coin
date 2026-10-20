@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="360" viewBox="0 0 240 360">
+  <!-- The second wisher (side view, facing right): a crescent-moon hood and a long scarf like
+       Lune's, hands held together at the chest. The game flips the sprite to face left. -->
+  <ellipse cx="118" cy="350" rx="56" ry="8" fill="#000" fill-opacity="0.3"/>
+  <g filter="url(#wobble)" stroke="var(--lune-ink)" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+    <!-- the scarf trailing behind, lifted by the night wind -->
+    <path d="M98 150 Q60 156 30 178 Q22 196 34 204 Q60 184 100 172 Z" fill="var(--silver)"/>
+    <path d="M30 178 Q22 196 34 204 L28 214 Q14 200 24 180 Z" fill="var(--silver-dark)"/>
+    <!-- boots -->
+    <path d="M98 318 L98 344 Q98 350 106 350 L120 350 Q124 349 122 344 L116 318 Z" fill="var(--lune-boot)"/>
+    <path d="M126 318 L126 344 Q126 350 134 350 L150 350 Q155 348 151 343 L144 318 Z" fill="var(--lune-boot)"/>
+    <!-- long tunic -->
+    <path d="M92 156 Q80 240 76 324 Q118 338 162 324 Q156 240 148 156 Q120 142 92 156 Z" fill="var(--lune-tunic)"/>
+    <path d="M86 200 Q80 260 76 324 Q96 330 104 331 Q98 260 104 196 Z" fill="url(#hatch-r)" stroke="none"/>
+    <path d="M76 318 Q118 332 162 318 L162 326 Q118 340 76 326 Z" fill="var(--silver)" stroke-width="2"/>
+    <path d="M80 324 Q118 336 158 324" fill="none" stroke="var(--silver-dark)" stroke-width="1.6" stroke-dasharray="1.4 2.6"/>
+    <!-- hands held together at the chest -->
+    <path d="M118 178 Q146 186 154 204 L140 212 Q128 198 112 196 Z" fill="var(--lune-tunic-shade)"/>
+    <circle cx="152" cy="208" r="9" fill="var(--lune-skin)" stroke-width="2"/>
+    <!-- scarf wrapped at the neck -->
+    <path d="M92 146 Q120 160 150 146 L152 164 Q120 178 90 164 Z" fill="var(--silver)"/>
+    <path d="M96 156 Q120 166 146 156" fill="none" stroke="var(--silver-dark)" stroke-width="1.6" stroke-dasharray="1.4 2.6"/>
+    <!-- head and face -->
+    <circle cx="124" cy="106" r="40" fill="var(--lune-skin)"/>
+    <ellipse cx="148" cy="100" rx="3.8" ry="5.2" fill="var(--lune-ink)" stroke="none"/>
+    <path d="M142 92 Q148 88 155 92" fill="none" stroke-width="2"/>
+    <path d="M146 124 Q153 126 158 121" fill="none" stroke-width="2"/>
+    <circle cx="150" cy="114" r="5.5" fill="var(--blush)" fill-opacity="0.4" stroke="none"/>
+    <path d="M100 74 Q120 66 142 74 Q128 84 112 86 Z" fill="var(--lune-hair)" stroke-width="2"/>
+    <!-- the crescent hood: wraps the head and sweeps back to a curled point -->
+    <path d="M150 74 Q150 40 118 34 Q78 34 70 76 Q66 118 88 146 Q76 118 82 92 Q86 64 116 58 Q140 58 150 74 Z" fill="var(--silver-light)"/>
+    <path d="M118 34 Q78 34 70 76 Q60 46 30 40 Q60 22 118 34 Z" fill="var(--silver)"/>
+    <path d="M30 40 Q22 38 18 44 Q26 46 30 40" fill="var(--silver)" stroke-width="2"/>
+    <path d="M72 80 Q70 112 86 140 Q76 118 80 92 Z" fill="url(#hatch-r)" stroke="none"/>
+  </g>
+  <!-- cool rim light from the moon, top-right -->
+  <path d="M120 38 Q146 44 152 70" stroke="#E8F0FF" stroke-opacity="0.85" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <path d="M150 166 Q158 240 162 300" stroke="#E8F0FF" stroke-opacity="0.4" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+</svg>

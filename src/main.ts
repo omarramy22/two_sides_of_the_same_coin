@@ -40,7 +40,8 @@ async function boot() {
       album: (chapter = 1) => scenes.show(createAlbum(ctx, chapter)),
       play: (i) => scenes.show(createPlay(ctx, Math.max(0, Math.min(levels.length - 1, i)))),
       settings: () => scenes.push(createSettings(ctx, () => scenes.pop())),
-      story: (s, then) => { audio.playMusic(s.kind === 'vignette' ? s.chapter : s.kind === 'ending' ? 6 : 1); scenes.show(createStory(ctx, s, then)); },
+      // The intro starts its own music when Sol and Lune wake.
+      story: (s, then) => { if (s.kind !== 'intro') audio.playMusic(s.kind === 'vignette' ? s.chapter : 6); scenes.show(createStory(ctx, s, then)); },
     },
   };
   ctx.input = new Input(app.canvas, ctx.settings);
@@ -70,6 +71,7 @@ async function boot() {
   const i = start ? levels.findIndex((l) => l.id === start) : -1;
   if (i >= 0) ctx.go.play(i);
   else if (params.has('shots')) ctx.go.play(0);
+  else if (params.has('ending')) ctx.go.story({ kind: 'ending' }, () => ctx.go.title());
   else if (!ctx.save.seenIntro || params.has('intro')) {
     // First launch: the wordless intro, once (it's replayable from the title).
     ctx.save = { ...ctx.save, seenIntro: true };
