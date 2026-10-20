@@ -180,7 +180,7 @@ export class Board extends Container {
 
     // Crates: slide (with a scrape trail) or drop into a pit.
     for (const e of ev) {
-      if ((e.type !== 'push' && e.type !== 'fill') || e.from === undefined) continue;
+      if ((e.type !== 'push' && e.type !== 'fill' && e.type !== 'raft') || e.from === undefined) continue;
       const key = `${e.world}:${e.from}`, s = this.crates.get(key);
       if (!s) continue;
       this.crates.delete(key);
@@ -223,6 +223,16 @@ export class Board extends Container {
         }));
     }
 
+    // Water crossing the seam: a droplet runs from the cell that drained to its twin, which floods.
+    for (const e of ev) {
+      if (e.type === 'flow') jobs.push(this.tweens.wait(STEP * 0.5).then(() => this.droplet(e.world, e.at)));
+      if (e.type === 'raft' && e.from === undefined) {
+        const key = `${e.world}:${e.at}`, s = this.crates.get(key);
+        this.crates.delete(key);
+        if (s) jobs.push(this.tweens.wait(STEP + 0.3).then(() => s.destroy()));
+      }
+    }
+
     // Lost through a bridge that went void: whatever stood there sinks into the cleft.
     for (const e of ev) {
       if (e.type !== 'drop') continue;
@@ -254,7 +264,8 @@ export class Board extends Container {
     // Terrain follows once the movers arrive. Fills redraw it themselves when they land; gates
     // depend on who stands where, so levels with mechanisms redraw every move.
     const changed = next.tiles[0] !== prev.tiles[0] || next.tiles[1] !== prev.tiles[1];
-    if (changed && !ev.some((e) => e.type === 'fill' || e.type === 'foeFall')) {
+    // Sluices show open/closed from who stands on them, so tide levels redraw every move.
+    if ((changed || this.lv.sluices.length) && !ev.some((e) => e.type === 'fill' || e.type === 'foeFall')) {
       jobs.push(this.tweens.wait(STEP).then(() => this.refreshTerrain(this.state)));
     }
     // Plates, doors and stones move once the movers arrive; characters react to their partner's doings.
@@ -296,6 +307,20 @@ export class Board extends Container {
         f.tint = frozen ? (w ? 0xb8c8ff : 0xffd98a) : 0xffffff; // pale and lamp-coloured: held still by the light
       }
     }
+  }
+
+  /** One unit of water leaves world `w` at cell `i`: a droplet arcs over the seam and splashes into the twin. */
+  private droplet(w: W, i: number): Promise<void> {
+    const { t } = this, o = (1 - w) as W;
+    const [ax, ay] = this.centre(w, i), [bx, by] = this.centre(o, i);
+    const drop = new Graphics().circle(0, 0, t * 0.1).fill({ color: 0x8fd9cc, alpha: 0.95 }).circle(0, 0, t * 0.18).fill({ color: 0x8fd9cc, alpha: 0.3 });
+    this.fx.addChild(drop);
+    return this.tweens.add(0.4, (k) => {
+      drop.position.set(ax + (bx - ax) * k, ay + (by - ay) * k - Math.sin(k * Math.PI) * t * 0.8);
+    }, { ease: ease.inOutSine }).then(() => {
+      drop.destroy();
+      if (!this.opts.reducedMotion) this.fx.burst(bx, by, { n: 10, color: 0x8fd9cc, size: t * 0.04, speed: t * 1.6, up: t * 0.6, grav: t * 6, life: 0.4 });
+    });
   }
 
   /** The halves line up: a light pulse runs along the seam and every Tarnish flips. */

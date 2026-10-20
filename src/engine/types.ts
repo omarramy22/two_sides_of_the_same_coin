@@ -24,12 +24,16 @@ export interface Level extends Omit<LevelFile, 'heads' | 'tails'> {
   /** Plate cell indices per link letter (lowercase), all in `owner[letter]`'s world. */
   plates: Record<string, number[]>;
   owner: Record<string, W>;
+  /** Basin regions (§8): 4-connected sets of basin cells, the same in both worlds. */
+  basins: number[][];
+  /** Sluices and the basin region each one drains (its world's water goes across the seam). */
+  sluices: { w: W; i: number; region: number }[];
   start: State;
 }
 
 /**
  * Everything that can change. Cells are indexed `y * w + x`.
- * `tiles` is the terrain (walls, gates, seesaw ends, pits...).
+ * `tiles` is the terrain (walls, gates, seesaw ends, pits, water `~`/`_`, rafts `+`...).
  * `objs` per cell: ' ' empty, 'C' crate, '*' lantern, '@' awake Tarnish, '?' asleep Tarnish.
  * Gate open/closed and light are derived, never stored (RULES.md §5, §7).
  */
@@ -43,10 +47,11 @@ export interface State {
 /**
  * Animation hints from `tick`. `at` is where it happened. Things that slide also carry `from`:
  * push/fill = the crate's move (fill: into a pit), foeStep/foeFall = a Tarnish's step,
- * drop = an object lost through a bridge that went void (§7).
+ * drop = an object lost through a bridge that went void (§7), raft = a crate that became a raft
+ * (from = where it was pushed from, if pushed), flow = one unit of water left `world` at `at` for the twin (§8).
  */
 export type GameEvent = {
-  type: 'move' | 'bump' | 'push' | 'fill' | 'stomp' | 'stompJam' | 'fall' | 'caught' | 'flip' | 'foeStep' | 'foeFall' | 'drop';
+  type: 'move' | 'bump' | 'push' | 'fill' | 'stomp' | 'stompJam' | 'fall' | 'caught' | 'flip' | 'foeStep' | 'foeFall' | 'drop' | 'raft' | 'flow';
   world: W;
   at: number;
   from?: number;

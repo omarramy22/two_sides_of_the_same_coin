@@ -3,13 +3,14 @@ import { Mixer, type VolumeSettings } from './mixer';
 import { Chapter1Theme } from './themes/ch1';
 import { Chapter2Theme } from './themes/ch2';
 import { Chapter3Theme } from './themes/ch3';
+import { Chapter4Theme } from './themes/ch4';
 import { SfxPool } from './sfx';
 
 export type SfxName =
   | 'step' | 'push' | 'bump' | 'fill' | 'fall' | 'caught'
   | 'foeStep' | 'foeFall' | 'flip' | 'align'
   | 'plateDown' | 'plateUp' | 'gateOpen' | 'gateClose' | 'gateJam' | 'seesaw'
-  | 'bridgeOn' | 'bridgeOff'
+  | 'bridgeOn' | 'bridgeOff' | 'water'
   | 'undo' | 'restart' | 'hint' | 'levelComplete' | 'chapterComplete'
   | 'uiHover' | 'uiClick';
 
@@ -21,6 +22,7 @@ class AudioManager {
   private ch1Theme: Chapter1Theme | null = null;
   private ch2Theme: Chapter2Theme | null = null;
   private ch3Theme: Chapter3Theme | null = null;
+  private ch4Theme: Chapter4Theme | null = null;
   private currentTheme: Chapter1Theme | Chapter2Theme | Chapter3Theme | null = null;
   private sfxPool: SfxPool | null = null;
 
@@ -55,6 +57,7 @@ class AudioManager {
         this.ch1Theme = new Chapter1Theme(this.mixer);
         this.ch2Theme = new Chapter2Theme(this.mixer);
         this.ch3Theme = new Chapter3Theme(this.mixer);
+        this.ch4Theme = new Chapter4Theme(this.mixer);
         this.sfxPool = new SfxPool(this.mixer);
 
         // Apply any volume configuration requested prior to unlock
@@ -88,9 +91,9 @@ class AudioManager {
   }
 
   playMusic(chapter: number): void {
-    if (!this._unlocked || !this.ch1Theme || !this.ch2Theme || !this.ch3Theme) return;
+    if (!this._unlocked || !this.ch1Theme || !this.ch2Theme || !this.ch3Theme || !this.ch4Theme) return;
     try {
-      const target = chapter >= 3 ? this.ch3Theme : chapter === 2 ? this.ch2Theme : this.ch1Theme;
+      const target = chapter >= 4 ? this.ch4Theme : chapter === 3 ? this.ch3Theme : chapter === 2 ? this.ch2Theme : this.ch1Theme;
       if (this.currentTheme === target) return;
       if (this.currentTheme) {
         this.currentTheme.stop(0.2);

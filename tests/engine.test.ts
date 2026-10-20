@@ -361,3 +361,51 @@ describe('light and shadow (§7)', () => {
     expect(run(lv2, ['down']).objs[0][at(lv2, 3, 0)]).toBe(' ');
   });
 });
+
+describe('water (§8)', () => {
+  it('rejects basins that are not one unit per cell, and sluices touching no basin', () => {
+    expect(() => lvl(['S~G'], ['L~G'])).toThrow(/basin/);
+    expect(() => lvl(['S&.G'], ['L..G'])).toThrow(/sluice/);
+  });
+  it('flooded water blocks walking; dry basin is floor', () => {
+    const lv = lvl(['S~G'], ['L_G']);
+    const s = run(lv, ['right']);
+    expect(s.pos[0]).toBe(lv.start.pos[0]);
+    expect(xy(lv, s.pos[1])).toEqual([1, 0]);
+  });
+  it('standing on a sluice sends one unit per tick across the seam, nearest first', () => {
+    // Sol's sluice at (0,1) drains his basin row into Lune's, one cell per move.
+    const lv = lvl(['S...', '&~~G'], ['L...', '.__G']);
+    let s = run(lv, ['down']);
+    expect([s.tiles[0].slice(4, 7), s.tiles[1].slice(4, 7)]).toEqual(['&_~', '.~_']);
+    s = run(lv, ['up'], s); // off the sluice: no flow
+    expect(s.tiles[0].slice(5, 7)).toBe('_~');
+    s = run(lv, ['down', 'left'], s); // back on (one unit), then a bump while on it (water is gone)
+    expect([s.tiles[0].slice(5, 7), s.tiles[1].slice(5, 7)]).toEqual(['__', '~~']);
+  });
+  it('water never floods onto a character: the next cell goes instead', () => {
+    const lv = lvl(['S...', '&~~G'], ['.L..', '.__G']);
+    const s = run(lv, ['down']); // Sol onto the sluice, Lune onto the nearest twin cell
+    expect(s.pos[1]).toBe(at(lv, 1, 1));
+    expect([s.tiles[0].slice(5, 7), s.tiles[1].slice(5, 7)]).toEqual(['~_', '_~']);
+  });
+  it('a crate pushed into water becomes a raft you can walk on', () => {
+    const lv = lvl(['SC~.G'], ['L._.G']);
+    let s = run(lv, ['right']);
+    expect(s.tiles[0][2]).toBe('+');
+    expect(s.objs[0]).not.toContain('C');
+    s = run(lv, ['right'], s);
+    expect(s.pos[0]).toBe(2);
+  });
+  it('a lantern cannot be pushed into water', () => {
+    const lv = lvl(['S*~.G'], ['L._.G']);
+    expect(run(lv, ['right']).pos[0]).toBe(0);
+  });
+  it('a crate on a dry cell that floods becomes a raft', () => {
+    const lv = lvl(['S...', '&~.G'], ['L...', '.0.G']);
+    expect([lv.start.tiles[1][5], lv.start.objs[1][5]]).toEqual(['_', 'C']);
+    const s = tick(lv, lv.start, 'down');
+    expect(s.tiles[1][5]).toBe('+');
+    expect(s.objs[1][5]).toBe(' ');
+  });
+});

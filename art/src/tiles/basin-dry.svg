@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="heads4,tails4">
+  <!-- A drained basin cell: damp sunken flagstone, a tide line, a puddle. Walkable. -->
+  <g filter="url(#grain)"><rect width="64" height="64" fill="var(--floor-dark)"/></g>
+  <g filter="url(#wobble)" stroke="var(--ink)" stroke-width="1.1" stroke-opacity="0.6" fill="none">
+    <path d="M2 2 H62 V62 H2 Z" fill="var(--floor)" fill-opacity="0.55"/>
+    <path d="M2 22 Q20 18 34 22 T62 20 M30 2 L28 22 M20 42 L22 62 M44 22 L46 42"/>
+  </g>
+  <path d="M2 8 Q32 5 62 8" stroke="var(--water-dark)" stroke-width="1.4" stroke-dasharray="3 2" fill="none" opacity="0.7"/>
+  <ellipse cx="40" cy="50" rx="9" ry="3.5" fill="var(--water)" opacity="0.6"/>
+  <path d="M35 49 Q39 47.5 43 49" stroke="var(--water-light)" stroke-width="1" fill="none"/>
+  <circle cx="14" cy="32" r="1.2" fill="var(--water-light)" opacity="0.6"/>
+</svg>

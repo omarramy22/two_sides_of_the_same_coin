@@ -32,7 +32,7 @@ export function gateJammed(lv: Level, s: State, w: W, i: number): boolean {
 
 function solid(lv: Level, s: State, w: W, i: number): boolean {
   const c = s.tiles[w][i];
-  return c === '#' || c === '|' || (isGate(c) && !gateOpen(lv, s, w, i));
+  return c === '#' || c === '|' || c === '~' || (isGate(c) && !gateOpen(lv, s, w, i));
 }
 
 /**
@@ -84,6 +84,42 @@ function foeStep(lv: Level, s: State, objs: ArrayLike<string>, w: W, i: number, 
   return -1;
 }
 
+/**
+ * RULES.md §8: each basin region with an open sluice in world W sends one unit of W's water across
+ * the seam: the flooded cell nearest an open sluice (ties: reading order) whose twin is free.
+ * Both directions are picked from the pre-flow water, then applied. Rafts take a cell out of the tides.
+ */
+function flow(lv: Level, tiles: string[][], objs: string[][], pos: [number, number], ev?: GameEvent[]) {
+  const moves: [W, number][] = [];
+  lv.basins.forEach((cells, r) => {
+    for (const w of [0, 1] as W[]) {
+      const open = lv.sluices.filter((sl) => sl.w === w && sl.region === r && (pos[w] === sl.i || objs[w][sl.i] !== ' '));
+      if (!open.length) continue;
+      const o = (1 - w) as W, inRegion = new Set(cells);
+      // BFS through the region, starting from the cells beside an open sluice.
+      const dist = new Map<number, number>(), queue: number[] = [];
+      for (const sl of open) for (const d of DIRS) {
+        const j = step(lv, sl.i, d);
+        if (inRegion.has(j) && !dist.has(j)) { dist.set(j, 0); queue.push(j); }
+      }
+      for (let k = 0; k < queue.length; k++) for (const d of DIRS) {
+        const j = step(lv, queue[k], d);
+        if (inRegion.has(j) && !dist.has(j)) { dist.set(j, dist.get(queue[k])! + 1); queue.push(j); }
+      }
+      const free = (i: number) => tiles[w][i] === '~' && tiles[o][i] === '_' && pos[o] !== i && (objs[o][i] === ' ' || objs[o][i] === 'C');
+      const pick = cells.filter(free).sort((a, b) => dist.get(a)! - dist.get(b)! || a - b)[0];
+      if (pick !== undefined) moves.push([w, pick]);
+    }
+  });
+  for (const [w, i] of moves) {
+    const o = (1 - w) as W;
+    tiles[w][i] = '_';
+    tiles[o][i] = '~';
+    ev?.push({ type: 'flow', world: w, at: i });
+    if (objs[o][i] === 'C') { objs[o][i] = ' '; tiles[o][i] = '+'; ev?.push({ type: 'raft', world: o, at: i }); }
+  }
+}
+
 /** RULES.md §4. Pure: never mutates `s`. Pass `ev` to collect animation events. */
 export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
   if (s.fallen[0] || s.fallen[1] || isWon(s)) return s;
@@ -104,6 +140,14 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
     if (s.objs[w][to] === '?') { ev?.push({ type: 'bump', world: w, at: s.pos[w] }); continue; }
     if (s.objs[w][to] !== ' ') {
       const beyond = step(lv, to, dir);
+      if (beyond >= 0 && s.objs[w][to] === 'C' && s.tiles[w][beyond] === '~' && s.objs[w][beyond] === ' ') {
+        // A crate pushed into water floats: a raft, walkable for good (§4.1).
+        objs[w][to] = ' ';
+        tiles[w][beyond] = '+';
+        ev?.push({ type: 'raft', world: w, at: beyond, from: to });
+        pos[w] = to;
+        continue;
+      }
       if (beyond < 0 || solid(lv, s, w, beyond) || s.objs[w][beyond] !== ' ' || (lit0 && voidBridge(s.tiles[w][beyond], lit0[w][beyond]))) {
         ev?.push({ type: 'bump', world: w, at: s.pos[w] });
         continue;
@@ -158,6 +202,9 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
     tiles[o][i] = '|';
     ev?.push({ type: 'stomp', world: w, at: i });
   }
+
+  // Step 6: water (§8).
+  if (lv.sluices.length) flow(lv, tiles, objs, pos, ev);
 
   // Steps 5 and 7: light, then anything on a void bridge falls. A lost lantern changes the light,
   // so repeat until nothing more drops.

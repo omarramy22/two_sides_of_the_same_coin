@@ -11,10 +11,10 @@ export interface Art {
 }
 
 /** Tile palette for a world in a chapter: 'heads'/'tails' in Chapter 1, then 'heads2', 'heads3'... */
-export const palette = (lv: Level, w: W) => `${w ? 'tails' : 'heads'}${['', '', '2', '3'][Math.min(chapter(lv), 3)]}`;
+export const palette = (lv: Level, w: W) => `${w ? 'tails' : 'heads'}${['', '', '2', '3', '4'][Math.min(chapter(lv), 4)]}`;
 const chapter = (lv: Level) => Number(lv.id.split('-')[0]);
-/** Background set per chapter (Chapter 1 'surface', Chapter 2 'roots', Chapter 3 'stone'). */
-const BG = ['', 'surface', 'roots', 'stone'];
+/** Background set per chapter (Chapter 1 'surface', Chapter 2 'roots', Chapter 3 'stone', Chapter 4 'waters'). */
+const BG = ['', 'surface', 'roots', 'stone', 'waters'];
 
 /** Loads every texture the board needs once. Rejects if `npm run art` hasn't been run. */
 export async function loadArt(): Promise<Art> {
@@ -68,7 +68,17 @@ export function drawTerrain(art: Art, layer: Container, lv: Level, terrain: Stat
       layer.addChild(bridge);
       continue;
     }
+    if (c === '~' || c === '_' || c === '+') {
+      layer.addChild(sprite(art, `tiles/${c === '~' ? 'water' : c === '_' ? 'basin-dry' : 'raft'}.${p}`, x, y, t));
+      continue;
+    }
     layer.addChild(sprite(art, `tiles/floor-${floorVariant(lv.id, w, i)}.${p}`, x, y, t));
+    if (c === '&') {
+      // Open while something stands on it (RULES.md §8): the gate slides back and the water runs.
+      const open = terrain.pos[w] === i || terrain.objs[w][i] !== ' ';
+      layer.addChild(sprite(art, `tiles/sluice-${open ? 'open' : 'closed'}.${p}`, x, y, t));
+      continue;
+    }
     const key = c === '^' ? 'pit' : c === ',' ? 'pit-crate' : c === ';' ? 'pit-tarnish' : c === 'G' ? (w ? 'goal-tails' : 'goal-heads') : null;
     if (key) layer.addChild(sprite(art, `tiles/${key}.${p}`, x, y, t));
   }

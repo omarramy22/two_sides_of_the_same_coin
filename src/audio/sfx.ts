@@ -324,6 +324,14 @@ export class SfxPool {
         break;
       }
 
+      case 'water': {
+        // Water pouring through the coin: a soft rush and a low bubble on the side it leaves
+        (isTails ? this.crispNoise : this.warmNoise).triggerAttackRelease('8n', now, 0.1);
+        this.glassySynth.triggerAttackRelease(isTails ? 'G3' : 'C4', '32n', now + 0.05, 0.1);
+        this.glassySynth.triggerAttackRelease(isTails ? 'D4' : 'G4', '32n', now + 0.12, 0.08);
+        break;
+      }
+
       case 'undo': {
         // Short reversed shimmer
         this.crispNoise.triggerAttackRelease('16n', now, 0.14);

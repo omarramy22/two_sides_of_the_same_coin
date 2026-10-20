@@ -131,3 +131,41 @@
   --highlight: #E8F0FF;
   --pit: #06071A;
 }
+
+/* Chapter 4, The Waters: the flooded cisterns at the bottom of the well. Sea-glass teal (Heads),
+   deep sea blue (Tails). The --water tokens are only used by the Chapter 4 water tiles. */
+.theme-heads4 {
+  --ink: #1E2A24;
+  --floor: #B9C9A8;
+  --floor-light: #D3E0C2;
+  --floor-dark: #8FA483;
+  --wall-top: #6E8E7E;
+  --wall-face: #3F5E52;
+  --wall-shade: #273E36;
+  --accent: #E8B66A;
+  --accent-dark: #A8742A;
+  --accent2: #C8643B;
+  --highlight: #FFF4D6;
+  --pit: #10201A;
+  --water: #3FA7A0;
+  --water-light: #8FD9CC;
+  --water-dark: #1F6E6A;
+}
+
+.theme-tails4 {
+  --ink: #081420;
+  --floor: #2A4560;
+  --floor-light: #3E6080;
+  --floor-dark: #1C3248;
+  --wall-top: #4E7896;
+  --wall-face: #1E3850;
+  --wall-shade: #112436;
+  --accent: #9C8CD4;
+  --accent-dark: #6A5BA6;
+  --accent2: #E07A6B;
+  --highlight: #E8F0FF;
+  --pit: #040A12;
+  --water: #2E6FA8;
+  --water-light: #7FB8E8;
+  --water-dark: #183E6E;
+}

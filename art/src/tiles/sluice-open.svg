@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="heads4,tails4">
+  <!-- A sluice: a grated drain in the floor with a sliding gate. Weight on it opens the gate and
+       the basin beside it pours through the coin to the other side. -->
+  <g filter="url(#grain)"><rect width="64" height="64" fill="var(--floor)"/></g>
+  <g filter="url(#wobble)" stroke="var(--ink)" stroke-width="1.6" stroke-linejoin="round">
+    <circle cx="32" cy="33" r="22" fill="var(--wall-top)"/>
+    <circle cx="32" cy="33" r="17" fill="var(--wall-shade)"/>
+    <path d="M20 12 H44 V22 H20 Z" fill="var(--wall-face)"/><path d="M20 22 H44 V44 H20 Z" fill="var(--pit)"/>
+    <path d="M14 33 H20 M44 33 H50" stroke-width="2.4"/>
+  </g>
+  <path d="M26 30 Q32 36 38 30 M24 38 Q32 44 40 38" stroke="var(--water-light)" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  <circle cx="32" cy="33" r="22" fill="none" stroke="var(--accent)" stroke-width="1.2" stroke-dasharray="1.5 2.5"/>
+  <path d="M14 22 Q20 13 30 11" stroke="var(--highlight)" stroke-opacity="0.5" stroke-width="1.2" fill="none"/>
+</svg>

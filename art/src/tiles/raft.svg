@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="heads4,tails4">
+  <!-- A crate that floated: lashed planks riding on the water. Walkable for good. -->
+  <rect width="64" height="64" fill="var(--water)"/>
+  <path d="M0 46 Q16 42 32 46 T64 46" stroke="var(--water-light)" stroke-width="1.4" fill="none"/>
+  <ellipse cx="32" cy="50" rx="27" ry="6" fill="var(--water-dark)" opacity="0.6"/>
+  <g filter="url(#wobble)" stroke="#2A1E14" stroke-width="1.6" stroke-linejoin="round">
+    <path d="M7 14 H57 V48 H7 Z" fill="#C8925A"/>
+    <path d="M7 25 H57 M7 37 H57" stroke-width="1.2"/>
+    <path d="M44 14 H57 V48 H44 Z" fill="url(#hatch)" stroke="none"/>
+    <path d="M15 12 V50 M49 12 V50" stroke="#3A3A44" stroke-width="3"/>
+  </g>
+  <path d="M10 17 H38" stroke="#FFF4D6" stroke-opacity="0.5" stroke-width="1.2"/>
+</svg>

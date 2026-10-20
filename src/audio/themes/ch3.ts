@@ -9,10 +9,9 @@ import { DEGREE_NAMES, getAbsoluteDegree, invertAndSnap, type ChordInfo, type Me
  * a minor third lower (D major / B minor) so the chapter has its own colour.
  * Heads: a plucked stone harp. Tails: bowed glass. Drips echo in the dark.
  */
-const TRANSPOSE = -3;
 const BARS = 16;
 
-const C = (name: string, tones: number[], rootNote: string, padNotes: string[]): ChordInfo => ({ name, tones, rootNote, padNotes });
+export const C = (name: string, tones: number[], rootNote: string, padNotes: string[]): ChordInfo => ({ name, tones, rootNote, padNotes });
 const F = C('F', [5, 9, 0], 'F1', ['F3', 'A3', 'C4']);
 const Cmaj = C('C', [0, 4, 7], 'C2', ['E3', 'G3', 'C4']);
 const Dm = C('Dm', [2, 5, 9], 'D1', ['D3', 'F3', 'A3']);
@@ -24,7 +23,7 @@ const PROGRESSION: readonly ChordInfo[] = [F, F, Cmaj, Dm, Bb, F, Gm, Cmaj, Dm, 
 // Sparse on purpose: long notes that ring in the stone, rests for the echoes.
 // [bar, beat, sub, degree (1 = F ... 7 = E), octave, duration]
 type N = [number, number, number, number, number, string];
-const mk = (ns: N[]): MelodyNote[] => ns.map(([bar, beat, sub, degree, octave, duration]) => ({ bar, beat, sub, degree, octave, duration }));
+export const mk = (ns: N[]): MelodyNote[] => ns.map(([bar, beat, sub, degree, octave, duration]) => ({ bar, beat, sub, degree, octave, duration }));
 const PHRASE_A = mk([
   [0, 0, 0, 5, 5, '2n'], [0, 2, 0, 3, 4, '4n'], [0, 3, 0, 5, 5, '4n'],
   [1, 0, 0, 1, 4, '1m'],
@@ -64,7 +63,16 @@ const PHRASE_B = mk([
 /** A drip somewhere in the dark: [bar within the phrase, beat, note]. */
 const DRIPS: [number, number, string][] = [[1, 2.5, 'C7'], [3, 1, 'G6'], [5, 3, 'F6'], [7, 0.5, 'C7'], [9, 2, 'A6'], [11, 3.5, 'G6'], [13, 1.5, 'C7'], [15, 2, 'F6']];
 
-const tr = (n: string) => Tone.Frequency(n).transpose(TRANSPOSE).toNote();
+/** Everything that makes a chapter's tune its own; the instruments and construction are shared. */
+export interface Score {
+  transpose: number;
+  bpm: number;
+  progression: readonly ChordInfo[];
+  phrases: [MelodyNote[], MelodyNote[]];
+  /** Little high notes in the dark: [bar within the phrase, beat, note]. */
+  drips: [number, number, string][];
+}
+const STONE: Score = { transpose: -3, bpm: 64, progression: PROGRESSION, phrases: [PHRASE_A, PHRASE_B], drips: DRIPS };
 
 export class Chapter3Theme {
   private isPlaying = false;
@@ -77,7 +85,10 @@ export class Chapter3Theme {
   private drip: Tone.Synth;
   private parts: Tone.Part[] = [];
 
-  constructor(private readonly mixer: Mixer) {
+  private readonly tr: (n: string) => string;
+
+  constructor(private readonly mixer: Mixer, private readonly score: Score = STONE) {
+    this.tr = (n) => Tone.Frequency(n).transpose(score.transpose).toNote();
     this.harp = new Tone.PolySynth(Tone.FMSynth, {
       harmonicity: 3, modulationIndex: 2.2,
       envelope: { attack: 0.003, decay: 1.1, sustain: 0.02, release: 0.9 },
@@ -101,11 +112,12 @@ export class Chapter3Theme {
 
   /** 64 bars: A B A B. Deterministic, on the shared Transport. */
   private build() {
-    const pivot = getAbsoluteDegree(PHRASE_A[0].degree, PHRASE_A[0].octave);
+    const { tr } = this, [A, B] = this.score.phrases, prog = this.score.progression;
+    const pivot = getAbsoluteDegree(A[0].degree, A[0].octave);
     const events: { time: string; heads: string; tails: string; dur: string }[] = [];
-    [PHRASE_A, PHRASE_B, PHRASE_A, PHRASE_B].forEach((phrase, p) => {
+    [A, B, A, B].forEach((phrase, p) => {
       for (const note of phrase) {
-        const inv = invertAndSnap(note, pivot, PROGRESSION[note.bar]);
+        const inv = invertAndSnap(note, pivot, prog[note.bar]);
         events.push({
           time: `${p * BARS + note.bar}:${note.beat}:${note.sub ? 2 : 0}`,
           heads: tr(`${DEGREE_NAMES[note.degree - 1]}${note.octave}`),
@@ -121,12 +133,12 @@ export class Chapter3Theme {
       this.unison.triggerAttackRelease([e.heads, e.tails], e.dur, time, 0.26);
     }, events);
 
-    const bars = [...Array(64)].map((_, bar) => ({ time: `${bar}:0:0`, chord: PROGRESSION[bar % BARS], bar }));
+    const bars = [...Array(64)].map((_, bar) => ({ time: `${bar}:0:0`, chord: prog[bar % BARS], bar }));
     const harmony = new Tone.Part<(typeof bars)[number]>((time, e) => {
       if (this.isResolving) return;
       this.bass.triggerAttackRelease(tr(e.chord.rootNote), '1m', time, 0.42);
       if (e.bar % 2 === 0) this.pad.triggerAttackRelease(e.chord.padNotes.map(tr), '2m', time, 0.24);
-      const d = DRIPS.find(([b]) => b === e.bar % BARS);
+      const d = this.score.drips.find(([b]) => b === e.bar % BARS);
       if (d) this.drip.triggerAttackRelease(tr(d[2]), '32n', Tone.Time(time).toSeconds() + Tone.Time('4n').toSeconds() * d[1], 0.3);
     }, bars);
 
@@ -143,7 +155,7 @@ export class Chapter3Theme {
     this.isPlaying = true;
     this.isResolving = false;
     const t = Tone.getTransport();
-    t.bpm.value = 64;
+    t.bpm.value = this.score.bpm;
     t.timeSignature = 4;
     t.loop = true;
     t.loopStart = '0:0:0';
@@ -177,8 +189,8 @@ export class Chapter3Theme {
     if (!this.isPlaying || this.isResolving) return;
     this.isResolving = true;
     const at = Tone.now() + 0.08;
-    this.harp.triggerAttackRelease(['F3', 'C4', 'A4', 'C5'].map(tr), '2n', at, 0.42);
-    this.glass.triggerAttackRelease(['F4', 'A4', 'C5', 'F5'].map(tr), '2n', at, 0.34);
+    this.harp.triggerAttackRelease(['F3', 'C4', 'A4', 'C5'].map(this.tr), '2n', at, 0.42);
+    this.glass.triggerAttackRelease(['F4', 'A4', 'C5', 'F5'].map(this.tr), '2n', at, 0.34);
     setTimeout(() => {
       try {
         if (!this.isPlaying) return;

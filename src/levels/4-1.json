@@ -1,0 +1,16 @@
+{
+  "id": "4-1",
+  "name": "Low Tide",
+  "role": "introduce",
+  "par": 13,
+  "designNote": "Aha: the sluice pours Sol's water through the coin into Lune's basin, one cell per move, but only while someone stands on it. Sol waits on the sluice (bumping the wall) until his way is dry; Lune's lower row floods behind her.",
+  "heads": ["#########",
+            "#S#######",
+            "#&~~~~~G#",
+            "#########"],
+  "tails": ["#########",
+            "#L.....G#",
+            "#._____.#",
+            "#########"],
+  "hints": ["Stand on the sluice and watch where the water goes.", "Stay on the sluice. Bump the wall to wait while the water drains, one cell per move.", null]
+}

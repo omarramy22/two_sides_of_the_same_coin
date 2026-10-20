@@ -54,6 +54,7 @@ Where it differs from SPEC.md, the difference is listed in §11 and needs sign-o
 | `~` | basin tile, flooded | 4 |
 | `_` | basin tile, dry | 4 |
 | `&` | sluice | 4 |
+| `0` | crate standing on a dry basin cell (`_` + crate) | 4 |
 | `%` | cracked floor | 5 |
 | `O` | weight altar (Weight → Weightless) | 5 |
 | `Q` | light altar (Shadow → Light-bearer) | 5 |
@@ -201,10 +202,12 @@ Why a light-bearer "can't use shadow bridges" falls out for free: she lights her
 - The basin mask is the same in both worlds. Each basin coordinate holds **one unit** of water, flooded on exactly one side (`~`) and dry on the other (`_`). So `water(H) + water(T)` is constant for every basin, and for every single tile.
 - A **basin region** is a 4-connected set of basin coordinates.
 - Flooded tile: blocks characters (bump), blocks lanterns, turns pushed crates into rafts. Dry tile: plain floor. A raft tile is floor whatever the water does.
-- **Sluice** `&` in world W is **open** while a crate, lantern or weighted character is on it.
-- **Flow (step 6):** for each basin region and each world W with at least one open sluice for that region, move **one** unit from W to the other world: pick the coordinate flooded in W that is nearest to an open sluice (BFS distance through the region; ties broken by row, then column) whose **twin is not occupied by a character**. That tile in W becomes dry and its twin floods. If no such tile exists, no flow from W this tick.
+- **Sluice** `&` in world W is **open** while anything that would press a plate is on it (a character, crate, lantern or Tarnish).
+- **Flow (step 6):** for each basin region and each world W with at least one open sluice for that region, move **one** unit from W to the other world: pick the coordinate flooded in W that is nearest to an open sluice (BFS distance through the region; ties broken by row, then column) whose **twin is free**: no character, lantern or Tarnish on it (a crate there becomes a raft). That tile in W becomes dry and its twin floods. If no such tile exists, no flow from W this tick.
 - If both worlds have open sluices for the same region, both moves are computed from the pre-step state and applied together (they always pick different coordinates).
 - A crate on a dry tile that floods becomes a raft.
+- A raft (`+`, engine-only) takes its cell out of the tides for good: it stays flooded under the raft, its twin stays dry, and flow skips it.
+- The Tarnish can't enter flooded cells (they are blocked like walls).
 - Water never floods onto a character, so characters never drown (see §11, issue 5).
 
 ## 9. Altars and coins

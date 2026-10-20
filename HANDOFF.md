@@ -2,7 +2,7 @@
 
 Read this first in a new session, then `SPEC.md` (the brief, with the changes noted below) and `RULES.md` (the exact game rules the engine implements). This file says where the project stands, what was decided along the way and why, and what comes next.
 
-**Preview build (private):** https://claude.ai/artifact/4StN9hkfrULKfhruTZFLXi (Chapters 1–3).
+**Preview build (private):** https://claude.ai/artifact/4StN9hkfrULKfhruTZFLXi (Chapters 1–4).
 
 ---
 
@@ -14,13 +14,13 @@ Read this first in a new session, then `SPEC.md` (the brief, with the changes no
 | 1 Engine + solver + greybox | Done |
 | 2 Art direction | Done |
 | 3 Vertical slice: Chapter 1 fully polished | Done; preview published |
-| 4 Chapters 2–6 | Chapter 2 done and approved ("it is logical"). **Chapter 3 built, awaiting the user's review.** Chapters 4–6 not started. |
+| 4 Chapters 2–6 | Chapter 2 done and approved ("it is logical"). Chapter 3 built. **Chapter 4 built, awaiting the user's review.** Chapters 5–6 not started. |
 | 5 Story, intro and finale | Not started |
 | 6 Ship (zip, video, pitch, perf pass) | Not started |
 
 The user reviews at the end of every phase or chapter. Never skip that stop.
 
-**Next step:** get the user's verdict on Chapter 3, then Chapter 4 "The Waters" (RULES.md §8) with the same loop (section 7 below).
+**Next step:** get the user's verdict on Chapters 3 and 4, then Chapter 5 "The Dark" (RULES.md §9: cracked floor, altars) with the same loop (section 7 below).
 
 ---
 
@@ -36,7 +36,8 @@ All approved by the user unless marked.
 
 1. **Legend letter clash fixed:** `C G L M O Q S` are reserved; the other 19 letters are plate/gate links. The raised balance-stone glyph is `|` (not `\`, which needs JSON escaping). See RULES.md §2.1 and §11.
 2. **Seesaws as "balance stones":** walk into a raised stone to shove it down; its twin across the seam rises unless someone or something is on it (jam). Presented as two stones on one rope over a seam pulley.
-3. **Light (§7) is implemented.** Water, cracked floor and altars (§8–§9) are written but not implemented yet.
+3. **Light (§7) and water (§8) are implemented.** Cracked floor and altars (§9) are written but not implemented yet.
+   - Water clarifications (not yet confirmed by the user): anything that presses a plate opens a sluice (Tarnish too); water won't flood onto a character, lantern or Tarnish; a raft `+` takes its cell out of the tides; the Tarnish can't enter flooded cells. New level glyph `0` = a crate on a dry basin cell.
    - Changed in Chapter 3 (not yet confirmed by the user): a crate or lantern *catches* a beam (its own tile is lit, nothing beyond), so a crate on a mirage doesn't darken itself; objects can't be pushed onto a void bridge; anything left on a bridge that goes void drops, and step 7 repeats because a lost lantern changes the light.
    - **Frozen by light** (new rule, from SPEC §2.1.1's "frozen by light"; not yet confirmed by the user): an awake Tarnish on a tile lit in its own world, judged after this tick's pushes, doesn't step. RULES.md §5a.
 4. **Anti-mash and ablation checks** are thresholds, not absolutes (RULES.md §10): mash ≤10% for `develop`, ≤1% for `twist`/`combine`/`capstone`, `introduce` exempt. An element is decorative if removing it leaves par unchanged.
@@ -79,6 +80,11 @@ All approved by the user unless marked.
 | 3-3 | One Lantern | develop | 15 | 0.1% | Lune crosses first; moving the light for Sol melts her bridge |
 | 3-4 | Hold Still | introduce | 15 | 1.5% | Light freezes the Tarnish: lure it in, catch it in the beam |
 | 3-5 | Two Jobs | capstone | 22 | 0% | The lantern's column freezes the Tarnish, its row lays Lune's bridge |
+| 4-1 | Low Tide | introduce | 13 | 88% | Wait on the sluice: Sol's water pours into Lune's basin |
+| 4-2 | Raft | introduce | 7 | 32% | Push a crate into water; it floats |
+| 4-3 | Mind the Flood | develop | 17 | 1.7% | Lune hides in her gap before Sol's water reaches her crossing |
+| 4-4 | Open Water | twist | 20 | 0% | Tarnish can't swim; the cells Sol drains become his own Tarnish's path |
+| 4-5 | Riding the Tide | capstone | 15 | 0.9% | A crate holds the sluice open; Lune's crate floats into a raft |
 
 `designNote` in each level JSON has the precise aha. When the solver's real solution differs from the intended one, trust the trace and rewrite the note (that happened with 2-4).
 
@@ -135,7 +141,7 @@ npm run build          # dist/ (relative paths, runs from any subfolder; ~6 MB)
 
 **Level design workflow:** draft the boards, save each as a temporary `src/levels/9-N.json`, run `npm run verify-levels -- 9-N`, then delete the file. Always read the actual solution (step through it) before trusting the intended aha. Watch for the flip short-circuiting Tarnish puzzles: any level with a Tarnish has to account for Sol and Lune lining up.
 
-**Publishing the preview:** a publish keeps the files it doesn't resend, so send **every file in `dist/assets/`** (each build renames all the JS chunks, not just `index-*.js`; missing chunks mean the page won't open), `manifest.json`, and the assets `git status assets` lists as changed. Map the previous build's chunk names to `null` to delete them: an artifact version holds at most 512 files. Build, then publish a small shell HTML (title + the built `index-*.css/js` tags; no doctype) with `root: dist` and the file list. More than 255 files must go in two publishes to the same artifact URL (the Chapter 2 palette tiles went in the second).
+**Publishing the preview:** the game only loads `@2x` images (`texture()` in rig.ts uses `src2x`), so the preview holds only `@2x` art: never upload 1x images. A publish keeps the files it doesn't resend, so send **every file in `dist/assets/`** (each build renames all the JS chunks, not just `index-*.js`; missing chunks mean the page won't open), `manifest.json`, and the assets `git status assets` lists as changed. Map the previous build's chunk names to `null` to delete them: an artifact version holds at most 512 files. Build, then publish a small shell HTML (title + the built `index-*.css/js` tags; no doctype) with `root: dist` and the file list. More than 255 files must go in two publishes to the same artifact URL (the Chapter 2 palette tiles went in the second).
 
 ---
 
@@ -168,7 +174,8 @@ Lessons:
 ## 9. Known gaps and risks
 
 - The built-in browser pane throttles animation frames, so input stalls there (even on 1-1). Use `npm run shots` (headless Playwright) to see levels mid-play.
-- Chapter 3 music (`themes/ch3.ts`, reuses the Chapter 2 inversion helpers) has not been level-measured or listened to.
+- Chapter 3 and 4 music (`themes/ch3.ts` takes a `Score`; `ch4.ts` is a subclass with its own score) has not been level-measured or listened to.
+- 4-4's solution is a chase more than a clean moat; if the user finds it messy, redesign it around "water walls off the Tarnish".
 - Not verified: real gamepad, a real phone (touch), Firefox/Safari, and the preview inside the claude.ai viewer.
 - Audio is measured for level only; nobody has listened critically.
 - Characters lack a distinct push pose and the finale "reunite" state.

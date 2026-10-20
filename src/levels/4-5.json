@@ -1,0 +1,20 @@
+{
+  "id": "4-5",
+  "name": "Riding the Tide",
+  "role": "capstone",
+  "par": 15,
+  "designNote": "Aha: a crate on the sluice keeps the tide running without Sol. Sol parks his crate on the sluice and walks back while his basin drains under him. Lune shoves her crate to the cell the tide reaches first; the water floats it into a raft and she rides above the flood to her gap.",
+  "heads": ["#########",
+            "#S..C..&#",
+            "#~~~~~~~#",
+            "#.......#",
+            "#G......#",
+            "#########"],
+  "tails": ["#########",
+            "#L......#",
+            "#__0____#",
+            "###.###.#",
+            "###.#..G#",
+            "#########"],
+  "hints": ["Does someone have to stand on the sluice?", "Park Sol's crate on the sluice. Lune's crate should be where the water lands first.", null]
+}

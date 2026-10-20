@@ -1,0 +1,20 @@
+{
+  "id": "4-3",
+  "name": "Mind the Flood",
+  "role": "develop",
+  "par": 17,
+  "designNote": "Aha: every cell Sol drains floods the same cell on Lune's side. Lune must reach her gap below the basin before the tide gets to her crossing; then she waits there safely while Sol drains his way across.",
+  "heads": ["#########",
+            "#S......#",
+            "#&~~~~~~#",
+            "######.##",
+            "#.....G.#",
+            "#########"],
+  "tails": ["#########",
+            "#L......#",
+            "#.______#",
+            "###.#####",
+            "#..G....#",
+            "#########"],
+  "hints": ["Sol's water has to go somewhere. Where will it land?", "Get Lune into her gap under the basin first, then let Sol drain.", null]
+}

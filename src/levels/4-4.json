@@ -1,0 +1,18 @@
+{
+  "id": "4-4",
+  "name": "Open Water",
+  "role": "twist",
+  "par": 20,
+  "designNote": "Aha: the Tarnish can't swim, and the water Sol moves decides where they can walk. Lune dodges her Tarnish around the cell Sol flooded, then lines up with Sol to put it to sleep. That wakes Sol's Tarnish, and the cells he drained are its way down to him, so Sol has to reach his goal just ahead of it.",
+  "heads": ["#########",
+            "#...?...#",
+            "#~~~~~~~#",
+            "#S..&..G#",
+            "#########"],
+  "tails": ["#########",
+            "#...G..L#",
+            "#_______#",
+            "#...@...#",
+            "#########"],
+  "hints": ["The Tarnish can't cross water. Who controls the water?", "Line up to put Lune's Tarnish to sleep, but remember the dry cells Sol made are a path for his own Tarnish.", null]
+}

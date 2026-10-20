@@ -1,0 +1,18 @@
+{
+  "id": "4-2",
+  "name": "Raft",
+  "role": "introduce",
+  "par": 7,
+  "designNote": "Aha: a crate pushed into water floats and becomes a raft you can walk on. Lune shoves her crate three tiles into the channel and crosses on it.",
+  "heads": ["#########",
+            "#S..._..#",
+            "#...._.G#",
+            "#...._..#",
+            "#########"],
+  "tails": ["#########",
+            "#L...~..#",
+            "#.C..~.G#",
+            "#....~..#",
+            "#########"],
+  "hints": ["Lune can't wade through water. What floats?", "Push the crate into the channel, then walk across it.", null]
+}
