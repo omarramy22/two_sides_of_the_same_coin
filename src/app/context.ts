@@ -6,6 +6,7 @@ import type { Art } from '../render/sprites';
 import type { SaveData } from './save';
 import type { Scenes } from './scenes';
 import type { Settings } from './settings';
+import type { Story } from '../ui/story';
 
 export interface Ctx {
   app: Application;
@@ -25,5 +26,7 @@ export interface Ctx {
     play(levelIndex: number): void;
     /** Push the settings overlay on top of whatever is showing. */
     settings(): void;
+    /** Play a wordless story scene (intro, chapter vignette, ending), then `then()`. */
+    story(s: Story, then: () => void): void;
   };
 }

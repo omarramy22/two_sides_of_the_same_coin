@@ -17,6 +17,7 @@ import { drawBackground } from '../render/sprites';
 import { ease } from '../render/tween';
 import { C, text } from '../ui/style';
 import { Hud } from '../ui/hud';
+import { createCredits } from '../ui/credits';
 import { createPause } from '../ui/pause';
 
 /** The level being played, for automation (tools/screenshots.ts). */
@@ -214,9 +215,13 @@ export function createPlay(ctx: Ctx, index: number): Scene {
     // The coin flips (scale-X) into whatever comes next.
     await board.tweens.add(0.28, (k) => { board.scale.x = 1 - k; card.alpha = 1 - k; }, { ease: ease.inQuad });
     const next = index + 1;
-    if (next >= ctx.levels.length || chapterOf(ctx.levels[next]) !== chapterOf(lv)) {
+    if (next >= ctx.levels.length) {
+      // The finale: the Rim walk and the ending, then the credits.
+      ctx.go.story({ kind: 'ending' }, () => { ctx.go.title(); ctx.scenes.push(createCredits(ctx, () => ctx.scenes.pop())); });
+    } else if (chapterOf(ctx.levels[next]) !== chapterOf(lv)) {
       audio.sfx('chapterComplete');
-      ctx.go.album(chapterOf(lv));
+      // A wordless vignette between chapters, then the album page of the chapter just finished.
+      ctx.go.story({ kind: 'vignette', chapter: chapterOf(lv) }, () => ctx.go.album(chapterOf(lv)));
     } else ctx.go.play(next);
   }
 

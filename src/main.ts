@@ -12,6 +12,7 @@ import { startDemo } from './render/demo';
 import { loadArt } from './render/sprites';
 import { createAlbum } from './ui/album';
 import { createSettings } from './ui/settings';
+import { createStory } from './ui/story';
 import { createTitle } from './ui/title';
 
 declare global { interface Window { __game: unknown } }
@@ -39,6 +40,7 @@ async function boot() {
       album: (chapter = 1) => scenes.show(createAlbum(ctx, chapter)),
       play: (i) => scenes.show(createPlay(ctx, Math.max(0, Math.min(levels.length - 1, i)))),
       settings: () => scenes.push(createSettings(ctx, () => scenes.pop())),
+      story: (s, then) => { audio.playMusic(s.kind === 'vignette' ? s.chapter : s.kind === 'ending' ? 6 : 1); scenes.show(createStory(ctx, s, then)); },
     },
   };
   ctx.input = new Input(app.canvas, ctx.settings);
@@ -61,13 +63,19 @@ async function boot() {
     press: (key: string) => { const a = keyAction(key); if (a) scenes.action(a); return !!a; },
     state: () => activePlay?.state(),
     idle: () => activePlay?.idle() ?? true,
+    story: (st: Parameters<Ctx['go']['story']>[0]) => ctx.go.story(st, () => ctx.go.title()),
   };
 
   const start = params.get('level');
   const i = start ? levels.findIndex((l) => l.id === start) : -1;
   if (i >= 0) ctx.go.play(i);
   else if (params.has('shots')) ctx.go.play(0);
-  else ctx.go.title();
+  else if (!ctx.save.seenIntro || params.has('intro')) {
+    // First launch: the wordless intro, once (it's replayable from the title).
+    ctx.save = { ...ctx.save, seenIntro: true };
+    ctx.persist();
+    ctx.go.story({ kind: 'intro' }, () => ctx.go.title());
+  } else ctx.go.title();
 }
 
 boot();

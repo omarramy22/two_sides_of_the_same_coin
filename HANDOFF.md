@@ -15,12 +15,12 @@ Read this first in a new session, then `SPEC.md` (the brief, with the changes no
 | 2 Art direction | Done |
 | 3 Vertical slice: Chapter 1 fully polished | Done; preview published |
 | 4 Chapters 2–6 | Chapter 2 done and approved ("it is logical"). Chapters 3–5 built. **Chapter 6 built (all 31 levels exist), awaiting the user's review.** |
-| 5 Story, intro and finale | Not started |
+| 5 Story, intro and finale | **Built, awaiting the user's review** (`src/ui/story.ts`) |
 | 6 Ship (zip, video, pitch, perf pass) | Not started |
 
 The user reviews at the end of every phase or chapter. Never skip that stop.
 
-**Next step:** get the user's verdict on Chapters 3–6, then Phase 5 (opening intro, chapter vignettes, the Rim walk and ending after 6-5; today finishing 6-5 just returns to the album).
+**Next step:** get the user's verdict on Chapters 3–6 and the Phase 5 story scenes, then Phase 6 (ship).
 
 ---
 
@@ -125,9 +125,11 @@ tools/         verify-levels, render-art, contact-sheet, gen-walls, screenshots
 
 **Hard rule:** the engine is pure; the renderer only animates the difference between two States plus `GameEvent`s (which carry `from` cells for sliding things). No game rules in render or UI code.
 
-Useful URL params: `?level=2-3` (jump to a level), `?demo` (character idle/walk demo), `?shots` (used by the screenshot tool: no auto-advance after a win).
+Useful URL params: `?level=2-3` (jump to a level), `?demo` (character idle/walk demo), `?shots` (used by the screenshot tool: no auto-advance after a win), `?intro` (play the intro again).
 
-Automation hooks on `window.__game`: `loadLevel(i)`, `press(key)`, `state()`, `idle()`, `levelCount()`, `levelIndex()`.
+**Story scenes** (`src/ui/story.ts`, Phase 5): built in code on a 960×540 stage from the game's own art (puppets, chapter backgrounds, Tarnish) plus drawn paper-cut figures, so they add no image files. Intro plays once on first launch (`save.seenIntro`) and from the title's "Watch intro"; a 3-panel vignette plays after each of Chapters 1–5 (the two people at the well turn a sixth of the way toward each other each time); the ending (Rim walk, Tarnish turn back into coins, the coin rises, the two side by side at dawn) plays after 6-5, then credits. Any key or tap skips. `npm run story-shots` captures frames to `shots/story/`.
+
+Automation hooks on `window.__game`: `loadLevel(i)`, `press(key)`, `state()`, `idle()`, `levelCount()`, `levelIndex()`, `story({kind})`.
 
 ---
 
