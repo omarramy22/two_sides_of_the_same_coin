@@ -1,0 +1,16 @@
+{
+  "id": "6-3",
+  "name": "Opposite Ways",
+  "role": "combine",
+  "par": 13,
+  "designNote": "Aha: lure first, mirror second. While Sol bumps his wall, Lune leads her Tarnish into her pit. Then Sol steps on the shrine, and the two walk away from each other to opposite goals; the sleeping Tarnish in Sol's top row sends him along the bottom.",
+  "heads": ["#########",
+            "#S..?..G#",
+            "#M......#",
+            "#########"],
+  "tails": ["#########",
+            "#G.....L#",
+            "#..^.@..#",
+            "#########"],
+  "hints": ["Lune's Tarnish needs dealing with before anyone walks far.", "Lure it into Lune's pit while Sol waits at the wall, then use the mirror to split up.", null]
+}

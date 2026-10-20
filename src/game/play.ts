@@ -26,7 +26,7 @@ const SHOTS = new URLSearchParams(location.search).has('shots');
 const MOVE: Partial<Record<Action, Dir>> = { up: 'up', down: 'down', left: 'left', right: 'right' };
 /** Engine event -> sound. Bumps are quiet; the Tarnish and fills carry the drama. */
 const SFX: Partial<Record<GameEvent['type'], SfxName>> = {
-  bump: 'bump', push: 'push', fill: 'fill', fall: 'fall', caught: 'caught', foeStep: 'foeStep', foeFall: 'foeFall', stomp: 'seesaw', stompJam: 'gateJam', drop: 'fall', flow: 'water', raft: 'fill', altar: 'altar', crack: 'crack',
+  bump: 'bump', push: 'push', fill: 'fill', fall: 'fall', caught: 'caught', foeStep: 'foeStep', foeFall: 'foeFall', stomp: 'seesaw', stompJam: 'gateJam', drop: 'fall', flow: 'water', raft: 'fill', altar: 'altar', crack: 'crack', mirror: 'mirror',
 };
 
 export function createPlay(ctx: Ctx, index: number): Scene {

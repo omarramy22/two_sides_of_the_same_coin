@@ -201,3 +201,35 @@
   --highlight: #E2FFD8;
   --pit: #020108;
 }
+
+/* Chapter 6, The Rim: the coin's own polished edge. Bright gold (Heads), bright silver (Tails),
+   the two palettes leaning toward each other. */
+.theme-heads6 {
+  --ink: #2A1E14;
+  --floor: #E8CF96;
+  --floor-light: #F6E4B4;
+  --floor-dark: #C9A866;
+  --wall-top: #C9A04E;
+  --wall-face: #8E6A2A;
+  --wall-shade: #5E4418;
+  --accent: #C9D3E6;
+  --accent-dark: #7F8BB0;
+  --accent2: #E07A6B;
+  --highlight: #FFF8E6;
+  --pit: #2A1E14;
+}
+
+.theme-tails6 {
+  --ink: #141828;
+  --floor: #B8C2D8;
+  --floor-light: #D6DEEE;
+  --floor-dark: #93A0BE;
+  --wall-top: #8E9CC0;
+  --wall-face: #56628A;
+  --wall-shade: #353E5E;
+  --accent: #E8B66A;
+  --accent-dark: #A8742A;
+  --accent2: #E07A6B;
+  --highlight: #F4F8FF;
+  --pit: #0E1028;
+}

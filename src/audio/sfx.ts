@@ -347,6 +347,12 @@ export class SfxPool {
         break;
       }
 
+      case 'mirror': {
+        // The mirror turns: a glassy shimmer that runs down, then back up
+        ['E5', 'C5', 'A4', 'C5', 'E5'].forEach((n, k) => this.polyChime.triggerAttackRelease(n, '32n', now + k * 0.045, 0.13));
+        break;
+      }
+
       case 'undo': {
         // Short reversed shimmer
         this.crispNoise.triggerAttackRelease('16n', now, 0.14);

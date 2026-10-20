@@ -236,6 +236,7 @@ export class Board extends Container {
     // Altars: the half-coin leaves the pendant in a burst of gold and settles into the altar.
     // Cracked floor: grit bursts up as it gives way.
     for (const e of ev) {
+      if (e.type === 'mirror') { const [mx, my] = this.centre(e.world, e.at); this.fx.burst(mx, my, { n: 14, color: 0xe8f0ff, size: t * 0.035, speed: t * 1.6, life: 0.5 }); continue; }
       if (e.type !== 'altar' && e.type !== 'crack') continue;
       const [cx, cy] = this.centre(e.world, e.at), p = this.puppets[e.world];
       jobs.push(this.tweens.wait(STEP).then(() => {
@@ -303,7 +304,7 @@ export class Board extends Container {
         const [x, y] = this.cell(i);
         if (lit[w][i] === 1) {
           glow.rect(x, y, t, t).fill({ color: lamp, alpha: 0.16 }).rect(x + t * 0.15, y + t * 0.15, t * 0.7, t * 0.7).fill({ color: lamp, alpha: 0.12 });
-        } else if (lit[w][i] === -1) {
+        } else if (lit[w][i] === -1 && s.tiles[w][i] !== '#') {
           shade.roundRect(x + t * 0.04, y + t * 0.04, t * 0.92, t * 0.92, t * 0.25).fill({ color: 0x05061a, alpha: 0.42 })
             .roundRect(x + t * 0.2, y + t * 0.2, t * 0.6, t * 0.6, t * 0.2).fill({ color: 0x05061a, alpha: 0.2 });
         }
@@ -377,7 +378,7 @@ export class Board extends Container {
 
   /** Who is waiting, who is celebrating (SPEC §5.3 personality). */
   private updateMoods() {
-    const s = this.state, on = [0, 1].map((w) => s.tiles[w][s.pos[w]] === 'G' && !s.fallen[w]);
+    const s = this.state, on = [0, 1].map((w) => (s.tiles[w][s.pos[w]] === 'G' || s.tiles[w][s.pos[w]] === '$') && !s.fallen[w]);
     this.puppets.forEach((p, w) => (p.mood = on[0] && on[1] ? 'celebrate' : on[w] ? 'sad' : 'idle'));
   }
 
@@ -455,10 +456,20 @@ export class Board extends Container {
     for (const [key, s] of this.crates) ring(Number(key[0]) as W, s.x, s.y, 0xffe08a);
   }
 
+  /** While the mirror is on, Lune carries a small looking-glass with crossed arrows above her head. */
+  private drawMirrorSign(g: Graphics) {
+    const { t } = this, p = this.puppets[1], [ox, oy] = this.halfAt(1);
+    const x = ox + p.x, y = oy + p.y - t * 1.4, r = t * 0.17, bob = Math.sin(this.clock * 2.4) * t * 0.03;
+    g.circle(x, y + bob, r).fill({ color: 0xc9d3e6, alpha: 0.9 }).stroke({ width: Math.max(1.5, t * 0.03), color: 0x0e1028 });
+    g.moveTo(x - r * 0.6, y + bob - r * 0.25).lineTo(x + r * 0.6, y + bob - r * 0.25).stroke({ width: Math.max(1.2, t * 0.025), color: 0x0e1028 })
+      .moveTo(x + r * 0.6, y + bob + r * 0.25).lineTo(x - r * 0.6, y + bob + r * 0.25).stroke({ width: Math.max(1.2, t * 0.025), color: 0x0e1028 });
+  }
+
   /** Pendants glow and a thread of light crosses the seam while the halves line up (SPEC §2.4). */
   private drawAlignment() {
     const g = this.glow.clear(), s = this.state, { t, lv } = this;
     if (this.opts.highContrast) this.drawOutlines(g);
+    if (s.mirror && !s.fallen[1]) this.drawMirrorSign(g);
     if (s.pos[0] !== s.pos[1] || s.fallen[0] || s.fallen[1]) return;
     const pulse = 0.75 + 0.25 * Math.sin(this.clock * 3);
     const pend = (w: W): [number, number] => {

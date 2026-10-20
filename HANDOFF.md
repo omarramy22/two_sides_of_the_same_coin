@@ -2,7 +2,7 @@
 
 Read this first in a new session, then `SPEC.md` (the brief, with the changes noted below) and `RULES.md` (the exact game rules the engine implements). This file says where the project stands, what was decided along the way and why, and what comes next.
 
-**Preview build (private):** https://claude.ai/artifact/4StN9hkfrULKfhruTZFLXi (Chapters 1–5).
+**Preview build (private):** https://claude.ai/artifact/4StN9hkfrULKfhruTZFLXi (all six chapters).
 
 ---
 
@@ -14,13 +14,13 @@ Read this first in a new session, then `SPEC.md` (the brief, with the changes no
 | 1 Engine + solver + greybox | Done |
 | 2 Art direction | Done |
 | 3 Vertical slice: Chapter 1 fully polished | Done; preview published |
-| 4 Chapters 2–6 | Chapter 2 done and approved ("it is logical"). Chapters 3 and 4 built. **Chapter 5 built, awaiting the user's review.** Chapter 6 not started. |
+| 4 Chapters 2–6 | Chapter 2 done and approved ("it is logical"). Chapters 3–5 built. **Chapter 6 built (all 31 levels exist), awaiting the user's review.** |
 | 5 Story, intro and finale | Not started |
 | 6 Ship (zip, video, pitch, perf pass) | Not started |
 
 The user reviews at the end of every phase or chapter. Never skip that stop.
 
-**Next step:** get the user's verdict on Chapters 3–5, then Chapter 6 "The Rim" (mirror shrines `M`, wish altars `$`, finale; RULES.md §4 step 1, §9.3) with the same loop (section 7 below).
+**Next step:** get the user's verdict on Chapters 3–6, then Phase 5 (opening intro, chapter vignettes, the Rim walk and ending after 6-5; today finishing 6-5 just returns to the album).
 
 ---
 
@@ -36,7 +36,7 @@ All approved by the user unless marked.
 
 1. **Legend letter clash fixed:** `C G L M O Q S` are reserved; the other 19 letters are plate/gate links. The raised balance-stone glyph is `|` (not `\`, which needs JSON escaping). See RULES.md §2.1 and §11.
 2. **Seesaws as "balance stones":** walk into a raised stone to shove it down; its twin across the seam rises unless someone or something is on it (jam). Presented as two stones on one rope over a seam pulley.
-3. **Light (§7), water (§8), cracked floor and sacrifice altars (§9.1–9.2) are implemented.** Mirror shrines and wish altars (Chapter 6) are not.
+3. **Light (§7), water (§8), cracked floor and sacrifice altars (§9.1–9.2) are implemented.** Mirror shrines (`State.mirror`) and wish altars `$` (finale win: both on `$`, both coins held) are implemented too: every rule in RULES.md is now in the engine.
    - `State.traded[c]`: '' still holds the coin, 'O' weightless, 'Q' light-bearer. Spent altars are engine glyphs `(` `)`. A Tarnish onto a character is always a catch (fixed in Ch5: it used to fill a cracked tile under a weightless character).
    - Water clarifications (not yet confirmed by the user): anything that presses a plate opens a sluice (Tarnish too); water won't flood onto a character, lantern or Tarnish; a raft `+` takes its cell out of the tides; the Tarnish can't enter flooded cells. New level glyph `0` = a crate on a dry basin cell.
    - Changed in Chapter 3 (not yet confirmed by the user): a crate or lantern *catches* a beam (its own tile is lit, nothing beyond), so a crate on a mirage doesn't darken itself; objects can't be pushed onto a void bridge; anything left on a bridge that goes void drops, and step 7 repeats because a lost lantern changes the light.
@@ -91,6 +91,11 @@ All approved by the user unless marked.
 | 5-3 | Light Footed | develop | 19 | 0.2% | Weightless Sol crosses; the chasing Tarnish breaks through |
 | 5-4 | Walk Beside Me | twist | 17 | 0.1% | Lune's light is Sol's shadow bridge: she walks beside him |
 | 5-5 | Two Gifts | capstone | 19 | 0% | Line up to calm her Tarnish; Sol takes weightlessness, Lune light |
+| 6-1 | Looking Glass | introduce | 7 | 76% | The shrine swaps Lune's left and right |
+| 6-2 | Backwards | introduce | 8 | 65% | Mirrored, Lune pushes her crate the other way |
+| 6-3 | Opposite Ways | combine | 13 | 0.1% | Lure her Tarnish into the pit, then mirror to split up |
+| 6-4 | Parked Light | capstone | 25 | 0.2% | Park the lantern over her bridge, walk back together, then mirror |
+| 6-5 | The Wish | finale | 9 | 0.1% | Mirror to meet above the twin wish altars; step down together with both coins |
 
 `designNote` in each level JSON has the precise aha. When the solver's real solution differs from the intended one, trust the trace and rewrite the note (that happened with 2-4).
 
@@ -180,7 +185,9 @@ Lessons:
 ## 9. Known gaps and risks
 
 - The built-in browser pane throttles animation frames, so input stalls there (even on 1-1). Use `npm run shots` (headless Playwright) to see levels mid-play.
-- Chapter 3–5 music (`themes/ch3.ts` takes a `Score`; `ch4.ts` and `ch5.ts` are subclasses with their own scores) has not been level-measured or listened to.
+- Chapter 3–6 music (`themes/ch3.ts` takes a `Score`; `ch4.ts`–`ch6.ts` are subclasses with their own scores) has not been level-measured or listened to.
+- The preview holds 484 files of the 511 an artifact version allows. Adding many more assets (Phase 5 vignettes) will need texture atlases or a second artifact.
+- 6-2 is labelled `introduce` (one-row mirror levels mash high); 6-5 is short (par 9) by design, a symbolic finale before the scripted Rim walk.
 - 4-4's solution is a chase more than a clean moat; if the user finds it messy, redesign it around "water walls off the Tarnish".
 - Not verified: real gamepad, a real phone (touch), Firefox/Safari, and the preview inside the claude.ai viewer.
 - Audio is measured for level only; nobody has listened critically.

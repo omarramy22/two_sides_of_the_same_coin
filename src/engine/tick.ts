@@ -72,8 +72,11 @@ export const hasLight = (s: State) => s.objs[0].includes('*') || s.objs[1].inclu
 /** A mirage `=` stands while lit, a shadow bridge `-` while shadowed; otherwise it's a hole (§7). */
 export const voidBridge = (c: string, l: number) => (c === '=' && l !== 1) || (c === '-' && l !== -1);
 
+/** §4 step 8; in the finale (§9.3) both stand on their wish altar `$` and still hold their coins. */
 export function isWon(s: State): boolean {
-  return !s.fallen[0] && !s.fallen[1] && s.tiles[0][s.pos[0]] === 'G' && s.tiles[1][s.pos[1]] === 'G';
+  if (s.fallen[0] || s.fallen[1]) return false;
+  const [a, b] = [s.tiles[0][s.pos[0]], s.tiles[1][s.pos[1]]];
+  return (a === 'G' && b === 'G') || (a === '$' && b === '$' && !s.traded[0] && !s.traded[1]);
 }
 
 /**
@@ -137,16 +140,18 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
   // Bridges only matter when they exist; light is derived from the start-of-tick state for pushes.
   const bridges = /[=-]/.test(s.tiles[0] + s.tiles[1]);
   const lit0 = bridges ? light(lv, s) : null;
-  const now = (): State => ({ tiles: [tiles[0].join(''), tiles[1].join('')], objs: [objs[0].join(''), objs[1].join('')], pos, traded, fallen: s.fallen });
+  const now = (): State => ({ tiles: [tiles[0].join(''), tiles[1].join('')], objs: [objs[0].join(''), objs[1].join('')], pos, traded, mirror, fallen: s.fallen });
 
   // Step 2: movement, judged against the start-of-tick state.
+  // Step 1: intent. In the mirror, Lune's left is right.
+  const flipLR: Record<Dir, Dir> = { left: 'right', right: 'left', up: 'up', down: 'down' };
   for (const w of [0, 1] as W[]) {
-    const to = step(lv, s.pos[w], dir);
+    const to = step(lv, s.pos[w], w && s.mirror ? flipLR[dir] : dir);
     if (to < 0) { ev?.push({ type: 'bump', world: w, at: s.pos[w] }); continue; }
     if (s.objs[w][to] === '@') { pos[w] = to; continue; } // walks into it: caught below
     if (s.objs[w][to] === '?') { ev?.push({ type: 'bump', world: w, at: s.pos[w] }); continue; }
     if (s.objs[w][to] !== ' ') {
-      const beyond = step(lv, to, dir);
+      const beyond = step(lv, to, w && s.mirror ? flipLR[dir] : dir);
       if (beyond >= 0 && s.objs[w][to] === 'C' && s.tiles[w][beyond] === '~' && s.objs[w][beyond] === ' ') {
         // A crate pushed into water floats: a raft, walkable for good (§4.1).
         objs[w][to] = ' ';
@@ -176,6 +181,14 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
     ev?.push({ type: 'move', world: w, at: to });
     // Cracked floor gives way under weight (§4 step 2): it's a pit from now on.
     if (s.tiles[w][to] === '%' && s.traded[w] !== 'O') { tiles[w][to] = '^'; ev?.push({ type: 'crack', world: w, at: to }); }
+  }
+
+  // Mirror shrines: each entry toggles the mirror, so two in one tick cancel out.
+  let mirror = s.mirror;
+  for (const w of [0, 1] as W[]) {
+    if (pos[w] === s.pos[w] || tiles[w][pos[w]] !== 'M') continue;
+    mirror = !mirror;
+    ev?.push({ type: 'mirror', world: w, at: pos[w] });
   }
 
   // Altars (§9.1): stepping onto an unused one with your coin trades it.
@@ -250,8 +263,9 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
     objs: [objs[0].join(''), objs[1].join('')],
     pos,
     traded,
+    mirror,
     fallen,
   };
 }
 
-export const hashState = (s: State) => `${s.pos[0]},${s.pos[1]},${s.traded[0]},${s.traded[1]}|${s.tiles[0]}|${s.tiles[1]}|${s.objs[0]}|${s.objs[1]}`;
+export const hashState = (s: State) => `${s.pos[0]},${s.pos[1]},${s.traded[0]},${s.traded[1]},${+s.mirror}|${s.tiles[0]}|${s.tiles[1]}|${s.objs[0]}|${s.objs[1]}`;

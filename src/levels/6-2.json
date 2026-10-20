@@ -1,0 +1,14 @@
+{
+  "id": "6-2",
+  "name": "Backwards",
+  "role": "introduce",
+  "par": 8,
+  "designNote": "Aha: in the mirror Lune pushes backwards too. Sol walks right along his corridor; mirrored, Lune walks left, shoves her crate three tiles into her pit and crosses it to her goal.",
+  "heads": ["###########",
+            "##SM.....G#",
+            "###########"],
+  "tails": ["###########",
+            "#G.^..C.L##",
+            "###########"],
+  "hints": ["Lune's crate has to go left while Sol goes right.", "Turn the mirror on first, then keep walking right.", null]
+}

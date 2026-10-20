@@ -44,6 +44,8 @@ export interface State {
   pos: [number, number];
   /** Per character (§9): '' still holds the half-coin, 'O' traded it for weightlessness, 'Q' for light. */
   traded: [string, string];
+  /** Lune's left and right are swapped (§4 step 1); toggled by entering a mirror shrine `M`. */
+  mirror: boolean;
   fallen: [boolean, boolean];
 }
 
@@ -52,10 +54,11 @@ export interface State {
  * push/fill = the crate's move (fill: into a pit), foeStep/foeFall = a Tarnish's step,
  * drop = an object lost through a bridge that went void (§7), raft = a crate that became a raft
  * (from = where it was pushed from, if pushed), flow = one unit of water left `world` at `at` for the twin (§8),
- * altar = a character traded its coin there (§9), crack = cracked floor broke under weight.
+ * altar = a character traded its coin there (§9), crack = cracked floor broke under weight,
+ * mirror = a character entered a mirror shrine (Lune's left/right toggled).
  */
 export type GameEvent = {
-  type: 'move' | 'bump' | 'push' | 'fill' | 'stomp' | 'stompJam' | 'fall' | 'caught' | 'flip' | 'foeStep' | 'foeFall' | 'drop' | 'raft' | 'flow' | 'altar' | 'crack';
+  type: 'move' | 'bump' | 'push' | 'fill' | 'stomp' | 'stompJam' | 'fall' | 'caught' | 'flip' | 'foeStep' | 'foeFall' | 'drop' | 'raft' | 'flow' | 'altar' | 'crack' | 'mirror';
   world: W;
   at: number;
   from?: number;

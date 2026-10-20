@@ -3,8 +3,8 @@ import type { Level, LevelFile, Role, W } from './types';
 /** Reserved letters are never link letters (RULES.md §2.1). */
 const RESERVED = 'CGLMOQS';
 const ROLES: Role[] = ['introduce', 'develop', 'twist', 'combine', 'capstone', 'finale'];
-// Glyphs implemented so far (Ch1-5). Later chapters extend this.
-const BASIC = '#.SLGC^/|@?*=-~_&0%OQ';
+// Every level glyph (Ch1-6).
+const BASIC = '#.SLGC^/|@?*=-~_&0%OQM$';
 
 export const isPlate = (c: string) => c >= 'a' && c <= 'z' && !RESERVED.includes(c.toUpperCase());
 export const isGate = (c: string) => c >= 'A' && c <= 'Z' && !RESERVED.includes(c);
@@ -24,7 +24,10 @@ export function parseLevel(f: LevelFile): Level {
   const count = (g: string, c: string) => g.split(c).length - 1;
   if (count(grids[0], 'S') !== 1 || count(grids[1], 'S') !== 0) fail('need exactly one S, in heads');
   if (count(grids[1], 'L') !== 1 || count(grids[0], 'L') !== 0) fail('need exactly one L, in tails');
-  if (count(grids[0], 'G') !== 1 || count(grids[1], 'G') !== 1) fail('need exactly one G per world');
+  // The finale's goals are the wish altars `$` (§9.3); every other level uses `G`.
+  const goal = f.role === 'finale' ? '$' : 'G', other = goal === '$' ? 'G' : '$';
+  if (count(grids[0], goal) !== 1 || count(grids[1], goal) !== 1) fail(`need exactly one ${goal} per world`);
+  if (count(grids[0] + grids[1], other) !== 0) fail(`no ${other} in a ${f.role} level`);
 
   const plates: Record<string, number[]> = {};
   const owner: Record<string, W> = {};
@@ -76,6 +79,6 @@ export function parseLevel(f: LevelFile): Level {
   return {
     id: f.id, name: f.name, role: f.role, designNote: f.designNote, hints: f.hints, par: f.par,
     w, h, plates, owner, basins, sluices,
-    start: { tiles, objs, pos: [grids[0].indexOf('S'), grids[1].indexOf('L')], traded: ['', ''], fallen: [false, false] },
+    start: { tiles, objs, pos: [grids[0].indexOf('S'), grids[1].indexOf('L')], traded: ['', ''], mirror: false, fallen: [false, false] },
   };
 }

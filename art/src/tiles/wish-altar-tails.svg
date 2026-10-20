@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="tails6">
+  <!-- Wish altar (tails half): a coin-shaped dais with an empty half-coin socket. Both halves stand
+       on their altars at once, coins still held, and the coin is whole. -->
+  <g filter="url(#grain)"><rect width="64" height="64" fill="var(--floor)"/></g>
+  <circle cx="32" cy="32" r="30" fill="#C9D3E6" fill-opacity="0.25"/>
+  <ellipse cx="32" cy="51" rx="25" ry="6" fill="#000" fill-opacity="0.25"/>
+  <g filter="url(#wobble)" stroke="var(--ink)" stroke-width="1.8" stroke-linejoin="round">
+    <circle cx="32" cy="32" r="24" fill="#C9D3E6"/>
+    <circle cx="32" cy="32" r="18" fill="#7F8BB0"/>
+    <path d="M32 18 A14 14 0 0 1 32 46 Z" fill="#E8F0FF" stroke-width="1.4"/>
+  </g>
+  <circle cx="32" cy="32" r="24" fill="none" stroke="#7F8BB0" stroke-width="1.6" stroke-dasharray="1.2 2"/>
+  <circle cx="32" cy="32" r="14" fill="none" stroke="var(--ink)" stroke-width="1" stroke-dasharray="2 2"/>
+  <path d="M14 22 Q20 12 32 9" stroke="#FFFFFF" stroke-opacity="0.6" stroke-width="1.4" fill="none"/>
+</svg>

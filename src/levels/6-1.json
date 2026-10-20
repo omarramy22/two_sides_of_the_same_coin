@@ -1,0 +1,14 @@
+{
+  "id": "6-1",
+  "name": "Looking Glass",
+  "role": "introduce",
+  "par": 7,
+  "designNote": "Aha: the mirror shrine swaps Lune's left and right. Once Sol steps on it, walking right takes Sol right and Lune left, so they can head for opposite ends.",
+  "heads": ["#########",
+            "#SM....G#",
+            "#########"],
+  "tails": ["#########",
+            "#G....L.#",
+            "#########"],
+  "hints": ["Lune's goal is the other way. How can 'right' take her left?", "Step Sol onto the mirror shrine. Then right moves Lune left.", null]
+}

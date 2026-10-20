@@ -18,7 +18,7 @@ describe('parse (§2.2)', () => {
     expect(bad(['SLG'], ['..G'])).toThrow(/one S|one L/);
   });
   it('rejects two goals', () => expect(bad(['SGG'], ['L.G'])).toThrow(/one G/));
-  it('rejects reserved letters as plates/gates', () => expect(bad(['SMG'], ['L.G'])).toThrow(/unknown glyph/));
+  it('rejects reserved letters as plates/gates', () => expect(bad(['SoG'], ['L.G'])).toThrow(/unknown glyph/));
   it('rejects plates split across worlds', () => expect(bad(['SaG', '..A'], ['LaG', '...'])).toThrow(/one world/));
   it('rejects orphan plates and gates', () => {
     expect(bad(['SaG'], ['L.G'])).toThrow(/no gate/);
@@ -480,5 +480,35 @@ describe('cracked floor and altars (§9)', () => {
     const s = tick(lv, onCrack, 'up'); // Sol bumps the edge and stays on the crack; the Tarnish steps onto him
     expect(s.fallen[0]).toBe(true);
     expect(s.tiles[0][1]).toBe('%');
+  });
+});
+
+describe('mirror shrines and the finale (§4 step 1, §9.3)', () => {
+  it('entering a mirror shrine swaps Lune\'s left and right until a shrine is entered again', () => {
+    const lv = lvl(['SM....G', '.......'], ['.L....G', '.......']);
+    let s = run(lv, ['right']); // Sol enters the shrine
+    expect(s.mirror).toBe(true);
+    s = run(lv, ['right'], s); // Sol goes right, Lune goes left
+    expect([xy(lv, s.pos[0]), xy(lv, s.pos[1])]).toEqual([[2, 0], [1, 0]]);
+    s = run(lv, ['left', 'left'], s); // Sol back onto the shrine: the mirror is off again
+    expect(s.mirror).toBe(false);
+  });
+  it('two entries in one tick cancel out', () => {
+    const lv = lvl(['SM..G'], ['LM..G']);
+    expect(run(lv, ['right']).mirror).toBe(false);
+  });
+  it('the mirror also turns Lune\'s pushes around', () => {
+    const lv = lvl(['SM....G'], ['...CL.G']);
+    const s = run(lv, ['right', 'right', 'right']); // Lune: right (no mirror yet), then left, then left into the crate
+    expect(s.objs[1][2]).toBe('C');
+  });
+  it('the finale is won only on both wish altars, with both coins still held', () => {
+    const fin = (h: string[], t: string[]) => parseLevel({ id: 'f', name: 'f', role: 'finale', designNote: '', heads: h, tails: t, hints: [] });
+    expect(() => fin(['S.G'], ['L.G'])).toThrow(/\$/);
+    const lv = fin(['S.$'], ['L.$']);
+    expect(isWon(run(lv, ['right', 'right']))).toBe(true);
+    const traded = fin(['SO$'], ['L.$']);
+    expect(isWon(run(traded, ['right', 'right']))).toBe(false);
+    expect(() => lvl(['S.$'], ['L.G'])).toThrow(/\$|G/);
   });
 });

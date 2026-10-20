@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="heads6,tails6">
+  <!-- Mirror shrine: a round polished disc set in the floor, with left/right arrows that swap.
+       Stepping on it flips Lune's left and right. -->
+  <g filter="url(#grain)"><rect width="64" height="64" fill="var(--floor)"/></g>
+  <ellipse cx="32" cy="50" rx="24" ry="6" fill="#000" fill-opacity="0.25"/>
+  <g filter="url(#wobble)" stroke="var(--ink)" stroke-width="1.7" stroke-linejoin="round">
+    <circle cx="32" cy="32" r="22" fill="var(--wall-top)"/>
+    <circle cx="32" cy="32" r="17" fill="var(--accent)"/>
+  </g>
+  <circle cx="32" cy="32" r="22" fill="none" stroke="var(--highlight)" stroke-width="1" stroke-dasharray="1.5 2.5"/>
+  <!-- a soft reflection band and the two crossing arrows -->
+  <path d="M19 24 Q32 18 45 24" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <g stroke="var(--ink)" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 30 H42 M38 26 L42 30 L38 34"/>
+    <path d="M42 38 H22 M26 34 L22 38 L26 42"/>
+  </g>
+</svg>

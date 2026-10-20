@@ -23,9 +23,9 @@ function ablations(f: LevelFile): { label: string; file: LevelFile }[] {
   grids.forEach((g, wi) => [...g].forEach((c, i) => {
     const name = wi ? 'T' : 'H';
     // shortcut: basins aren't ablated (a region would have to go as a pair); add if a level hides a decorative basin.
-    if ('C^@?*=-&0%OQ'.includes(c)) {
+    if ('C^@?*=-&0%OQM'.includes(c)) {
       const v = [...grids]; v[wi] = g.slice(0, i) + (c === '0' ? '_' : '.') + g.slice(i + 1);
-      out.push({ label: `${{ C: 'crate', '^': 'pit', '@': 'tarnish', '?': 'sleeper', '*': 'lantern', '=': 'mirage', '-': 'shadow bridge', '&': 'sluice', '0': 'crate', '%': 'cracked', O: 'weight altar', Q: 'light altar' }[c]} ${name}(${at(i)})`, file: build(v) });
+      out.push({ label: `${{ C: 'crate', '^': 'pit', '@': 'tarnish', '?': 'sleeper', '*': 'lantern', '=': 'mirage', '-': 'shadow bridge', '&': 'sluice', '0': 'crate', '%': 'cracked', O: 'weight altar', Q: 'light altar', M: 'mirror shrine' }[c]} ${name}(${at(i)})`, file: build(v) });
     } else if (c === '|') {
       const v = grids.map((x) => x.slice(0, i) + '.' + x.slice(i + 1));
       out.push({ label: `seesaw (${at(i)})`, file: build(v) });
