@@ -1,0 +1,18 @@
+{
+  "id": "3-2",
+  "name": "Cast Shadow",
+  "role": "introduce",
+  "par": 9,
+  "designNote": "Aha: Sol's light is Lune's shadow. Lune can't make her own bridge; Sol pushes the lantern under the gap's column, and the light on his side throws a shadow bridge across hers.",
+  "heads": ["#########",
+            "#S......#",
+            "#......G#",
+            "#.*.....#",
+            "#########"],
+  "tails": ["#########",
+            "#L..#...#",
+            "#...-..G#",
+            "#...#...#",
+            "#########"],
+  "hints": ["Lune's bridge is made of shadow. What casts a shadow on her side?", "Light on Sol's side is shadow on Lune's. Push the lantern into the gap's column.", null]
+}

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="heads3,tails3">
+  <!-- A squat stone lantern with a caged flame; pushable like a crate (feet at y 58) -->
+  <ellipse cx="32" cy="58" rx="20" ry="4.5" fill="#000" fill-opacity="0.25"/>
+  <circle cx="32" cy="30" r="20" fill="var(--highlight)" fill-opacity="0.18"/>
+  <g filter="url(#wobble)" stroke="var(--ink)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">
+    <!-- base -->
+    <path d="M16 57 L48 57 L45 48 L19 48 Z" fill="var(--wall-face)"/>
+    <path d="M33 48 L45 48 L48 57 L33 57 Z" fill="url(#hatch)" stroke="none"/>
+    <!-- glass cage -->
+    <path d="M20 46 L44 46 L42 20 L22 20 Z" fill="var(--accent)"/>
+    <path d="M24 44 L40 44 L38.5 22 L25.5 22 Z" fill="var(--highlight)"/>
+    <path d="M32 22 V44 M22 33 H42" stroke-width="1.4"/>
+    <!-- cap -->
+    <path d="M14 20 L50 20 L40 9 L24 9 Z" fill="var(--wall-top)"/>
+    <path d="M36 9 L40 9 L50 20 L38 20 Z" fill="url(#hatch)" stroke="none"/>
+    <path d="M29 9 Q32 3 35 9" fill="var(--accent-dark)"/>
+  </g>
+  <!-- the flame -->
+  <path d="M32 40 Q26 34 31 27 Q32 31 34 29 Q38 35 32 40 Z" fill="var(--accent)" stroke="var(--accent-dark)" stroke-width="1"/>
+  <path d="M32 38 Q29.5 35 32 31.5 Q34.5 35 32 38 Z" fill="#FFFFFF"/>
+  <path d="M17 18 L28 11" stroke="var(--highlight)" stroke-opacity="0.6" stroke-width="1.2" stroke-linecap="round"/>
+</svg>

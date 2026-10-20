@@ -10,7 +10,8 @@
     "verify-levels": "tsx tools/verify-levels.ts",
     "shots": "tsx tools/screenshots.ts",
     "art": "tsx tools/render-art.ts",
-    "art:sheet": "tsx tools/contact-sheet.ts"
+    "art:sheet": "tsx tools/contact-sheet.ts",
+    "trace": "tsx tools/trace.ts"
   },
   "dependencies": {
     "@fontsource/im-fell-english": "^5.3.0",

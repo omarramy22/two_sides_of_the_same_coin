@@ -5,7 +5,7 @@ import type { Mixer } from '../mixer';
  * Melody note definition within a 16-bar phrase.
  * Scale degree: 1 = F, 2 = G, 3 = A, 4 = Bb, 5 = C, 6 = D, 7 = E
  */
-interface MelodyNote {
+export interface MelodyNote {
   bar: number; // 0..15
   beat: number; // 0..3
   sub: number; // 0 for on-beat, 0.5 for eighth-note off-beat
@@ -15,7 +15,7 @@ interface MelodyNote {
   velocity?: number;
 }
 
-interface ChordInfo {
+export interface ChordInfo {
   name: string;
   tones: readonly number[]; // semitone pitch classes (0=C, 2=D, 4=E, 5=F, 7=G, 9=A, 10=Bb)
   rootNote: string;
@@ -46,7 +46,7 @@ const CHORD_PROGRESSION: readonly ChordInfo[] = [
   { name: 'F', tones: [5, 9, 0], rootNote: 'F1', padNotes: ['F3', 'A3', 'C4'] },
 ];
 
-const DEGREE_NAMES = ['F', 'G', 'A', 'Bb', 'C', 'D', 'E'] as const;
+export const DEGREE_NAMES = ['F', 'G', 'A', 'Bb', 'C', 'D', 'E'] as const;
 
 function midiToNoteName(midi: number): string {
   const noteIndex = ((midi % 12) + 12) % 12;
@@ -240,7 +240,7 @@ const VARIANT_B: readonly MelodyNote[] = [
  * In scientific pitch notation, C4..E4 are in octave 4 but are lower in pitch than F4 (negative indices),
  * while C5..E5 are in octave 5 (higher in pitch than F4, positive indices).
  */
-function getAbsoluteDegree(degree: number, octave: number): number {
+export function getAbsoluteDegree(degree: number, octave: number): number {
   if (degree >= 1 && degree <= 4) {
     return (octave - 4) * 7 + (degree - 1);
   } else {
@@ -274,7 +274,7 @@ function absoluteDegreeToMidi(absDeg: number): number {
  * to the nearest chord tone of that bar's shared chord, while off-beat passing tones
  * are preserved if they are within a diatonic step (<= 2 semitones) of the harmony.
  */
-function invertAndSnap(
+export function invertAndSnap(
   note: MelodyNote,
   pivotAbsDegree: number,
   chord: ChordInfo

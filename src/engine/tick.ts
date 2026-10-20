@@ -1,5 +1,5 @@
 import { isGate } from './parse';
-import type { Dir, GameEvent, Level, State, W } from './types';
+import { DIRS, type Dir, type GameEvent, type Level, type State, type W } from './types';
 
 const DELTA: Record<Dir, [number, number]> = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
 
@@ -35,6 +35,37 @@ function solid(lv: Level, s: State, w: W, i: number): boolean {
   return c === '#' || c === '|' || (isGate(c) && !gateOpen(lv, s, w, i));
 }
 
+/**
+ * RULES.md §7, per world and cell: 1 lit, -1 shadowed, 0 neither (dark or eclipse).
+ * Beams stop at walls, closed gates and raised stones; a crate or lantern catches the beam
+ * (its own tile is lit) and stops it.
+ */
+export function light(lv: Level, s: State): [Int8Array, Int8Array] {
+  const n = lv.w * lv.h, raw = [new Uint8Array(n), new Uint8Array(n)];
+  for (const w of [0, 1] as W[]) {
+    for (let i = 0; i < n; i++) {
+      if (s.objs[w][i] !== '*') continue;
+      raw[w][i] = 1;
+      for (const d of DIRS) {
+        for (let j = step(lv, i, d); j >= 0 && !solid(lv, s, w, j); j = step(lv, j, d)) {
+          raw[w][j] = 1;
+          if (s.objs[w][j] === 'C' || s.objs[w][j] === '*') break;
+        }
+      }
+    }
+  }
+  const out: [Int8Array, Int8Array] = [new Int8Array(n), new Int8Array(n)];
+  for (let i = 0; i < n; i++) {
+    const d = raw[0][i] - raw[1][i];
+    out[0][i] = d;
+    out[1][i] = -d;
+  }
+  return out;
+}
+
+/** A mirage `=` stands while lit, a shadow bridge `-` while shadowed; otherwise it's a hole (§7). */
+export const voidBridge = (c: string, l: number) => (c === '=' && l !== 1) || (c === '-' && l !== -1);
+
 export function isWon(s: State): boolean {
   return !s.fallen[0] && !s.fallen[1] && s.tiles[0][s.pos[0]] === 'G' && s.tiles[1][s.pos[1]] === 'G';
 }
@@ -60,6 +91,10 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
   const objs = [[...s.objs[0]], [...s.objs[1]]];
   const pos: [number, number] = [s.pos[0], s.pos[1]];
   const stomps: [W, number][] = [];
+  // Bridges only matter when they exist; light is derived from the start-of-tick state for pushes.
+  const bridges = /[=-]/.test(s.tiles[0] + s.tiles[1]);
+  const lit0 = bridges ? light(lv, s) : null;
+  const now = (): State => ({ tiles: [tiles[0].join(''), tiles[1].join('')], objs: [objs[0].join(''), objs[1].join('')], pos, fallen: s.fallen });
 
   // Step 2: movement, judged against the start-of-tick state.
   for (const w of [0, 1] as W[]) {
@@ -69,7 +104,7 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
     if (s.objs[w][to] === '?') { ev?.push({ type: 'bump', world: w, at: s.pos[w] }); continue; }
     if (s.objs[w][to] !== ' ') {
       const beyond = step(lv, to, dir);
-      if (beyond < 0 || solid(lv, s, w, beyond) || s.objs[w][beyond] !== ' ') {
+      if (beyond < 0 || solid(lv, s, w, beyond) || s.objs[w][beyond] !== ' ' || (lit0 && voidBridge(s.tiles[w][beyond], lit0[w][beyond]))) {
         ev?.push({ type: 'bump', world: w, at: s.pos[w] });
         continue;
       }
@@ -99,9 +134,12 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
       if (o === '@' || o === '?') { objs[w][i] = o === '@' ? '?' : '@'; ev?.push({ type: 'flip', world: w, at: i }); }
     });
   } else {
+    // Frozen by light (§5a): a Tarnish standing in its own world's light, after the pushes, doesn't step.
+    const lit = s.objs[0].includes('*') || s.objs[1].includes('*') ? light(lv, now()) : null;
     for (const w of [0, 1] as W[]) {
       const awake = objs[w].flatMap((o, i) => (o === '@' ? [i] : []));
       for (const i of awake) {
+        if (lit?.[w][i] === 1) continue;
         const to = foeStep(lv, s, objs[w], w, i, pos[w]);
         if (to < 0) continue;
         objs[w][i] = ' ';
@@ -119,6 +157,22 @@ export function tick(lv: Level, s: State, dir: Dir, ev?: GameEvent[]): State {
     tiles[w][i] = '/';
     tiles[o][i] = '|';
     ev?.push({ type: 'stomp', world: w, at: i });
+  }
+
+  // Steps 5 and 7: light, then anything on a void bridge falls. A lost lantern changes the light,
+  // so repeat until nothing more drops.
+  if (bridges) {
+    for (let lit = light(lv, now()), dropped = true; dropped; ) {
+      dropped = false;
+      for (const w of [0, 1] as W[]) objs[w].forEach((o, i) => {
+        if (o === ' ' || !voidBridge(tiles[w][i], lit[w][i])) return;
+        objs[w][i] = ' ';
+        dropped = true;
+        ev?.push({ type: 'drop', world: w, at: i });
+      });
+      if (dropped) lit = light(lv, now());
+      else for (const w of [0, 1] as W[]) fell[w] ||= voidBridge(tiles[w][pos[w]], lit[w][pos[w]]);
+    }
   }
 
   // Step 7: falls.

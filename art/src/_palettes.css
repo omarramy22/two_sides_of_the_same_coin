@@ -100,3 +100,34 @@
   --highlight: #DFF5EC;
   --pit: #050C10;
 }
+
+/* Chapter 3, The Stone: the well's carved stone heart. Warm grey sandstone (Heads), cool slate (Tails). */
+.theme-heads3 {
+  --ink: #2A1E14;
+  --floor: #C9B79C;
+  --floor-light: #E0D2B8;
+  --floor-dark: #A08B70;
+  --wall-top: #9A8670;
+  --wall-face: #66533F;
+  --wall-shade: #42352A;
+  --accent: #D9A441;
+  --accent-dark: #A8742A;
+  --accent2: #2E8C8A;
+  --highlight: #FFF4D6;
+  --pit: #1E1712;
+}
+
+.theme-tails3 {
+  --ink: #0E1028;
+  --floor: #3A4060;
+  --floor-light: #525A80;
+  --floor-dark: #2A2F4A;
+  --wall-top: #6A7398;
+  --wall-face: #2C3150;
+  --wall-shade: #1A1D34;
+  --accent: #9C8CD4;
+  --accent-dark: #6A5BA6;
+  --accent2: #E07A6B;
+  --highlight: #E8F0FF;
+  --pit: #06071A;
+}

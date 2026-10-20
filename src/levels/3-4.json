@@ -1,0 +1,20 @@
+{
+  "id": "3-4",
+  "name": "Hold Still",
+  "role": "introduce",
+  "par": 15,
+  "designNote": "Aha: the Tarnish freeze in their own world's light. The beam first pins it in the doorway Sol needs, so Sol tips the lantern up out of that row, lures the Tarnish into his room, and catches it under the new beam before walking out.",
+  "heads": ["##########",
+            "#S...#..@#",
+            "#....#...#",
+            "#.*......#",
+            "#....#..G#",
+            "##########"],
+  "tails": ["##########",
+            "#L...#...#",
+            "#....#...#",
+            "#........#",
+            "#....#..G#",
+            "##########"],
+  "hints": ["Watch what the Tarnish does in the lamplight.", "Light freezes it, but not in the doorway. Lure it into your room, then catch it in the beam.", null]
+}

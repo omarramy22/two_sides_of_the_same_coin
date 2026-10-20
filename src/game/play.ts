@@ -7,7 +7,7 @@ import { recordSolve, stars } from '../app/save';
 import type { Scene } from '../app/scenes';
 import type { Action } from '../app/settings';
 import { History } from '../engine/history';
-import { gateJammed, gateOpen, isWon, occupied, tick } from '../engine/tick';
+import { gateJammed, gateOpen, isWon, light, occupied, tick, voidBridge } from '../engine/tick';
 import { isGate, isPlate } from '../engine/parse';
 import type { Dir, GameEvent, State, W } from '../engine/types';
 import { Hinter } from '../hints/hints';
@@ -26,7 +26,7 @@ const SHOTS = new URLSearchParams(location.search).has('shots');
 const MOVE: Partial<Record<Action, Dir>> = { up: 'up', down: 'down', left: 'left', right: 'right' };
 /** Engine event -> sound. Bumps are quiet; the Tarnish and fills carry the drama. */
 const SFX: Partial<Record<GameEvent['type'], SfxName>> = {
-  bump: 'bump', push: 'push', fill: 'fill', fall: 'fall', caught: 'caught', foeStep: 'foeStep', foeFall: 'foeFall', stomp: 'seesaw', stompJam: 'gateJam',
+  bump: 'bump', push: 'push', fill: 'fill', fall: 'fall', caught: 'caught', foeStep: 'foeStep', foeFall: 'foeFall', stomp: 'seesaw', stompJam: 'gateJam', drop: 'fall',
 };
 
 export function createPlay(ctx: Ctx, index: number): Scene {
@@ -104,6 +104,21 @@ export function createPlay(ctx: Ctx, index: number): Scene {
       if (opened) audio.sfx('gateOpen', w);
       if (closed) audio.sfx('gateClose', w);
       if (jammed) audio.sfx('gateJam', w);
+    }
+    // Bridges forming or melting as the light moves (Chapter 3).
+    if (/[=-]/.test(lv.start.tiles[0] + lv.start.tiles[1])) {
+      const [a, b] = [light(lv, prev), light(lv, next)];
+      for (const w of [0, 1] as W[]) {
+        let on = false, off = false;
+        for (let i = 0; i < a[w].length; i++) {
+          const c = next.tiles[w][i];
+          if (c !== '=' && c !== '-') continue;
+          const was = !voidBridge(c, a[w][i]), is = !voidBridge(c, b[w][i]);
+          on ||= is && !was; off ||= was && !is;
+        }
+        if (on) audio.sfx('bridgeOn', w);
+        if (off) audio.sfx('bridgeOff', w);
+      }
     }
     const aligned = next.pos[0] === next.pos[1];
     if (aligned && prev.pos[0] !== prev.pos[1] && !ev.some((e) => e.type === 'flip')) audio.sfx('align');

@@ -28,6 +28,8 @@ interface GameApi {
 }
 
 // 1. Read and parse all levels, sorted numerically by id (chapter, then number).
+/** `npm run shots -- 3` only shoots levels whose id starts with "3". */
+const only = process.argv[2];
 const order = (id: string) => id.split('-').map(Number);
 const files = readdirSync(DIR).filter((f) => f.endsWith('.json'));
 const levels: Level[] = files
@@ -63,6 +65,7 @@ try {
       for (let i = 0; i < levels.length; i++) {
         const lv = levels[i];
         const sol = solutions[i];
+        if (only && !lv.id.startsWith(only)) continue;
 
         // Load level and verify start position.
         const state = await page.evaluate((idx) => {
@@ -85,10 +88,16 @@ try {
         // Press solution moves if solved.
         if (sol) {
           const keys = sol.path.map((d) => KEY_MAP[d]);
-          await page.evaluate((ks) => {
+          const press = (ks: string[]) => page.evaluate((ks) => {
             const g = (window as unknown as { __game: GameApi }).__game;
             for (const k of ks) g.press(k);
-          }, keys);
+          }, ks);
+          // Halfway through the solution: mechanisms mid-use are what need checking.
+          const half = Math.floor(keys.length / 2);
+          await press(keys.slice(0, half));
+          await page.waitForFunction(() => (window as unknown as { __game: GameApi }).__game.idle());
+          await page.screenshot({ path: `${SHOTS_DIR}/${lv.id}-mid-${vp.name}.png` });
+          await press(keys.slice(half));
 
           await page.waitForFunction(() => (window as unknown as { __game: GameApi }).__game.idle());
           await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));

@@ -1,5 +1,6 @@
 // Phase 2 art layer: tile/actor sprites from assets/manifest.json (see art/STYLE.md). No game rules.
 import { Container, Sprite, TilingSprite, type Texture } from 'pixi.js';
+import { light, voidBridge } from '../engine/tick';
 import type { Level, State, W } from '../engine/types';
 import { loadManifest, loadPuppet, texture, type Puppet } from './rig';
 
@@ -9,11 +10,11 @@ export interface Art {
   lune: Puppet;
 }
 
-/** Tile palette for a world in a chapter: Chapter 1 'heads'/'tails', Chapter 2 'heads2'/'tails2'. */
-export const palette = (lv: Level, w: W) => `${w ? 'tails' : 'heads'}${chapter(lv) >= 2 ? '2' : ''}`;
+/** Tile palette for a world in a chapter: 'heads'/'tails' in Chapter 1, then 'heads2', 'heads3'... */
+export const palette = (lv: Level, w: W) => `${w ? 'tails' : 'heads'}${['', '', '2', '3'][Math.min(chapter(lv), 3)]}`;
 const chapter = (lv: Level) => Number(lv.id.split('-')[0]);
-/** Background set per chapter (Chapter 1 'surface', Chapter 2 'roots'). */
-const BG = ['', 'surface', 'roots'];
+/** Background set per chapter (Chapter 1 'surface', Chapter 2 'roots', Chapter 3 'stone'). */
+const BG = ['', 'surface', 'roots', 'stone'];
 
 /** Loads every texture the board needs once. Rejects if `npm run art` hasn't been run. */
 export async function loadArt(): Promise<Art> {
@@ -56,20 +57,27 @@ export function sprite(art: Art, key: string, x: number, y: number, t: number): 
  * (plates, gates, seesaws), since Chapter 2 art isn't made yet.
  */
 export function drawTerrain(art: Art, layer: Container, lv: Level, terrain: State, w: W, cell: (w: W, i: number) => [number, number], t: number) {
-  const p = palette(lv, w);
+  const p = palette(lv, w), lit = /[=-]/.test(terrain.tiles[w]) ? light(lv, terrain)[w] : null;
   for (let i = 0; i < lv.w * lv.h; i++) {
     const [x, y] = cell(w, i), c = terrain.tiles[w][i];
     if (c === '#') { layer.addChild(sprite(art, `tiles/wall-${wallMask(lv, terrain.tiles[w], i)}.${p}`, x, y, t)); continue; }
+    if (lit && (c === '=' || c === '-')) {
+      // A bridge stands as solid light/shadow, or is a cleft with a faint ghost of the bridge in it.
+      const bridge = sprite(art, `tiles/${c === '=' ? 'mirage' : 'shadow-bridge'}.${p}`, x, y, t);
+      if (voidBridge(c, lit[i])) { layer.addChild(sprite(art, `tiles/chasm.${p}`, x, y, t)); bridge.alpha = 0.16; }
+      layer.addChild(bridge);
+      continue;
+    }
     layer.addChild(sprite(art, `tiles/floor-${floorVariant(lv.id, w, i)}.${p}`, x, y, t));
     const key = c === '^' ? 'pit' : c === ',' ? 'pit-crate' : c === ';' ? 'pit-tarnish' : c === 'G' ? (w ? 'goal-tails' : 'goal-heads') : null;
     if (key) layer.addChild(sprite(art, `tiles/${key}.${p}`, x, y, t));
   }
 }
 
-/** An actor (crate / Tarnish) whose sprite has its feet at `feetY`; z-sorted by it. */
+/** An actor (crate / lantern / Tarnish) whose sprite has its feet at `feetY`; z-sorted by it. */
 export function actor(art: Art, key: string, cx: number, feetY: number, t: number, scale = 1, alpha = 1): Sprite {
   const s = new Sprite(art.tex[key]);
-  const crate = key === 'tiles/crate';
+  const crate = key.startsWith('tiles/');
   s.anchor.set(0.5, crate ? 58 / 64 : 88 / 96);
   s.scale.set((t / 64) * scale);
   s.position.set(cx, feetY);

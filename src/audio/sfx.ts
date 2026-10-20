@@ -310,6 +310,20 @@ export class SfxPool {
         break;
       }
 
+      case 'bridgeOn': {
+        // A bridge of light (Heads) or shadow (Tails) knits itself: a quick rising shimmer
+        const notes = isTails ? ['E4', 'B4', 'E5'] : ['C5', 'G5', 'C6'];
+        notes.forEach((n, k) => this.polyChime.triggerAttackRelease(n, '32n', now + k * 0.045, 0.14));
+        break;
+      }
+
+      case 'bridgeOff': {
+        // ...and unravels: a soft falling glass sigh
+        (isTails ? this.bellFm : this.warmFm).triggerAttackRelease(isTails ? 'B4' : 'G5', '16n', now, 0.14);
+        (isTails ? this.bellFm : this.warmFm).triggerAttackRelease(isTails ? 'E4' : 'C5', '8n', now + 0.07, 0.11);
+        break;
+      }
+
       case 'undo': {
         // Short reversed shimmer
         this.crispNoise.triggerAttackRelease('16n', now, 0.14);

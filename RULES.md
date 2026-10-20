@@ -155,6 +155,8 @@ Rusted wish-coins that hunt the half-coin pendants. Each body lives in one world
 - **Pits:** a Tarnish that steps into a pit falls in and **fills it** (the tile becomes `;`, floor that shows the sunken Tarnish), exactly like a crate. That's the lure.
 - It's greedy on purpose: predictable, and lurable around corners.
 
+**Frozen by light** (Chapter 3). An awake Tarnish standing on a tile that is **lit in its own world** (§7, judged after this tick's pushes) doesn't step. It is still awake: walking into it still gets you caught, and the flip still affects it. Eclipse and shadow don't freeze. So a Heads lantern freezes Sol's Tarnish and, by casting shadow, never Lune's.
+
 **Caught.** A character is caught (`fallen` is set; the game offers a rewind) if it walks into an awake Tarnish (checked right after the characters move, before any flip), or if an awake Tarnish steps onto it.
 
 **Asleep** Tarnish are solid and harmless: characters bump into them, crates can't be pushed into them, other Tarnish are blocked by them. Like any body they still press plates and still jam gates and seesaws.
@@ -177,7 +179,7 @@ Consequences:
 
 **Sources** in a world: every lantern in that world (own tile + beams in the 4 orthogonal directions), and a light-bearer character (own tile + 4 orthogonal neighbours, no beams).
 
-**Beams** stop at (and don't light) walls, closed gates, raised seesaw ends, crates and other lanterns. They pass over everything else, including characters, water, pits and bridge tiles.
+**Beams** stop at (and don't light) walls, closed gates and raised seesaw ends. A crate or another lantern **catches** the beam: its own tile is lit, and the beam goes no further. Beams pass over everything else, including characters, the Tarnish, water, pits and bridge tiles. *(Changed in Chapter 3: a crate on a mirage would otherwise darken its own tile and drop through.)*
 
 For a coordinate `p`, let `LH(p)` = lit by a Heads source and `LT(p)` = lit by a Tails source.
 - In H: `p` is **lit** iff `LH ∧ ¬LT`, **shadowed** iff `LT ∧ ¬LH`.
@@ -190,7 +192,7 @@ For a coordinate `p`, let `LH(p)` = lit by a Heads source and `LT(p)` = lit by a
 
 Author convention: mirages in H (Sol needs light), shadow bridges in T (Lune walks on shadow). The engine allows either in either world.
 
-A character may walk into a void bridge (it falls in step 7). Objects can't be pushed into a void bridge. If a bridge turns void under something after the light update, a character on it falls and an object on it is lost.
+A character may walk into a void bridge (it falls in step 7). Objects can't be pushed into a void bridge (judged by start-of-tick light). A Tarnish isn't careful: it may step onto a void bridge and is lost. If a bridge turns void under something after the light update, a character on it falls and an object on it is lost; a lost lantern changes the light, so step 7 repeats until nothing more drops.
 
 Why a light-bearer "can't use shadow bridges" falls out for free: she lights her own tile, so it can't be shadowed in her world.
 

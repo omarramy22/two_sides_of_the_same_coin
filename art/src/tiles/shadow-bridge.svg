@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="heads3,tails3">
+  <!-- Dusk bridge: a plank of woven shadow that only stands while shadowed -->
+  <rect width="64" height="64" fill="var(--pit)"/>
+  <rect width="64" height="64" fill="url(#hatch-cross)" opacity="0.6"/>
+  <g filter="url(#wobble)" stroke="#05061A" stroke-width="1.6" stroke-linejoin="round">
+    <path d="M0 8 H64 V56 H0 Z" fill="#1C2046"/>
+    <path d="M0 8 H64 V15 H0 Z" fill="#3A3F7A"/>
+    <path d="M0 49 H64 V56 H0 Z" fill="#12153A"/>
+  </g>
+  <!-- woven strands -->
+  <g filter="url(#wobble-soft)" stroke="#6A5BA6" stroke-width="1.2" fill="none" stroke-linecap="round">
+    <path d="M0 22 Q16 18 32 22 T64 22"/>
+    <path d="M0 32 Q16 36 32 32 T64 32" stroke="#9C8CD4"/>
+    <path d="M0 42 Q16 38 32 42 T64 42"/>
+  </g>
+  <!-- a few stars caught in the weave -->
+  <g fill="#E8F0FF">
+    <path d="M14 27 l1 2 2 1 -2 1 -1 2 -1 -2 -2 -1 2 -1 z"/>
+    <path d="M47 37 l0.8 1.6 1.6 0.8 -1.6 0.8 -0.8 1.6 -0.8 -1.6 -1.6 -0.8 1.6 -0.8 z"/>
+    <circle cx="34" cy="26" r="0.9"/>
+    <circle cx="25" cy="45" r="0.8"/>
+  </g>
+  <path d="M2 11 H40" stroke="#E8F0FF" stroke-opacity="0.35" stroke-width="1" stroke-linecap="round"/>
+</svg>

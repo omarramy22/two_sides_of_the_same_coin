@@ -2,7 +2,7 @@
 
 Read this first in a new session, then `SPEC.md` (the brief, with the changes noted below) and `RULES.md` (the exact game rules the engine implements). This file says where the project stands, what was decided along the way and why, and what comes next.
 
-**Preview build (private):** https://claude.ai/artifact/4StN9hkfrULKfhruTZFLXi (Chapters 1 and 2, current as of commit `4c1a911`).
+**Preview build (private):** https://claude.ai/artifact/4StN9hkfrULKfhruTZFLXi (Chapters 1–3).
 
 ---
 
@@ -14,13 +14,13 @@ Read this first in a new session, then `SPEC.md` (the brief, with the changes no
 | 1 Engine + solver + greybox | Done |
 | 2 Art direction | Done |
 | 3 Vertical slice: Chapter 1 fully polished | Done; preview published |
-| 4 Chapters 2–6 | **Chapter 2 done** and approved by the user ("it is logical"). Chapters 3–6 not started. |
+| 4 Chapters 2–6 | Chapter 2 done and approved ("it is logical"). **Chapter 3 built, awaiting the user's review.** Chapters 4–6 not started. |
 | 5 Story, intro and finale | Not started |
 | 6 Ship (zip, video, pitch, perf pass) | Not started |
 
 The user reviews at the end of every phase or chapter. Never skip that stop.
 
-**Next step:** Phase 4, Chapter 3 "The Stone" (light and shadow, RULES.md §7). Follow the same loop as Chapter 2 (section 7 below).
+**Next step:** get the user's verdict on Chapter 3, then Chapter 4 "The Waters" (RULES.md §8) with the same loop (section 7 below).
 
 ---
 
@@ -36,7 +36,9 @@ All approved by the user unless marked.
 
 1. **Legend letter clash fixed:** `C G L M O Q S` are reserved; the other 19 letters are plate/gate links. The raised balance-stone glyph is `|` (not `\`, which needs JSON escaping). See RULES.md §2.1 and §11.
 2. **Seesaws as "balance stones":** walk into a raised stone to shove it down; its twin across the seam rises unless someone or something is on it (jam). Presented as two stones on one rope over a seam pulley.
-3. **Light, water, cracked floor, altars:** the full rules are already in RULES.md §7–§9 (eclipse rule, one water unit per basin coordinate, rafts, etc.). They are written but **not implemented in the engine yet**.
+3. **Light (§7) is implemented.** Water, cracked floor and altars (§8–§9) are written but not implemented yet.
+   - Changed in Chapter 3 (not yet confirmed by the user): a crate or lantern *catches* a beam (its own tile is lit, nothing beyond), so a crate on a mirage doesn't darken itself; objects can't be pushed onto a void bridge; anything left on a bridge that goes void drops, and step 7 repeats because a lost lantern changes the light.
+   - **Frozen by light** (new rule, from SPEC §2.1.1's "frozen by light"; not yet confirmed by the user): an awake Tarnish on a tile lit in its own world, judged after this tick's pushes, doesn't step. RULES.md §5a.
 4. **Anti-mash and ablation checks** are thresholds, not absolutes (RULES.md §10): mash ≤10% for `develop`, ≤1% for `twist`/`combine`/`capstone`, `introduce` exempt. An element is decorative if removing it leaves par unchanged.
 5. **Enemies (the Tarnish)** were added at the user's request (SPEC §2.1.1, RULES.md §5a). They are rusted wish-coins that hunt the half-coin pendants. Turn-based: after the characters move, each awake Tarnish steps one tile toward its own world's character, taking the larger axis first (ties horizontal), and tries the other axis if that's blocked. Asleep ones are harmless walls. Caught means the rewind prompt. A Tarnish stepping into a pit fills it (shown as a sunken rusty coin). A Tarnish weighs down plates and jams doors and stones.
    - **The flip:** when Sol and Lune *newly* stand on the same coordinates, every Tarnish in both worlds flips awake ↔ asleep, wherever it stands (enemies do NOT need to line up), and none steps that turn. The game shows a light flash across the seam and the caption "The halves line up: the Tarnish flip!".
@@ -46,7 +48,8 @@ All approved by the user unless marked.
 9. **Opening intro** (wordless 20–30 s storybook panels) was added to SPEC §7 and Phase 5.
 10. **Play goes straight to the first unsolved level** (first five minutes matter). The album is one keypress away.
 11. **The pause menu does not show `designNote`**, because those notes spell out the solution. It shows chapter, name, par and best. Not explicitly confirmed by the user.
-12. **Chapter 2 has 5 levels** (the spec allows 5–6): two introduce levels (one per mechanic), develop, twist, capstone.
+12. **Chapter 3 has 5 levels** too: mirage, shadow bridge, develop, freeze, capstone. 3-4 is labelled `introduce` (it teaches the freeze rule) because it mashes at 1.5%, above the 1% twist limit.
+13. **Chapter 2 has 5 levels** (the spec allows 5–6): two introduce levels (one per mechanic), develop, twist, capstone.
 
 ### User's design feedback (apply to every new level and mechanic)
 - Mechanics must feel **physically logical and fun, with visible cause → effect**. Chapter 2 fixed "strange" plates and seesaws with a physical metaphor: ropes over pulleys in the seam, a glint running from cause to effect, and character reactions.
@@ -71,6 +74,11 @@ All approved by the user unless marked.
 | 2-3 | Doorstop | develop | 12 | 8.8% | The door that shut behind Sol is his backstop |
 | 2-4 | Follow Me | twist | 17 | 0% | The chasing Tarnish holds Sol's plate while he walks through |
 | 2-5 | Two Ropes | capstone | 26 | 0% | Everything: pen stone, flips, Tarnish as counterweight |
+| 3-1 | Lantern Light | introduce | 15 | 0.5% | Push the lantern so its beam reaches the sunglass bridge |
+| 3-2 | Cast Shadow | introduce | 9 | 4.5% | Sol's light is Lune's shadow bridge |
+| 3-3 | One Lantern | develop | 15 | 0.1% | Lune crosses first; moving the light for Sol melts her bridge |
+| 3-4 | Hold Still | introduce | 15 | 1.5% | Light freezes the Tarnish: lure it in, catch it in the beam |
+| 3-5 | Two Jobs | capstone | 22 | 0% | The lantern's column freezes the Tarnish, its row lays Lune's bridge |
 
 `designNote` in each level JSON has the precise aha. When the solver's real solution differs from the intended one, trust the trace and rewrite the note (that happened with 2-4).
 
@@ -115,7 +123,9 @@ npm run verify-levels  # solve / ablation / anti-mash / metrics table; writes pa
 npm run verify-levels -- 2-3   # one level: prints the solution and each ablation result
 npm run art            # render art/src SVG -> assets/ (1x and 2x, per palette) + manifest.json
 npm run art:sheet -- tiles     # contact sheet (art/contact-sheet-*.png); open it and critique
-npm run shots          # screenshots of every level, start + solved, landscape + portrait -> shots/
+npm run shots          # screenshots of every level, start + mid + solved, landscape + portrait -> shots/
+npm run shots -- 3-    # only levels whose id starts with 3-
+npm run trace -- 3-4   # the optimal solution printed as boards, one per move (' lit, : shadowed)
 npm run build          # dist/ (relative paths, runs from any subfolder; ~6 MB)
 ```
 
@@ -125,7 +135,7 @@ npm run build          # dist/ (relative paths, runs from any subfolder; ~6 MB)
 
 **Level design workflow:** draft the boards, save each as a temporary `src/levels/9-N.json`, run `npm run verify-levels -- 9-N`, then delete the file. Always read the actual solution (step through it) before trusting the intended aha. Watch for the flip short-circuiting Tarnish puzzles: any level with a Tarnish has to account for Sol and Lune lining up.
 
-**Publishing the preview:** build, then publish a small shell HTML (title + the built `index-*.css/js` tags; no doctype) with `root: dist` and the file list. More than 255 files must go in two publishes to the same artifact URL (the Chapter 2 palette tiles went in the second).
+**Publishing the preview:** a publish keeps the files it doesn't resend, so send only the new `index-*.js`/`.css`, `manifest.json` and the assets `git status assets` lists as changed. Build, then publish a small shell HTML (title + the built `index-*.css/js` tags; no doctype) with `root: dist` and the file list. More than 255 files must go in two publishes to the same artifact URL (the Chapter 2 palette tiles went in the second).
 
 ---
 
@@ -157,6 +167,8 @@ Lessons:
 
 ## 9. Known gaps and risks
 
+- The built-in browser pane throttles animation frames, so input stalls there (even on 1-1). Use `npm run shots` (headless Playwright) to see levels mid-play.
+- Chapter 3 music (`themes/ch3.ts`, reuses the Chapter 2 inversion helpers) has not been level-measured or listened to.
 - Not verified: real gamepad, a real phone (touch), Firefox/Safari, and the preview inside the claude.ai viewer.
 - Audio is measured for level only; nobody has listened critically.
 - Characters lack a distinct push pose and the finale "reunite" state.

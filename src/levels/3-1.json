@@ -1,0 +1,18 @@
+{
+  "id": "3-1",
+  "name": "Lantern Light",
+  "role": "introduce",
+  "par": 15,
+  "designNote": "Aha: the sunglass bridge only stands in light. Push the lantern down into the bottom row so its beam reaches the bridge, then keep shoving it ahead of you across.",
+  "heads": ["#########",
+            "#S...#..#",
+            "#..*#=.G#",
+            "#....=..#",
+            "#########"],
+  "tails": ["#########",
+            "#L......#",
+            "#.###...#",
+            "#.....G.#",
+            "#########"],
+  "hints": ["The glass bridge only stands where light falls on it.", "Push the lantern into the bottom row so its beam reaches the bridge, then keep it ahead of you.", null]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "3-5",
+  "name": "Two Jobs",
+  "role": "capstone",
+  "par": 22,
+  "designNote": "Aha: one beam does two jobs. Lune's doorway is a shadow bridge that needs the lantern's row; Sol's Tarnish must be frozen by the lantern's column. Lure the Tarnish into the left room, then push the lantern back down into the doorway row: its column pins the Tarnish while its row lays Lune's bridge.",
+  "heads": ["##########",
+            "#S...#..@#",
+            "#....#...#",
+            "#.*......#",
+            "#....#..G#",
+            "##########"],
+  "tails": ["##########",
+            "#L...#...#",
+            "#....#...#",
+            "#....-...#",
+            "#....#..G#",
+            "##########"],
+  "hints": ["Lune's doorway is a shadow bridge. Which way must the lantern's beam point?", "Lure the Tarnish into the lantern's column, then push the lantern back into the doorway row.", null]
+}

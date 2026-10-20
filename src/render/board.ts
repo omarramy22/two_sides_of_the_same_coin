@@ -1,10 +1,11 @@
 // The game board: both worlds, the seam and everything on them. Sprites persist; the board only
 // animates the difference between two engine States (SPEC.md §8 hard rule). No game rules here.
 import { Container, Graphics, Sprite, Text } from 'pixi.js';
+import { light } from '../engine/tick';
 import type { Dir, GameEvent, Level, State, W } from '../engine/types';
 import { Mechanisms } from './mechanisms';
 import type { Puppet } from './rig';
-import { actor, drawSeam, drawTerrain, type Art } from './sprites';
+import { actor, drawSeam, drawTerrain, palette, type Art } from './sprites';
 import { ease, Particles, Tweens } from './tween';
 
 const SEAM = 0.4;
@@ -16,11 +17,13 @@ export interface BoardOpts { reducedMotion: boolean; highContrast: boolean }
 class Half extends Container {
   tiles = new Container();
   overlay = new Container();
+  /** Lantern light and the shadow it casts across the seam (Chapter 3). */
+  light = new Container();
   actors = new Container();
   constructor() {
     super();
     this.actors.sortableChildren = true;
-    this.addChild(this.tiles, this.overlay, this.actors);
+    this.addChild(this.tiles, this.overlay, this.light, this.actors);
   }
 }
 
@@ -35,7 +38,9 @@ export class Board extends Container {
   private glow = new Graphics();
   private ghosts = new Container();
   private fx = new Particles();
+  /** Crates and lanterns: anything pushable. */
   private crates = new Map<string, Sprite>();
+  private lights = false;
   private foes = new Map<string, Sprite>();
   private shakeT = 0;
   private clock = 0;
@@ -52,6 +57,7 @@ export class Board extends Container {
       halfAt: (w) => board.halfAt(w),
       cell: (i) => board.cell(i),
     }, [this.halves[0].overlay, this.halves[1].overlay], this.seam, this.fx, this.tweens);
+    this.lights = lv.start.objs.some((o) => o.includes('*'));
     this.inner.addChild(this.seam, ...this.halves, this.glow, this.ghosts, this.fx);
     this.addChild(this.inner);
   }
@@ -107,7 +113,7 @@ export class Board extends Container {
       half.actors.removeChildren().forEach((c) => c.destroy());
       for (let i = 0; i < s.objs[w].length; i++) {
         const o = s.objs[w][i];
-        if (o === 'C') this.addCrate(w, i);
+        if (o === 'C' || o === '*') this.addCrate(w, i, o);
         else if (o === '@' || o === '?') this.addFoe(w, i, o === '@');
       }
       const p = this.puppets[w];
@@ -123,11 +129,12 @@ export class Board extends Container {
     else drawSeam(this.art, this.seam, false, 0, lv.h * t, lv.w * t, SEAM * t);
     this.halves.forEach((h) => h.overlay.removeChildren().forEach((c) => c.destroy({ children: true })));
     this.mech.build(s);
+    this.drawLight(s, false);
     this.updateMoods();
   }
 
-  private addCrate(w: W, i: number) {
-    const s = actor(this.art, 'tiles/crate', ...this.feet(i), this.t);
+  private addCrate(w: W, i: number, o: string) {
+    const s = actor(this.art, o === '*' ? `tiles/lantern.${palette(this.lv, w)}` : 'tiles/crate', ...this.feet(i), this.t);
     this.halves[w].actors.addChild(s);
     this.crates.set(`${w}:${i}`, s);
   }
@@ -216,6 +223,21 @@ export class Board extends Container {
         }));
     }
 
+    // Lost through a bridge that went void: whatever stood there sinks into the cleft.
+    for (const e of ev) {
+      if (e.type !== 'drop') continue;
+      const key = `${e.world}:${e.at}`, s = this.crates.get(key) ?? this.foes.get(key);
+      if (!s) continue;
+      this.crates.delete(key);
+      this.foes.delete(key);
+      const base = s.scale.x, y0 = s.y;
+      jobs.push(this.tweens.add(0.4, (k) => { s.scale.set(base * (1 - 0.6 * k)); s.y = y0 + t * 0.25 * k; s.alpha = 1 - k; }, { delay: STEP, ease: ease.inQuad })
+        .then(() => s.destroy()));
+    }
+
+    // Light follows the pushed lantern; bridges form or melt with it.
+    if (this.lights) jobs.push(this.tweens.wait(STEP * 0.6).then(() => { this.drawLight(this.state, true); this.refreshTerrain(this.state); }));
+
     const flips = ev.filter((e) => e.type === 'flip');
     if (flips.length) jobs.push(this.flipFoes(flips, next));
 
@@ -239,6 +261,41 @@ export class Board extends Container {
     if (this.mech.any) jobs.push(this.tweens.wait(STEP * 0.6).then(() => this.react(prev, next)));
     this.updateMoods();
     return Promise.all(jobs).then(() => {});
+  }
+
+  /**
+   * Lit tiles glow in their world's lamp colour; the same tiles in the other world are inky
+   * shadow pools (light on one face of the coin is shadow on the other). Eclipses stay plain.
+   * Lit Tarnish are frozen: they go pale and still.
+   */
+  private drawLight(s: State, fade: boolean) {
+    if (!this.lights) return;
+    const lit = light(this.lv, s), { t } = this;
+    for (const w of [0, 1] as W[]) {
+      const layer = this.halves[w].light, old = [...layer.children];
+      const glow = new Graphics(), shade = new Graphics();
+      glow.blendMode = 'add';
+      const lamp = w ? 0xc8d8ff : 0xffd98a;
+      for (let i = 0; i < lit[w].length; i++) {
+        const [x, y] = this.cell(i);
+        if (lit[w][i] === 1) {
+          glow.rect(x, y, t, t).fill({ color: lamp, alpha: 0.16 }).rect(x + t * 0.15, y + t * 0.15, t * 0.7, t * 0.7).fill({ color: lamp, alpha: 0.12 });
+        } else if (lit[w][i] === -1) {
+          shade.roundRect(x + t * 0.04, y + t * 0.04, t * 0.92, t * 0.92, t * 0.25).fill({ color: 0x05061a, alpha: 0.42 })
+            .roundRect(x + t * 0.2, y + t * 0.2, t * 0.6, t * 0.6, t * 0.2).fill({ color: 0x05061a, alpha: 0.2 });
+        }
+        if (s.objs[w][i] === '*') glow.circle(x + t / 2, y + t * 0.45, t * 0.75).fill({ color: lamp, alpha: 0.18 });
+      }
+      layer.addChild(shade, glow);
+      if (fade) {
+        this.tweens.add(0.25, (k) => { for (const c of old) c.alpha = 1 - k; glow.alpha = shade.alpha = k; }).then(() => old.forEach((c) => c.destroy()));
+      } else old.forEach((c) => c.destroy());
+      for (const [key, f] of this.foes) {
+        if (Number(key[0]) !== w) continue;
+        const i = Number(key.slice(2)), frozen = lit[w][i] === 1 && s.objs[w][i] === '@';
+        f.tint = frozen ? (w ? 0xb8c8ff : 0xffd98a) : 0xffffff; // pale and lamp-coloured: held still by the light
+      }
+    }
   }
 
   /** The halves line up: a light pulse runs along the seam and every Tarnish flips. */
@@ -338,6 +395,8 @@ export class Board extends Container {
     this.tweens.update(dt);
     this.fx.update(dt);
     this.puppets.forEach((p) => p.update(dt));
+    // Lantern flicker: light and its shadow breathe together.
+    if (this.lights && !this.opts.reducedMotion) for (const h of this.halves) h.light.alpha = 0.88 + 0.08 * Math.sin(this.clock * 2.3) + 0.04 * Math.sin(this.clock * 7.1);
     this.shakeT = Math.max(0, this.shakeT - dt);
     const m = this.shakeT > 0 ? this.t * 0.06 * (this.shakeT / 0.22) : 0;
     this.inner.position.set((Math.random() - 0.5) * m, (Math.random() - 0.5) * m);

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { History } from '../src/engine/history';
 import { parseLevel } from '../src/engine/parse';
-import { gateJammed, gateOpen, isWon, tick } from '../src/engine/tick';
+import { gateJammed, gateOpen, isWon, light, tick } from '../src/engine/tick';
 import type { Dir, GameEvent, Level, State } from '../src/engine/types';
 
 const lvl = (heads: string[], tails: string[]): Level =>
@@ -275,5 +275,89 @@ describe('history', () => {
     h.undo(); h.undo();
     expect(h.undo()).toBe(false);
     expect(h.state).toBe(lv.start);
+  });
+});
+
+describe('light and shadow (§7)', () => {
+  it('a lantern lights its tile and four beams; the twin cells are shadowed', () => {
+    const lv = lvl(['S....', '..*..', '....G'], ['L....', '.....', '....G']);
+    const [h, t] = light(lv, lv.start);
+    for (const [x, y] of [[2, 1], [0, 1], [4, 1], [2, 0], [2, 2]]) {
+      expect(h[at(lv, x, y)]).toBe(1);
+      expect(t[at(lv, x, y)]).toBe(-1);
+    }
+    expect(h[at(lv, 1, 0)]).toBe(0);
+  });
+  it('beams stop at walls; a crate catches the beam and stops it', () => {
+    const lv = lvl(['S*.#.G', '......'], ['L.....', '.....G']);
+    expect(light(lv, lv.start)[0][at(lv, 4, 0)]).toBe(0);
+    const lv2 = lvl(['S*.C.G', '......'], ['L.....', '.....G']);
+    const [h] = light(lv2, lv2.start);
+    expect([h[at(lv2, 3, 0)], h[at(lv2, 4, 0)]]).toEqual([1, 0]);
+  });
+  it('beams pass over characters', () => {
+    const lv = lvl(['*S..G'], ['L...G']);
+    expect(light(lv, lv.start)[0][at(lv, 4, 0)]).toBe(1);
+  });
+  it('light on both sides is an eclipse: neither lit nor shadowed', () => {
+    const lv = lvl(['S*..G'], ['L.*.G']);
+    const [h, t] = light(lv, lv.start);
+    expect([h[at(lv, 3, 0)], t[at(lv, 3, 0)]]).toEqual([0, 0]);
+  });
+  it('a mirage holds Sol only while lit; unlit he falls through', () => {
+    const dark = lvl(['S=G'], ['L.G']);
+    expect(run(dark, ['right']).fallen[0]).toBe(true);
+    const lit = lvl(['S=G', '.*.'], ['L.G', '...']);
+    const s = run(lit, ['right']);
+    expect(s.fallen[0]).toBe(false);
+    expect(xy(lit, s.pos[0])).toEqual([1, 0]);
+  });
+  it('a shadow bridge holds Lune only while shadowed, i.e. lit across the seam', () => {
+    const lv = lvl(['S.G', '.*.'], ['L-G', '...']);
+    expect(run(lv, ['right']).fallen[1]).toBe(false);
+    const dark = lvl(['S.G', '...'], ['L-G', '...']);
+    expect(run(dark, ['right']).fallen[1]).toBe(true);
+  });
+  it('moving the lantern rewrites both worlds: the bridge vanishes under the walker', () => {
+    // Lune waits on a shadow bridge cast by the Heads lantern; Sol shoves the lantern out of line.
+    const lv = lvl(['....', 'S*..', '...G'], ['..#.', '....', 'L..G']);
+    const onBridge: State = { ...lv.start, tiles: [lv.start.tiles[0], '.-#.' + lv.start.tiles[1].slice(4)], pos: [lv.start.pos[0], at(lv, 1, 0)] };
+    const s = tick(lv, onBridge, 'right');
+    expect(s.objs[0][at(lv, 2, 1)]).toBe('*');
+    expect(s.pos[1]).toBe(at(lv, 1, 0));
+    expect(s.fallen[1]).toBe(true);
+  });
+  it('objects cannot be pushed onto a void bridge', () => {
+    const lv = lvl(['SC=.G'], ['L...G']);
+    const s = run(lv, ['right']);
+    expect(s.pos[0]).toBe(lv.start.pos[0]);
+    expect(s.objs[0][1]).toBe('C');
+  });
+  it('a crate pushed onto a lit mirage stands on it', () => {
+    const lv = lvl(['SC=.G', '..*..'], ['L....', '....G']);
+    const s = run(lv, ['right']);
+    expect(s.objs[0][2]).toBe('C');
+  });
+  it('a lantern presses plates and fills pits', () => {
+    const lv = lvl(['S*^.G'], ['L...G']);
+    const s = run(lv, ['right']);
+    expect(s.tiles[0][2]).toBe(',');
+    expect(s.objs[0]).not.toContain('*');
+  });
+  it('an object left on a bridge that goes void drops and is lost', () => {
+    // Same tick: Lune pushes her crate onto the shadow bridge (solid at the start), Sol moves the lantern away.
+    const lv = lvl(['....', '.S*.', '...G'], ['LC-#', '....', '...G']);
+    const ev: GameEvent[] = [];
+    const s = tick(lv, lv.start, 'right', ev);
+    expect(s.objs[1]).not.toContain('C');
+    expect(ev.some((e) => e.type === 'drop' && e.world === 1 && e.at === 2)).toBe(true);
+    expect(s.fallen).toEqual([false, false]);
+  });
+  it('a Tarnish standing in its own light is frozen; shadow does not freeze', () => {
+    const lv = lvl(['S..@*', '....G'], ['L....', '...?G']);
+    expect(run(lv, ['down']).objs[0]).toBe(lv.start.objs[0]);
+    // The same lantern in Tails only casts shadow on the Heads Tarnish: it keeps hunting.
+    const lv2 = lvl(['S..@.', '....G'], ['L...*', '...?G']);
+    expect(run(lv2, ['down']).objs[0][at(lv2, 3, 0)]).toBe(' ');
   });
 });

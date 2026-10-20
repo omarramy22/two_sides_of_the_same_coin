@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="heads,tails,heads2,tails2">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="heads,tails,heads2,tails2,heads3,tails3">
   <g filter="url(#grain)"><rect width="64" height="64" fill="var(--floor)"/></g>
   <!-- broken flagstone rim around the hole -->
   <g filter="url(#wobble)" stroke="var(--ink)" stroke-width="1.6" stroke-linejoin="round">

@@ -3,8 +3,8 @@ import type { Level, LevelFile, Role, W } from './types';
 /** Reserved letters are never link letters (RULES.md §2.1). */
 const RESERVED = 'CGLMOQS';
 const ROLES: Role[] = ['introduce', 'develop', 'twist', 'combine', 'capstone', 'finale'];
-// Glyphs implemented so far (Ch1-2). Later chapters extend this.
-const BASIC = '#.SLGC^/|@?';
+// Glyphs implemented so far (Ch1-3). Later chapters extend this.
+const BASIC = '#.SLGC^/|@?*=-';
 
 export const isPlate = (c: string) => c >= 'a' && c <= 'z' && !RESERVED.includes(c.toUpperCase());
 export const isGate = (c: string) => c >= 'A' && c <= 'Z' && !RESERVED.includes(c);
@@ -44,8 +44,8 @@ export function parseLevel(f: LevelFile): Level {
   for (const l of gates) if (!(l in owner)) fail(`gate "${l.toUpperCase()}" has no plate`);
   for (const l in owner) if (!gates.has(l)) fail(`plate "${l}" has no gate`);
 
-  const tiles = grids.map((g) => g.replace(/[SLC@?]/g, '.')) as [string, string];
-  const objs = grids.map((g) => g.replace(/[^C@?]/g, ' ')) as [string, string];
+  const tiles = grids.map((g) => g.replace(/[SLC@?*]/g, '.')) as [string, string];
+  const objs = grids.map((g) => g.replace(/[^C@?*]/g, ' ')) as [string, string];
   return {
     id: f.id, name: f.name, role: f.role, designNote: f.designNote, hints: f.hints, par: f.par,
     w, h, plates, owner,

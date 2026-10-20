@@ -1,0 +1,22 @@
+{
+  "id": "3-3",
+  "name": "One Lantern",
+  "role": "develop",
+  "par": 15,
+  "designNote": "Aha: one lantern can't hold both bridges. Lune's shadow bridge stands now, so she crosses first; then Sol pushes the lantern up into the row of his sunglass bridge, and Lune's bridge melts away behind her.",
+  "heads": ["#########",
+            "#S...#..#",
+            "#....=..#",
+            "#.*..#.G#",
+            "#....=..#",
+            "#....#..#",
+            "#########"],
+  "tails": ["#########",
+            "#L......#",
+            "#.......#",
+            "###-#####",
+            "#.......#",
+            "#.....G.#",
+            "#########"],
+  "hints": ["Who needs the light first?", "Lune's bridge is standing right now. Get her across, then move the lantern up for Sol.", null]
+}

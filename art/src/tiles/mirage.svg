@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="heads3,tails3">
+  <!-- Sunglass bridge: a plank of solid light that only stands while lit -->
+  <rect width="64" height="64" fill="var(--pit)"/>
+  <rect width="64" height="64" fill="url(#hatch-cross)" opacity="0.6"/>
+  <g filter="url(#wobble)" stroke="var(--ink)" stroke-width="1.6" stroke-linejoin="round">
+    <path d="M0 8 H64 V56 H0 Z" fill="#F6D58E"/>
+    <path d="M0 8 H64 V16 H0 Z" fill="#FFF4D6"/>
+    <path d="M0 48 H64 V56 H0 Z" fill="#E8B66A"/>
+  </g>
+  <!-- glassy facets and an engraved sun -->
+  <path d="M6 18 L18 46 M22 18 L30 30 M44 34 L52 46" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="1.4" stroke-linecap="round"/>
+  <g filter="url(#wobble-soft)" stroke="#A8742A" stroke-width="1.1" fill="none">
+    <circle cx="32" cy="32" r="6.5"/>
+    <circle cx="32" cy="32" r="3" fill="#FFF4D6"/>
+    <path d="M32 21 V24 M32 40 V43 M21 32 H24 M40 32 H43 M24.5 24.5 L26.5 26.5 M37.5 37.5 L39.5 39.5 M24.5 39.5 L26.5 37.5 M37.5 26.5 L39.5 24.5"/>
+  </g>
+  <path d="M0 52 H64" stroke="#A8742A" stroke-width="1" stroke-dasharray="1.5 2.5"/>
+</svg>

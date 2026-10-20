@@ -22,9 +22,9 @@ function ablations(f: LevelFile): { label: string; file: LevelFile }[] {
   const letters = new Set<string>();
   grids.forEach((g, wi) => [...g].forEach((c, i) => {
     const name = wi ? 'T' : 'H';
-    if ('C^@?'.includes(c)) {
+    if ('C^@?*=-'.includes(c)) {
       const v = [...grids]; v[wi] = g.slice(0, i) + '.' + g.slice(i + 1);
-      out.push({ label: `${{ C: 'crate', '^': 'pit', '@': 'tarnish', '?': 'sleeper' }[c]} ${name}(${at(i)})`, file: build(v) });
+      out.push({ label: `${{ C: 'crate', '^': 'pit', '@': 'tarnish', '?': 'sleeper', '*': 'lantern', '=': 'mirage', '-': 'shadow bridge' }[c]} ${name}(${at(i)})`, file: build(v) });
     } else if (c === '|') {
       const v = grids.map((x) => x.slice(0, i) + '.' + x.slice(i + 1));
       out.push({ label: `seesaw (${at(i)})`, file: build(v) });

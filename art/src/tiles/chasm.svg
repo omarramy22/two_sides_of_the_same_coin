@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-palettes="heads3,tails3">
+  <!-- A bridge gap: the floor breaks off into a deep cleft running across the whole tile -->
+  <g filter="url(#grain)"><rect width="64" height="64" fill="var(--pit)"/></g>
+  <rect width="64" height="64" fill="url(#hatch-cross)"/>
+  <!-- far wall of the cleft catches a little light, then falls away -->
+  <path d="M0 6 Q16 9 32 7 Q48 5 64 8 L64 20 Q48 17 32 19 Q16 21 0 18 Z" fill="var(--wall-shade)"/>
+  <path d="M0 18 Q16 21 32 19 Q48 17 64 20 L64 30 Q48 28 32 30 Q16 32 0 29 Z" fill="#000" fill-opacity="0.35"/>
+  <ellipse cx="32" cy="42" rx="22" ry="9" fill="#000" fill-opacity="0.5"/>
+  <!-- broken lips top and bottom -->
+  <g filter="url(#wobble)" stroke="var(--ink)" stroke-width="1.5" stroke-linejoin="round">
+    <path d="M0 0 H64 V7 Q56 9 50 6 L46 10 L41 6 Q32 8 24 6 L19 10 L15 6 Q8 8 0 6 Z" fill="var(--floor-dark)"/>
+    <path d="M0 64 H64 V58 Q57 56 51 58 L47 54 L42 58 Q33 56 25 58 L20 54 L16 58 Q8 56 0 58 Z" fill="var(--floor-dark)"/>
+  </g>
+  <path d="M2 4 Q14 6 24 4" stroke="var(--highlight)" stroke-opacity="0.35" stroke-width="1" fill="none"/>
+  <!-- tiny falling grit -->
+  <circle cx="22" cy="24" r="0.9" fill="var(--floor-light)" fill-opacity="0.5"/>
+  <circle cx="41" cy="33" r="0.7" fill="var(--floor-light)" fill-opacity="0.4"/>
+</svg>
