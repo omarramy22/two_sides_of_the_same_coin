@@ -135,7 +135,7 @@ npm run build          # dist/ (relative paths, runs from any subfolder; ~6 MB)
 
 **Level design workflow:** draft the boards, save each as a temporary `src/levels/9-N.json`, run `npm run verify-levels -- 9-N`, then delete the file. Always read the actual solution (step through it) before trusting the intended aha. Watch for the flip short-circuiting Tarnish puzzles: any level with a Tarnish has to account for Sol and Lune lining up.
 
-**Publishing the preview:** a publish keeps the files it doesn't resend, so send only the new `index-*.js`/`.css`, `manifest.json` and the assets `git status assets` lists as changed. Build, then publish a small shell HTML (title + the built `index-*.css/js` tags; no doctype) with `root: dist` and the file list. More than 255 files must go in two publishes to the same artifact URL (the Chapter 2 palette tiles went in the second).
+**Publishing the preview:** a publish keeps the files it doesn't resend, so send **every file in `dist/assets/`** (each build renames all the JS chunks, not just `index-*.js`; missing chunks mean the page won't open), `manifest.json`, and the assets `git status assets` lists as changed. Map the previous build's chunk names to `null` to delete them: an artifact version holds at most 512 files. Build, then publish a small shell HTML (title + the built `index-*.css/js` tags; no doctype) with `root: dist` and the file list. More than 255 files must go in two publishes to the same artifact URL (the Chapter 2 palette tiles went in the second).
 
 ---
 
