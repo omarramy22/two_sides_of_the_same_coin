@@ -63,20 +63,34 @@ export class Puppet extends Container {
       else if (i < byName[p.parent].i) this.parts[p.parent].addChildAt(c, 0);
       else this.parts[p.parent].addChild(c);
     });
-    this.eyesX = this.parts.eyes.x;
   }
 
-  private eyesX: number;
+  /** Each part's rest offset; animation is applied on top of it. */
+  private base: Record<string, { x: number; y: number }> = {};
+  private bumpT = 0;
+  /** 'celebrate': hop with arms up, waving toward the partner. 'sad': droops while waiting. */
+  mood: 'idle' | 'celebrate' | 'sad' = 'idle';
+
+  /** Squash against a wall and shake the head (input still used the turn). */
+  bump() { this.bumpT = 0.32; }
+  /** Look toward the partner for a moment (e.g. when the partner bumps). */
+  lookAtPartner(sec = 1) { this.glanceUntil = this.t + sec; }
 
   update(dt: number) {
     const t = (this.t += dt);
-    const P = this.parts;
-    const rest = (name: string) => P[name] && (P[name].rotation = 0);
+    const P = this.parts, B = this.base;
+    if (!B.body) for (const [k, c] of Object.entries(P)) B[k] = { x: c.x, y: c.y };
+    const at = (name: string, dx: number, dy: number, rot = 0) => {
+      if (!P[name]) return;
+      P[name].position.set(B[name].x + dx, B[name].y + dy);
+      P[name].rotation = rot;
+    };
     this.body.scale.x = this.facing;
 
-    // Breathing: a slow squash on the body, the head floats a touch.
-    const breath = Math.sin(t * Math.PI * 0.9);
-    P.body.scale.set(1 - 0.012 * breath, 1 + 0.025 * breath);
+    // Breathing (slower and lower when sad).
+    const sad = this.mood === 'sad' ? 1 : 0;
+    const breath = Math.sin(t * Math.PI * (0.9 - 0.35 * sad));
+    let sx = 1 - 0.012 * breath, sy = 1 + 0.025 * breath;
 
     // Blink every 3-6 s.
     if (t > this.nextBlink) {
@@ -90,27 +104,50 @@ export class Puppet extends Container {
     }
 
     // Now and then, glance toward the seam (the partner).
-    if (!this.walking && t > this.nextGlance) {
+    if (!this.walking && this.mood === 'idle' && t > this.nextGlance) {
       this.glanceUntil = t + 1.2;
       this.nextGlance = t + 6 + Math.random() * 5;
     }
-    const glance = t < this.glanceUntil ? this.partnerSide * this.facing : 0;
-    P.eyes.x = this.eyesX + glance * 1.2;
+    const glance = t < this.glanceUntil || this.mood !== 'idle' ? this.partnerSide * this.facing : 0;
+    at('eyes', glance * 1.2, sad * 1.2);
 
-    // Walk: bob, alternate feet, swing arms; settle back when stopped.
-    if (this.walking) this.walkPhase += dt * 14;
+    // Walk: bob, alternate feet, swing arms.
+    if (this.walking) this.walkPhase += dt * 16;
     else this.walkPhase *= 0.8;
     const w = this.walking ? 1 : 0;
     const s = Math.sin(this.walkPhase);
-    this.body.y = -Math.abs(s) * 2.6 * w;
-    P['foot-l'].y = -Math.max(0, s) * 2.4 * w;
-    P['foot-r'].y = -Math.max(0, -s) * 2.4 * w;
-    P['arm-l'].rotation = s * 0.35 * w;
-    P['arm-r'].rotation = -s * 0.35 * w;
-    if (!this.walking) { rest('arm-l'); rest('arm-r'); }
+    let bodyY = -Math.abs(s) * 2.6 * w;
+    at('foot-l', 0, -Math.max(0, s) * 2.4 * w);
+    at('foot-r', 0, -Math.max(0, -s) * 2.4 * w);
+    let armL = s * 0.35 * w, armR = -s * 0.35 * w, headRot = 0, headY = sad * 1.6;
+
+    // Bump: squash toward the wall, head shakes no.
+    if (this.bumpT > 0) {
+      this.bumpT = Math.max(0, this.bumpT - dt);
+      const k = this.bumpT / 0.32;
+      sx *= 1 + 0.14 * k;
+      sy *= 1 - 0.12 * k;
+      headRot = Math.sin((1 - k) * Math.PI * 4) * 0.12 * k;
+      bodyY += 1.5 * k;
+    }
+
+    // Celebrate: hop, arms up, the arm on the partner's side waves.
+    if (this.mood === 'celebrate') {
+      bodyY = -Math.abs(Math.sin(t * 7)) * 7;
+      const toward = this.partnerSide * this.facing; // +1: partner is on the puppet's right
+      armL = 2.1 + (toward < 0 ? Math.sin(t * 12) * 0.35 : 0);
+      armR = -2.1 + (toward > 0 ? Math.sin(t * 12) * 0.35 : 0);
+    }
+    if (sad) { armL = 0.08; armR = -0.08; headRot += 0.05 * this.partnerSide * this.facing; }
+
+    P.body.scale.set(sx, sy);
+    this.body.y = bodyY;
+    at('arm-l', 0, 0, armL);
+    at('arm-r', 0, 0, armR);
+    at('head', 0, headY, headRot);
 
     // Follow-through: the scarf tail and the hat lag behind the motion.
-    if (P['scarf-tail']) P['scarf-tail'].rotation = 0.05 * Math.sin(t * 1.4) + 0.18 * Math.cos(this.walkPhase) * w;
-    if (P.hat) P.hat.rotation = 0.03 * Math.sin(t * 1.1) * (1 - w) + 0.05 * s * w;
+    at('scarf-tail', 0, 0, 0.05 * Math.sin(t * 1.4) + 0.18 * Math.cos(this.walkPhase) * w + (this.mood === 'celebrate' ? 0.2 * Math.sin(t * 7) : 0));
+    at('hat', 0, 0, 0.03 * Math.sin(t * 1.1) * (1 - w) + 0.05 * s * w);
   }
 }

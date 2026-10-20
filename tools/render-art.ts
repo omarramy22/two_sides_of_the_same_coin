@@ -57,7 +57,10 @@ function parseSvg(svg: string, filePath: string) {
     ? pMatch[1].split(',').map((p) => p.trim()).filter(Boolean)
     : ['heads'];
 
-  return { w, h, hasPalettes, palettes };
+  // Opaque full-screen art can opt into JPEG (data-format="jpeg"): grain noise makes those PNGs huge.
+  const jpeg = /data-format=["']jpeg["']/i.test(attrs);
+
+  return { w, h, hasPalettes, palettes, jpeg };
 }
 
 async function main() {
@@ -92,13 +95,15 @@ async function main() {
       const relPath = path.relative(SRC_DIR, file).replace(/\\/g, '/');
       const relNoExt = relPath.replace(/\.svg$/, '');
       const svgMarkup = readFileSync(file, 'utf8');
-      const { w, h, hasPalettes, palettes } = parseSvg(svgMarkup, file);
+      const { w, h, hasPalettes, palettes, jpeg } = parseSvg(svgMarkup, file);
+      const ext = jpeg ? 'jpg' : 'png';
+      const shotOpts = jpeg ? { type: 'jpeg' as const, quality: 86 } : { omitBackground: true };
 
       for (const palette of palettes) {
         const palSuffix = hasPalettes ? `.${palette}` : '';
         const assetKey = `${relNoExt}${palSuffix}`;
-        const rel1x = `${relNoExt}${palSuffix}.png`;
-        const rel2x = `${relNoExt}${palSuffix}@2x.png`;
+        const rel1x = `${relNoExt}${palSuffix}.${ext}`;
+        const rel2x = `${relNoExt}${palSuffix}@2x.${ext}`;
         const out1x = path.join(ASSETS_DIR, rel1x);
         const out2x = path.join(ASSETS_DIR, rel2x);
 
@@ -121,10 +126,10 @@ async function main() {
 </html>`;
 
         await page1.setContent(html, { waitUntil: 'load' });
-        await page1.locator('#a').screenshot({ path: out1x, omitBackground: true });
+        await page1.locator('#a').screenshot({ path: out1x, ...shotOpts });
 
         await page2.setContent(html, { waitUntil: 'load' });
-        await page2.locator('#a').screenshot({ path: out2x, omitBackground: true });
+        await page2.locator('#a').screenshot({ path: out2x, ...shotOpts });
 
         manifest[assetKey] = {
           src: rel1x.replace(/\\/g, '/'),

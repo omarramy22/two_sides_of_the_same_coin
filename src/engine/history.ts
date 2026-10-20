@@ -10,4 +10,6 @@ export class History {
   push(s: State) { if (s !== this.state) this.stack.push({ state: s, moves: this.moves + 1 }); }
   undo(): boolean { return this.stack.length > 1 && !!this.stack.pop(); }
   restart() { if (this.state !== this.start) this.stack.push({ state: this.start, moves: 0 }); }
+  /** States from newest to oldest (hint tier 3 looks for the last solvable one). */
+  past(): State[] { return this.stack.map((e) => e.state).reverse(); }
 }

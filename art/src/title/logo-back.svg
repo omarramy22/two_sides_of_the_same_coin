@@ -1,0 +1,211 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="320" height="320" viewBox="0 0 320 320">
+  <defs>
+    <!-- Wobble filters and hatch patterns -->
+    <filter id="wobble" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="wobble-soft" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="11" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <pattern id="hatch" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="3" stroke="#000" stroke-opacity="0.28" stroke-width="0.9"/>
+    </pattern>
+    <pattern id="hatch-r" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="3" stroke="#000" stroke-opacity="0.3" stroke-width="0.9"/>
+    </pattern>
+
+    <!-- Left / Right clips for the 300px logo coin -->
+    <clipPath id="coin-clip-left">
+      <rect x="10" y="10" width="150" height="300"/>
+    </clipPath>
+    <clipPath id="coin-clip-right">
+      <rect x="160" y="10" width="150" height="300"/>
+    </clipPath>
+  </defs>
+
+  <g id="logo-coin-back">
+    <!-- Outer rim base disc (Radius 150px at cx=160, cy=160) -->
+    <!-- Left Half: Warm Gold -->
+    <path d="M 160 10 A 150 150 0 0 0 160 310 Z" fill="#E8B66A"/>
+    <path d="M 160 10 A 150 150 0 0 0 160 310 Z" fill="url(#hatch)" stroke="none" opacity="0.32"/>
+    <path d="M 160 10 A 150 150 0 0 0 160 310 Z" fill="#A8742A" opacity="0.18"/>
+
+    <!-- Right Half: Cool Silver -->
+    <path d="M 160 10 A 150 150 0 0 1 160 310 Z" fill="#C9D3E6"/>
+    <path d="M 160 10 A 150 150 0 0 1 160 310 Z" fill="url(#hatch-r)" stroke="none" opacity="0.32"/>
+    <path d="M 160 10 A 150 150 0 0 1 160 310 Z" fill="#7F8BB0" opacity="0.22"/>
+
+    <!-- Outer coin ink rim (with wobble filter) -->
+    <g filter="url(#wobble)">
+      <circle cx="160" cy="160" r="150" fill="none" stroke="#2A1E14" stroke-width="2.6"/>
+    </g>
+
+    <!-- Milled / Reeded Rim (Coin Edge stroke-dasharray) -->
+    <circle cx="160" cy="160" r="144" fill="none" stroke="#2A1E14" stroke-width="6.5" stroke-dasharray="1.8 2.6" stroke-linecap="butt"/>
+    <!-- Gold / Silver highlight on milled rim -->
+    <g clip-path="url(#coin-clip-left)">
+      <circle cx="160" cy="160" r="145" fill="none" stroke="#FFF4D6" stroke-width="1.4" stroke-dasharray="1.8 2.6" stroke-linecap="butt" stroke-opacity="0.75"/>
+    </g>
+    <g clip-path="url(#coin-clip-right)">
+      <circle cx="160" cy="160" r="145" fill="none" stroke="#FFFFFF" stroke-width="1.4" stroke-dasharray="1.8 2.6" stroke-linecap="butt" stroke-opacity="0.8"/>
+    </g>
+
+    <!-- Concentric Guilloché & Engraved Borders inside rim -->
+    <circle cx="160" cy="160" r="139" fill="none" stroke="#2A1E14" stroke-width="1.4"/>
+    <circle cx="160" cy="160" r="136" fill="none" stroke="#2A1E14" stroke-width="0.8" stroke-dasharray="1.2 1.6"/>
+    <circle cx="160" cy="160" r="95" fill="none" stroke="#2A1E14" stroke-width="1.4"/>
+    <circle cx="160" cy="160" r="92" fill="none" stroke="#2A1E14" stroke-width="0.8"/>
+
+    <!-- Outer ring engraved star motifs (where text was on front face) -->
+    <g fill="#2A1E14" opacity="0.7">
+      <!-- Top star cluster -->
+      <polygon points="160,34 162,40 168,42 162,44 160,50 158,44 152,42 158,40"/>
+      <polygon points="120,44 121.5,48 126,49.5 121.5,51 120,55 118.5,51 114,49.5 118.5,48"/>
+      <polygon points="200,44 201.5,48 206,49.5 201.5,51 200,55 198.5,51 194,49.5 198.5,48"/>
+      <!-- Side stars -->
+      <polygon points="44,160 48,161.5 49.5,166 51,161.5 55,160 51,158.5 49.5,154 48,158.5"/>
+      <polygon points="276,160 272,161.5 270.5,166 269,161.5 265,160 269,158.5 270.5,154 272,158.5"/>
+      <!-- Bottom star cluster -->
+      <polygon points="160,286 162,280 168,278 162,276 160,270 158,276 152,278 158,280"/>
+      <polygon points="120,276 121.5,272 126,270.5 121.5,269 120,265 118.5,269 114,270.5 118.5,272"/>
+      <polygon points="200,276 201.5,272 206,270.5 201.5,269 200,265 198.5,269 194,270.5 198.5,272"/>
+    </g>
+
+    <!-- Inner field fill behind central wishing well -->
+    <g clip-path="url(#coin-clip-left)">
+      <circle cx="160" cy="160" r="92" fill="#E2AC5E"/>
+      <g stroke="#A8742A" stroke-width="0.7" fill="none" opacity="0.5">
+        <circle cx="160" cy="160" r="80"/>
+        <circle cx="160" cy="160" r="66"/>
+        <circle cx="160" cy="160" r="52"/>
+        <circle cx="160" cy="160" r="38"/>
+      </g>
+    </g>
+    <g clip-path="url(#coin-clip-right)">
+      <circle cx="160" cy="160" r="92" fill="#BAC6DC"/>
+      <g stroke="#7F8BB0" stroke-width="0.7" fill="none" opacity="0.5">
+        <circle cx="160" cy="160" r="80"/>
+        <circle cx="160" cy="160" r="66"/>
+        <circle cx="160" cy="160" r="52"/>
+        <circle cx="160" cy="160" r="38"/>
+      </g>
+    </g>
+
+    <!-- Clean Vertical Seam dividing the coin at x = 160 -->
+    <line x1="160" y1="10" x2="160" y2="310" stroke="#2A1E14" stroke-width="2.6" stroke-linecap="butt"/>
+    <line x1="159" y1="12" x2="159" y2="308" stroke="#FFF4D6" stroke-width="0.9" stroke-opacity="0.6"/>
+    <line x1="161" y1="12" x2="161" y2="308" stroke="#E8F0FF" stroke-width="0.9" stroke-opacity="0.6"/>
+
+    <!-- ============================================================ -->
+    <!-- WISHING WELL EMBLEM: Centred across both halves               -->
+    <!-- ============================================================ -->
+
+    <!-- Tiny Falling Coin Above Well Opening (cx=160, cy=84) -->
+    <g id="emblem-tiny-coin">
+      <!-- Glow rays around coin -->
+      <g stroke="#FFF4D6" stroke-width="1.2" stroke-linecap="round">
+        <line x1="160" y1="72" x2="160" y2="76"/>
+        <line x1="160" y1="92" x2="160" y2="96"/>
+        <line x1="148" y1="84" x2="152" y2="84"/>
+        <line x1="168" y1="84" x2="172" y2="84"/>
+        <line x1="152" y1="76" x2="155" y2="79"/>
+        <line x1="168" y1="76" x2="165" y2="79"/>
+        <line x1="152" y1="92" x2="155" y2="89"/>
+        <line x1="168" y1="92" x2="165" y2="89"/>
+      </g>
+
+      <!-- Split coin disc -->
+      <path d="M 160 78 A 6 6 0 0 0 160 90 Z" fill="#FFF4D6" stroke="#2A1E14" stroke-width="1.2"/>
+      <path d="M 160 78 A 6 6 0 0 1 160 90 Z" fill="#FFFFFF" stroke="#2A1E14" stroke-width="1.2"/>
+      <line x1="160" y1="78" x2="160" y2="90" stroke="#2A1E14" stroke-width="1"/>
+    </g>
+
+    <!-- Well Canopy / Gabled Roof (cx=160, peak y=104, eaves y=134) -->
+    <g id="emblem-roof" filter="url(#wobble-soft)">
+      <!-- Left roof half (Warm Gold Shingles) -->
+      <polygon points="160,104 116,134 116,140 160,110" fill="#8A4B22" stroke="#2A1E14" stroke-width="1.6" stroke-linejoin="round"/>
+      <polygon points="160,104 120,132 160,108" fill="#C8643B"/>
+      <!-- Shingle lines on left roof -->
+      <line x1="146" y1="113" x2="146" y2="125" stroke="#2A1E14" stroke-width="1"/>
+      <line x1="133" y1="122" x2="133" y2="132" stroke="#2A1E14" stroke-width="1"/>
+
+      <!-- Right roof half (Cool Silver Slates) -->
+      <polygon points="160,104 204,134 204,140 160,110" fill="#2E3570" stroke="#2A1E14" stroke-width="1.6" stroke-linejoin="round"/>
+      <polygon points="160,104 200,132 160,108" fill="#4A5A8C"/>
+      <!-- Shingle lines on right roof -->
+      <line x1="174" y1="113" x2="174" y2="125" stroke="#0E1028" stroke-width="1"/>
+      <line x1="187" y1="122" x2="187" y2="132" stroke="#0E1028" stroke-width="1"/>
+
+      <!-- Roof ridge cap -->
+      <polygon points="160,100 156,105 164,105" fill="#FFF4D6" stroke="#2A1E14" stroke-width="1.2"/>
+    </g>
+
+    <!-- Upright Timber Posts -->
+    <!-- Left post -->
+    <rect x="126" y="136" width="6" height="56" fill="#8A4B22" stroke="#2A1E14" stroke-width="1.4"/>
+    <path d="M 126 148 L 136 136" stroke="#2A1E14" stroke-width="1.2"/>
+    <!-- Right post -->
+    <rect x="188" y="136" width="6" height="56" fill="#2E3570" stroke="#0E1028" stroke-width="1.4"/>
+    <path d="M 194 148 L 184 136" stroke="#0E1028" stroke-width="1.2"/>
+
+    <!-- Wooden Spool / Roller Crossbeam and Rope -->
+    <rect x="130" y="146" width="60" height="7" rx="2" fill="#5E3216" stroke="#2A1E14" stroke-width="1.2"/>
+    <!-- Coiled rope cylinder in middle -->
+    <rect x="153" y="145" width="14" height="9" rx="1.5" fill="#E8B66A" stroke="#2A1E14" stroke-width="1"/>
+    <!-- Rope hanging down -->
+    <line x1="160" y1="154" x2="160" y2="172" stroke="#2A1E14" stroke-width="1.4" stroke-dasharray="1.5 1"/>
+
+    <!-- Small Hanging Bucket (cx=160, cy=174) -->
+    <polygon points="156,168 164,168 163,178 157,178" fill="#C8643B" stroke="#2A1E14" stroke-width="1.2"/>
+    <path d="M 156 168 Q 160 164 164 168" fill="none" stroke="#2A1E14" stroke-width="1"/>
+
+    <!-- Well Stone Basin (Curb) -->
+    <!-- Well rim ellipse (opening into water darkness) -->
+    <ellipse cx="160" cy="192" rx="42" ry="12" fill="#0E1028" stroke="#2A1E14" stroke-width="1.6"/>
+    <!-- Water shimmer inside well -->
+    <ellipse cx="160" cy="194" rx="30" ry="7" fill="#1C2046"/>
+    <path d="M 150 194 Q 160 196 170 194" stroke="#4A5A8C" stroke-width="0.9" fill="none"/>
+
+    <!-- Stone Basin Front Body (from y=192 to y=228) -->
+    <!-- Left half basin stone -->
+    <path d="M 118 192 A 42 12 0 0 0 160 204 L 160 228 A 42 12 0 0 1 118 216 Z"
+      fill="#B8835A" stroke="#2A1E14" stroke-width="1.6" stroke-linejoin="round"/>
+    <!-- Right half basin stone -->
+    <path d="M 160 204 A 42 12 0 0 0 202 192 L 202 216 A 42 12 0 0 1 160 228 Z"
+      fill="#5B6AA0" stroke="#0E1028" stroke-width="1.6" stroke-linejoin="round"/>
+
+    <!-- Stone Masonry Mortar Joint Lines -->
+    <!-- Left side courses -->
+    <g stroke="#2A1E14" stroke-width="1.2">
+      <path d="M 119 204 Q 140 211 160 212" fill="none"/>
+      <path d="M 119 216 Q 140 223 160 224" fill="none"/>
+      <line x1="138" y1="197" x2="138" y2="207"/>
+      <line x1="128" y1="207" x2="128" y2="218"/>
+      <line x1="148" y1="210" x2="148" y2="221"/>
+    </g>
+    <!-- Right side courses -->
+    <g stroke="#0E1028" stroke-width="1.2">
+      <path d="M 160 212 Q 180 211 201 204" fill="none"/>
+      <path d="M 160 224 Q 180 223 201 216" fill="none"/>
+      <line x1="182" y1="197" x2="182" y2="207"/>
+      <line x1="172" y1="210" x2="172" y2="221"/>
+      <line x1="192" y1="207" x2="192" y2="218"/>
+    </g>
+
+    <!-- Stone Coping Rim Upper Arc -->
+    <path d="M 118 192 A 42 12 0 0 0 202 192" fill="none" stroke="#2A1E14" stroke-width="1.8"/>
+    <path d="M 118 191 Q 160 203 202 191" fill="none" stroke="#FFF4D6" stroke-width="1" stroke-opacity="0.6"/>
+
+    <!-- Crank handle on right post -->
+    <g stroke="#0E1028" stroke-width="1.4" fill="none">
+      <line x1="194" y1="149" x2="202" y2="149"/>
+      <line x1="202" y1="149" x2="202" y2="159"/>
+      <circle cx="202" cy="159" r="1.5" fill="#2E3570"/>
+    </g>
+
+    <!-- Center vertical seam on well -->
+    <line x1="160" y1="104" x2="160" y2="228" stroke="#2A1E14" stroke-width="2"/>
+  </g>
+</svg>

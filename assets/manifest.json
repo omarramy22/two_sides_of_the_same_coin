@@ -1,7 +1,7 @@
 {
   "bg/surface-far": {
-    "src": "bg/surface-far.png",
-    "src2x": "bg/surface-far@2x.png",
+    "src": "bg/surface-far.jpg",
+    "src2x": "bg/surface-far@2x.jpg",
     "w": 1280,
     "h": 720
   },
@@ -473,9 +473,21 @@
     "w": 64,
     "h": 64
   },
-  "title/title-mock": {
-    "src": "title/title-mock.png",
-    "src2x": "title/title-mock@2x.png",
+  "title/logo": {
+    "src": "title/logo.png",
+    "src2x": "title/logo@2x.png",
+    "w": 320,
+    "h": 320
+  },
+  "title/logo-back": {
+    "src": "title/logo-back.png",
+    "src2x": "title/logo-back@2x.png",
+    "w": 320,
+    "h": 320
+  },
+  "title/well": {
+    "src": "title/well.jpg",
+    "src2x": "title/well@2x.jpg",
     "w": 1280,
     "h": 720
   },

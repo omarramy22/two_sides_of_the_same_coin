@@ -57,7 +57,7 @@ try {
   try {
     for (const vp of VIEWPORTS) {
       const page = await browser.newPage({ viewport: { width: vp.width, height: vp.height } });
-      await page.goto('http://localhost:5199/');
+      await page.goto('http://localhost:5199/?shots');
       await page.waitForFunction(() => !!(window as unknown as { __game?: GameApi }).__game);
 
       for (let i = 0; i < levels.length; i++) {

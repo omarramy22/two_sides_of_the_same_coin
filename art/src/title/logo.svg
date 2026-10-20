@@ -1,0 +1,212 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="320" height="320" viewBox="0 0 320 320">
+  <defs>
+    <!-- Wobble filters and hatch patterns -->
+    <filter id="wobble" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="wobble-soft" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="11" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <pattern id="hatch" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="3" stroke="#000" stroke-opacity="0.28" stroke-width="0.9"/>
+    </pattern>
+    <pattern id="hatch-r" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="3" stroke="#000" stroke-opacity="0.3" stroke-width="0.9"/>
+    </pattern>
+
+    <!-- Circular paths for arched text on the logo coin (Radius 116px, center 160, 160) -->
+    <!-- Top arc: TWO SIDES -->
+    <path id="arc-title-top" d="M 55 111 A 116 116 0 0 1 265 111" fill="none"/>
+    <!-- Bottom arc: OF THE SAME COIN -->
+    <path id="arc-title-bottom" d="M 55 209 A 116 116 0 0 0 265 209" fill="none"/>
+
+    <!-- Left / Right clips for the 300px logo coin -->
+    <clipPath id="coin-clip-left">
+      <rect x="10" y="10" width="150" height="300"/>
+    </clipPath>
+    <clipPath id="coin-clip-right">
+      <rect x="160" y="10" width="150" height="300"/>
+    </clipPath>
+  </defs>
+
+  <g id="logo-coin">
+    <!-- Outer rim base disc (Radius 150px at cx=160, cy=160) -->
+    <!-- Left Half: Warm Gold -->
+    <path d="M 160 10 A 150 150 0 0 0 160 310 Z" fill="#E8B66A"/>
+    <!-- Left Half shading & hatch -->
+    <path d="M 160 10 A 150 150 0 0 0 160 310 Z" fill="url(#hatch)" stroke="none" opacity="0.32"/>
+    <path d="M 160 10 A 150 150 0 0 0 160 310 Z" fill="#A8742A" opacity="0.18"/>
+
+    <!-- Right Half: Cool Silver -->
+    <path d="M 160 10 A 150 150 0 0 1 160 310 Z" fill="#C9D3E6"/>
+    <!-- Right Half shading & hatch -->
+    <path d="M 160 10 A 150 150 0 0 1 160 310 Z" fill="url(#hatch-r)" stroke="none" opacity="0.32"/>
+    <path d="M 160 10 A 150 150 0 0 1 160 310 Z" fill="#7F8BB0" opacity="0.22"/>
+
+    <!-- Outer coin ink rim (with wobble filter) -->
+    <g filter="url(#wobble)">
+      <circle cx="160" cy="160" r="150" fill="none" stroke="#2A1E14" stroke-width="2.6"/>
+    </g>
+
+    <!-- Milled / Reeded Rim (Coin Edge stroke-dasharray) -->
+    <circle cx="160" cy="160" r="144" fill="none" stroke="#2A1E14" stroke-width="6.5" stroke-dasharray="1.8 2.6" stroke-linecap="butt"/>
+    <!-- Gold / Silver highlight on milled rim -->
+    <g clip-path="url(#coin-clip-left)">
+      <circle cx="160" cy="160" r="145" fill="none" stroke="#FFF4D6" stroke-width="1.4" stroke-dasharray="1.8 2.6" stroke-linecap="butt" stroke-opacity="0.75"/>
+    </g>
+    <g clip-path="url(#coin-clip-right)">
+      <circle cx="160" cy="160" r="145" fill="none" stroke="#FFFFFF" stroke-width="1.4" stroke-dasharray="1.8 2.6" stroke-linecap="butt" stroke-opacity="0.8"/>
+    </g>
+
+    <!-- Concentric Guilloché & Engraved Borders inside rim -->
+    <circle cx="160" cy="160" r="139" fill="none" stroke="#2A1E14" stroke-width="1.4"/>
+    <circle cx="160" cy="160" r="136" fill="none" stroke="#2A1E14" stroke-width="0.8" stroke-dasharray="1.2 1.6"/>
+    <circle cx="160" cy="160" r="95" fill="none" stroke="#2A1E14" stroke-width="1.4"/>
+    <circle cx="160" cy="160" r="92" fill="none" stroke="#2A1E14" stroke-width="0.8"/>
+
+    <!-- Inner field fill behind central emblems -->
+    <g clip-path="url(#coin-clip-left)">
+      <circle cx="160" cy="160" r="92" fill="#E2AC5E"/>
+      <!-- Guilloche radiating background arcs (Sun side) -->
+      <g stroke="#A8742A" stroke-width="0.7" fill="none" opacity="0.55">
+        <circle cx="100" cy="160" r="65"/>
+        <circle cx="100" cy="160" r="50"/>
+        <circle cx="100" cy="160" r="35"/>
+        <circle cx="100" cy="160" r="20"/>
+        <path d="M 45 125 Q 100 160 155 125 M 45 195 Q 100 160 155 195"/>
+      </g>
+    </g>
+    <g clip-path="url(#coin-clip-right)">
+      <circle cx="160" cy="160" r="92" fill="#BAC6DC"/>
+      <!-- Guilloche radiating background arcs (Moon side) -->
+      <g stroke="#7F8BB0" stroke-width="0.7" fill="none" opacity="0.55">
+        <circle cx="220" cy="160" r="65"/>
+        <circle cx="220" cy="160" r="50"/>
+        <circle cx="220" cy="160" r="35"/>
+        <circle cx="220" cy="160" r="20"/>
+        <path d="M 165 125 Q 220 160 275 125 M 165 195 Q 220 160 275 195"/>
+      </g>
+    </g>
+
+    <!-- Clean Vertical Seam dividing the coin at x = 160 -->
+    <line x1="160" y1="10" x2="160" y2="310" stroke="#2A1E14" stroke-width="2.6" stroke-linecap="butt"/>
+    <!-- Delicate reeded seam highlight -->
+    <line x1="159" y1="12" x2="159" y2="308" stroke="#FFF4D6" stroke-width="0.9" stroke-opacity="0.6"/>
+    <line x1="161" y1="12" x2="161" y2="308" stroke="#E8F0FF" stroke-width="0.9" stroke-opacity="0.6"/>
+
+    <!-- ============================================================ -->
+    <!-- Arched Text Legends: "TWO SIDES" and "OF THE SAME COIN"      -->
+    <!-- ============================================================ -->
+
+    <!-- Top Arched Text: TWO SIDES -->
+    <text font-family="Georgia, serif" font-size="20" font-weight="bold" letter-spacing="4px" fill="#FFF4D6" fill-opacity="0.4">
+      <textPath href="#arc-title-top" xlink:href="#arc-title-top" startOffset="50%" text-anchor="middle" dy="1.2">TWO SIDES</textPath>
+    </text>
+    <text font-family="Georgia, serif" font-size="20" font-weight="bold" letter-spacing="4px" fill="#2A1E14" fill-opacity="0.88">
+      <textPath href="#arc-title-top" xlink:href="#arc-title-top" startOffset="50%" text-anchor="middle">TWO SIDES</textPath>
+    </text>
+
+    <!-- Decorative engraved stars at top text sides -->
+    <g fill="#2A1E14" opacity="0.75">
+      <polygon points="82,86 83.5,91 88.5,92.5 83.5,94 82,99 80.5,94 75.5,92.5 80.5,91"/>
+      <polygon points="238,86 239.5,91 244.5,92.5 239.5,94 238,99 236.5,94 231.5,92.5 236.5,91"/>
+    </g>
+
+    <!-- Bottom Arched Text: OF THE SAME COIN -->
+    <text font-family="Georgia, serif" font-size="16" font-weight="bold" letter-spacing="3.2px" fill="#FFF4D6" fill-opacity="0.35">
+      <textPath href="#arc-title-bottom" xlink:href="#arc-title-bottom" startOffset="50%" text-anchor="middle" dy="-1.2">OF THE SAME COIN</textPath>
+    </text>
+    <text font-family="Georgia, serif" font-size="16" font-weight="bold" letter-spacing="3.2px" fill="#2A1E14" fill-opacity="0.88">
+      <textPath href="#arc-title-bottom" xlink:href="#arc-title-bottom" startOffset="50%" text-anchor="middle">OF THE SAME COIN</textPath>
+    </text>
+
+    <!-- ============================================================ -->
+    <!-- Engraved Emblems: Sun (Left) and Crescent Moon (Right)       -->
+    <!-- ============================================================ -->
+
+    <!-- LEFT EMBLEM: Engraved Sun (center cx=96, cy=160) -->
+    <g id="engraved-sun" transform="translate(96, 160)">
+      <!-- Radiating sun rays -->
+      <g stroke="#2A1E14" stroke-width="1.3" stroke-linejoin="round" fill="#FFF4D6">
+        <polygon points="0,-27 3.5,-16 -3.5,-16"/>
+        <polygon points="19,-19 14,-7 9,-12"/>
+        <polygon points="27,0 16,3.5 16,-3.5"/>
+        <polygon points="19,19 7,14 12,9"/>
+        <polygon points="0,27 -3.5,16 3.5,16"/>
+        <polygon points="-19,19 -14,7 -9,12"/>
+        <polygon points="-27,0 -16,-3.5 -16,3.5"/>
+        <polygon points="-19,-19 -7,-14 -12,-9"/>
+      </g>
+      <!-- Wavy intermediate rays -->
+      <g stroke="#A8742A" stroke-width="1.2" fill="none">
+        <path d="M 0 -15 Q 4 -21 0 -26"/>
+        <path d="M 11 -11 Q 17 -14 18 -21"/>
+        <path d="M 15 0 Q 21 4 26 0"/>
+        <path d="M 11 11 Q 14 17 21 18"/>
+        <path d="M 0 15 Q -4 21 0 26"/>
+        <path d="M -11 11 Q -17 14 -18 21"/>
+        <path d="M -15 0 Q -21 -4 -26 0"/>
+        <path d="M -11 -11 Q -14 -17 -21 -18"/>
+      </g>
+
+      <!-- Center sun disc -->
+      <circle cx="0" cy="0" r="14.5" fill="#E8B66A" stroke="#2A1E14" stroke-width="1.6"/>
+      <circle cx="0" cy="0" r="12.5" fill="none" stroke="#A8742A" stroke-width="0.8"/>
+      <path d="M 0 14.5 A 14.5 14.5 0 0 0 14.5 0 Z" fill="url(#hatch)" stroke="none"/>
+
+      <!-- Engraved face on sun -->
+      <ellipse cx="-4.5" cy="-2.5" rx="1.6" ry="1.2" fill="#2A1E14"/>
+      <ellipse cx="4.5" cy="-2.5" rx="1.6" ry="1.2" fill="#2A1E14"/>
+      <path d="M -4.5 4 Q 0 8 4.5 4" fill="none" stroke="#2A1E14" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M 0 -1.5 L 0 1.5" fill="none" stroke="#2A1E14" stroke-width="1.0" stroke-linecap="round"/>
+      <circle cx="-7" cy="1" r="1.5" fill="#C8643B" fill-opacity="0.6"/>
+      <circle cx="7" cy="1" r="1.5" fill="#C8643B" fill-opacity="0.6"/>
+    </g>
+
+    <!-- RIGHT EMBLEM: Engraved Crescent Moon (center cx=224, cy=160) -->
+    <g id="engraved-moon" transform="translate(224, 160)">
+      <!-- Main crescent moon body (facing left toward seam) -->
+      <path d="
+        M 8 -24
+        A 24 24 0 1 0 8 24
+        A 18 19 0 0 1 8 -24
+        Z"
+        fill="#C9D3E6" stroke="#0E1028" stroke-width="1.6" stroke-linejoin="round"/>
+
+      <!-- Shading on crescent -->
+      <path d="
+        M 8 -24
+        A 24 24 0 0 0 -16 16
+        A 22 22 0 0 1 8 -24
+        Z"
+        fill="url(#hatch-r)" stroke="none"/>
+
+      <!-- Engraved moon face profile along inner curve -->
+      <path d="
+        M 4 -18
+        C 0 -14 0 -8 4 -6
+        C 2 -4 1 -1 6 0
+        C 2 2 1 5 4 8
+        C -1 12 1 16 5 18
+      " fill="none" stroke="#0E1028" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M -3 -8 Q 0 -5 3 -8" fill="none" stroke="#0E1028" stroke-width="1.2" stroke-linecap="round"/>
+      <circle cx="0" cy="-2" r="1.5" fill="#9C8CD4" fill-opacity="0.6"/>
+
+      <!-- Night stars around moon in Tails half -->
+      <g fill="#0E1028">
+        <polygon points="18,-15 19.5,-11 23.5,-9.5 19.5,-8 18,-4 16.5,-8 12.5,-9.5 16.5,-11"/>
+        <polygon points="17,10 18.5,13.5 22,15 18.5,16.5 17,20 15.5,16.5 12,15 15.5,13.5"/>
+        <circle cx="-10" cy="-20" r="1.6"/>
+        <circle cx="-10" cy="20" r="1.6"/>
+      </g>
+    </g>
+
+    <!-- Stamped coin engraving decorative flourishes -->
+    <g fill="none" stroke="#2A1E14" stroke-width="0.9" opacity="0.6">
+      <circle cx="160" cy="50" r="2"/>
+      <circle cx="160" cy="270" r="2"/>
+    </g>
+  </g>
+</svg>
