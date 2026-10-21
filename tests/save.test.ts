@@ -248,6 +248,7 @@ describe('loadSave() and writeSave()', () => {
     const loaded = loadSave();
     expect(loaded.best['1-1']).toBe(7);
     expect(loaded.seenIntro).toBe(true);
+    expect(loaded.seenGuides).toEqual([]);
     expect(loaded.settings.master).toBe(0.2);
     // Missing fields get defaults
     expect(loaded.settings.music).toBe(DEFAULT_SETTINGS.music);

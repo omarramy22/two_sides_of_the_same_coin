@@ -6,6 +6,8 @@ export interface SaveData {
   best: Record<string, number>;
   settings: Settings;
   seenIntro: boolean;
+  /** Chapters whose guide popup (new icons and how to use them) has been shown. */
+  seenGuides: number[];
 }
 
 export function cloneSettings(s: Settings): Settings {
@@ -84,6 +86,7 @@ export function getDefaultSave(): SaveData {
     best: {},
     settings: cloneSettings(DEFAULT_SETTINGS),
     seenIntro: false,
+    seenGuides: [],
   };
 }
 
@@ -112,11 +115,13 @@ export function loadSave(): SaveData {
 
     const settings = mergeSettings(parsed.settings, DEFAULT_SETTINGS);
     const seenIntro = typeof parsed.seenIntro === 'boolean' ? parsed.seenIntro : false;
+    const seenGuides = Array.isArray(parsed.seenGuides) ? parsed.seenGuides.filter((n: unknown) => typeof n === 'number') : [];
 
     return {
       best,
       settings,
       seenIntro,
+      seenGuides,
     };
   } catch {
     return getDefaultSave();

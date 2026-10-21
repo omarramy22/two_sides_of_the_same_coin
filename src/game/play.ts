@@ -19,6 +19,7 @@ import { C, text } from '../ui/style';
 import { Hud } from '../ui/hud';
 import { createCredits } from '../ui/credits';
 import { createGameOver } from '../ui/gameover';
+import { createGuide } from '../ui/guide';
 import { createPause } from '../ui/pause';
 
 /** The level being played, for automation (tools/screenshots.ts). */
@@ -264,6 +265,13 @@ export function createPlay(ctx: Ctx, index: number): Scene {
       board.rebuild(hist.state);
       refreshHud();
       audio.playMusic(chapterOf(lv));
+      // A chapter's first level opens with a guide to everything new in it, once per save.
+      const ch = chapterOf(lv);
+      if (lv.id === `${ch}-1` && !ctx.save.seenGuides.includes(ch) && !SHOTS) {
+        ctx.save = { ...ctx.save, seenGuides: [...ctx.save.seenGuides, ch] };
+        ctx.persist();
+        ctx.scenes.push(createGuide(ctx, ch, () => ctx.scenes.pop()));
+      }
     },
     exit() {
       hinter.destroy();
