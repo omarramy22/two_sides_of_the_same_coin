@@ -1,18 +1,18 @@
 {
   "id": "5-3",
-  "name": "Light Footed",
-  "role": "develop",
-  "par": 19,
-  "designNote": "Aha: weightless Sol crosses the crack, and the Tarnish chasing him does not: it breaks through and falls in. Then Sol walks back to bring Lune the long way round.",
+  "name": "Walk Beside Me",
+  "role": "twist",
+  "par": 17,
+  "designNote": "Aha: Lune's light is Sol's shadow. Lune gives up her coin for light, walks beside Sol and bumps her wall so she stays next to his shadow bridge while he crosses it, then takes the long way to her goal.",
   "heads": ["##########",
-            "#@..S.O%G#",
+            "#S....-.G#",
             "##########",
             "##########",
             "##########"],
   "tails": ["##########",
-            "#...L..?.#",
-            "#.######.#",
-            "#......G.#",
-            "##########"],
-  "hints": ["Who is heavier now, Sol or the Tarnish?", "Trade Sol's weight, cross the crack and let the Tarnish follow you.", null]
+            "#.....#..#",
+            "#L....#.G#",
+            "#........#",
+            "#Q########"],
+  "hints": ["Sol's bridge is made of shadow. Who could cast it?", "Lune becomes the lamp. Keep her right beside Sol's bridge while he crosses.", null]
 }

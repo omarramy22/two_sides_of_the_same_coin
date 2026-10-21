@@ -1,18 +1,16 @@
 {
   "id": "1-4",
-  "name": "Rust to Rust",
-  "role": "twist",
-  "par": 13,
-  "designNote": "Aha: lure the Tarnish into the pit. It fills the hole, and the new way down is exactly where Lune has a wall to wait against.",
+  "name": "Line Up",
+  "role": "develop",
+  "par": 10,
+  "designNote": "Teaches the flip. Step Sol out of line, let the Tarnish close in, then step back into line: it falls asleep beside Sol, and Lune's Tarnish wakes and walks straight into her pit, filling it.",
   "heads": ["#########",
-            "#.S.....#",
-            "#.##^##.#",
-            "#@.....G#",
+            "#S.@...G#",
+            "#.......#",
             "#########"],
   "tails": ["#########",
-            "#.L.....#",
-            "#.#####.#",
-            "#G......#",
+            "#L.^.?.G#",
+            "#########",
             "#########"],
-  "hints": ["The Tarnish always steps straight toward Sol.", "Stand right above the pit so the Tarnish walks into it.", null]
+  "hints": ["Step Sol out of line, then back into line.", "When Sol and Lune line up, the coin shines: Sol's Tarnish falls asleep and Lune's wakes up.", null]
 }

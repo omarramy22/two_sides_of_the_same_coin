@@ -1,18 +1,16 @@
 {
   "id": "4-2",
-  "name": "Raft",
+  "name": "Low Tide",
   "role": "introduce",
-  "par": 7,
-  "designNote": "Aha: a crate pushed into water floats and becomes a raft you can walk on. Lune shoves her crate three tiles into the channel and crosses on it.",
+  "par": 13,
+  "designNote": "Aha: the sluice pours Sol's water through the coin into Lune's basin, one cell per move, but only while someone stands on it. Sol waits on the sluice (bumping the wall) until his way is dry; Lune's lower row floods behind her.",
   "heads": ["#########",
-            "#S..._..#",
-            "#...._.G#",
-            "#...._..#",
+            "#S#######",
+            "#&~~~~~G#",
             "#########"],
   "tails": ["#########",
-            "#L...~..#",
-            "#.C..~.G#",
-            "#....~..#",
+            "#L.....G#",
+            "#._____.#",
             "#########"],
-  "hints": ["Lune can't wade through water. What floats?", "Push the crate into the channel, then walk across it.", null]
+  "hints": ["Stand on the sluice and watch where the water goes.", "Stay on the sluice. Bump the wall to wait while the water drains, one cell per move.", null]
 }

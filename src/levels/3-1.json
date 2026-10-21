@@ -1,18 +1,18 @@
 {
   "id": "3-1",
-  "name": "Lantern Light",
+  "name": "Cast Shadow",
   "role": "introduce",
-  "par": 15,
-  "designNote": "Aha: the sunglass bridge only stands in light. Push the lantern down into the bottom row so its beam reaches the bridge, then keep shoving it ahead of you across.",
+  "par": 9,
+  "designNote": "Aha: Sol's light is Lune's shadow. Lune can't make her own bridge; Sol pushes the lantern under the gap's column, and the light on his side throws a shadow bridge across hers.",
   "heads": ["#########",
-            "#S...#..#",
-            "#..*#=.G#",
-            "#....=..#",
+            "#S......#",
+            "#......G#",
+            "#.*.....#",
             "#########"],
   "tails": ["#########",
-            "#L......#",
-            "#.###...#",
-            "#.....G.#",
+            "#L..#...#",
+            "#...-..G#",
+            "#...#...#",
             "#########"],
-  "hints": ["The glass bridge only stands where light falls on it.", "Push the lantern into the bottom row so its beam reaches the bridge, then keep it ahead of you.", null]
+  "hints": ["Lune's bridge is made of shadow. What casts a shadow on her side?", "Light on Sol's side is shadow on Lune's. Push the lantern into the gap's column.", null]
 }

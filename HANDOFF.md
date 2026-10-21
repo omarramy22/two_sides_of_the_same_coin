@@ -45,7 +45,7 @@ All approved by the user unless marked.
 5. **Enemies (the Tarnish)** were added at the user's request (SPEC §2.1.1, RULES.md §5a). They are rusted wish-coins that hunt the half-coin pendants. Turn-based: after the characters move, each awake Tarnish steps one tile toward its own world's character, taking the larger axis first (ties horizontal), and tries the other axis if that's blocked. Asleep ones are harmless walls. Caught means the rewind prompt. A Tarnish stepping into a pit fills it (shown as a sunken rusty coin). A Tarnish weighs down plates and jams doors and stones.
    - **The flip:** when Sol and Lune *newly* stand on the same coordinates, every Tarnish in both worlds flips awake ↔ asleep, wherever it stands (enemies do NOT need to line up), and none steps that turn. The game shows a light flash across the seam and the caption "The halves line up: the Tarnish flip!".
 6. **No enemy intent arrows:** the user wants movement readable from motion, not arrows. Removed.
-7. **Chapter 1 has 6 levels** (the spec said 5): 1-5 exists only to teach the flip, because playtesting showed it was undiscoverable.
+7. **Chapter 1 has 6 levels** (the spec said 5): 1-4 (was 1-5) exists only to teach the flip, because playtesting showed it was undiscoverable.
 8. **Characters are human kids** (user request). Sol wears a coin-shaped cap; Lune has a crescent-moon hood and a trailing scarf. Each wears one half of the coin.
 9. **Opening intro** (wordless 20–30 s storybook panels) was added to SPEC §7 and Phase 5.
 10. **Play goes straight to the first unsolved level** (first five minutes matter). The album is one keypress away.
@@ -56,6 +56,7 @@ All approved by the user unless marked.
 15. **A Tarnish per chapter** (user request, 2026-10-20): Chapter 1 keeps `chars/tarnish/awake|asleep`; chapters 2-6 use `chars/tarnish/chN.svg` (rendered `.awake`/`.asleep` via `data-palettes`, `foeTex()` in sprites.ts). Sunk Tarnish tiles take chapter colours from `_palettes.css`; the ending shows one from each chapter.
 16. **The surviving kid grieves** (user request, 2026-10-20): `mood = 'grieve'` in rig.ts (eyes shut, arms in, sobs, tears) when the partner is caught or falls; the game over popup waits 1.6 s so it is seen.
 17. **Judging rubric** is in SPEC.md §0: Gameplay & Fun 60%, Presentation 20%, Audio 10%, Visual 10%, Theme pass/fail. Undo stays unlimited (judges play briefly; retries are a safety net).
+18. **Levels reordered for a rising curve** (user request, 2026-10-21): swapped 1-4/1-5, 2-1/2-2, 3-1/3-2, 4-1/4-2, 5-3/5-4 so par rises within each chapter. Players' saved best scores for those ids now point at the swapped level.
 
 ### User's design feedback (apply to every new level and mechanic)
 - Mechanics must feel **physically logical and fun, with visible cause → effect**. Chapter 2 fixed "strange" plates and seesaws with a physical metaphor: ropes over pulleys in the seam, a glint running from cause to effect, and character reactions.
@@ -72,28 +73,28 @@ All approved by the user unless marked.
 | 1-1 | Two Paths | introduce | 7 | 96% | Both move together |
 | 1-2 | Wait for Me | develop | 12 | 0% | Walk into a wall to wait |
 | 1-3 | Stepping Stone | develop | 12 | 0% | Lune's crate fills her pit; up/down only moves Sol |
-| 1-4 | Rust to Rust | twist | 13 | 0.2% | Lure the Tarnish into the pit; the filled pit is the way down |
-| 1-5 | Line Up | develop | 10 | 0.3% | Teaches the flip |
+| 1-4 | Line Up | develop | 10 | 0.3% | Teaches the flip |
+| 1-5 | Rust to Rust | twist | 13 | 0.2% | Lure the Tarnish into the pit; the filled pit is the way down |
 | 1-6 | Two Sides | capstone | 19 | 0% | Flip just as the Tarnish reaches Sol; his sleeper becomes a wall |
-| 2-1 | Counterweight | introduce | 16 | 0% | A crate on Sol's plate hoists his door and drops Lune's; Lune goes first |
-| 2-2 | Balance Stones | introduce | 9 | 74% | Ping-pong shoves; a stone can't rise under someone |
+| 2-1 | Balance Stones | introduce | 9 | 74% | Ping-pong shoves; a stone can't rise under someone |
+| 2-2 | Counterweight | introduce | 16 | 0% | A crate on Sol's plate hoists his door and drops Lune's; Lune goes first |
 | 2-3 | Doorstop | develop | 12 | 8.8% | The door that shut behind Sol is his backstop |
 | 2-4 | Follow Me | twist | 17 | 0% | The chasing Tarnish holds Sol's plate while he walks through |
 | 2-5 | Two Ropes | capstone | 26 | 0% | Everything: pen stone, flips, Tarnish as counterweight |
-| 3-1 | Lantern Light | introduce | 15 | 0.5% | Push the lantern so its beam reaches the sunglass bridge |
-| 3-2 | Cast Shadow | introduce | 9 | 4.5% | Sol's light is Lune's shadow bridge |
+| 3-1 | Cast Shadow | introduce | 9 | 4.5% | Sol's light is Lune's shadow bridge |
+| 3-2 | Lantern Light | introduce | 15 | 0.5% | Push the lantern so its beam reaches the sunglass bridge |
 | 3-3 | One Lantern | develop | 15 | 0.1% | Lune crosses first; moving the light for Sol melts her bridge |
 | 3-4 | Hold Still | introduce | 15 | 1.5% | Light freezes the Tarnish: lure it in, catch it in the beam |
 | 3-5 | Two Jobs | capstone | 22 | 0% | The lantern's column freezes the Tarnish, its row lays Lune's bridge |
-| 4-1 | Low Tide | introduce | 13 | 88% | Wait on the sluice: Sol's water pours into Lune's basin |
-| 4-2 | Raft | introduce | 7 | 32% | Push a crate into water; it floats |
+| 4-1 | Raft | introduce | 7 | 32% | Push a crate into water; it floats |
+| 4-2 | Low Tide | introduce | 13 | 88% | Wait on the sluice: Sol's water pours into Lune's basin |
 | 4-3 | Mind the Flood | develop | 17 | 1.7% | Lune hides in her gap before Sol's water reaches her crossing |
 | 4-4 | Open Water | twist | 20 | 0% | Tarnish can't swim; the cells Sol drains become his own Tarnish's path |
 | 4-5 | Riding the Tide | capstone | 15 | 0.9% | A crate holds the sluice open; Lune's crate floats into a raft |
 | 5-1 | Featherweight | introduce | 10 | 54% | Trade weight to cross the crack |
 | 5-2 | Lamplighter | introduce | 10 | 50% | Trade for light; carry it across the sunglass bridge |
-| 5-3 | Light Footed | develop | 19 | 0.2% | Weightless Sol crosses; the chasing Tarnish breaks through |
-| 5-4 | Walk Beside Me | twist | 17 | 0.1% | Lune's light is Sol's shadow bridge: she walks beside him |
+| 5-3 | Walk Beside Me | twist | 17 | 0.1% | Lune's light is Sol's shadow bridge: she walks beside him |
+| 5-4 | Light Footed | develop | 19 | 0.2% | Weightless Sol crosses; the chasing Tarnish breaks through |
 | 5-5 | Two Gifts | capstone | 19 | 0% | Line up to calm her Tarnish; Sol takes weightlessness, Lune light |
 | 6-1 | Looking Glass | introduce | 7 | 76% | The shrine swaps Lune's left and right |
 | 6-2 | Backwards | introduce | 8 | 65% | Mirrored, Lune pushes her crate the other way |
