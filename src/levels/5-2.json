@@ -2,19 +2,27 @@
   "id": "5-2",
   "name": "Lamplighter",
   "role": "introduce",
-  "par": 10,
-  "designNote": "Aha: the light altar turns Sol into a lamp. He gives it his coin, and from then on the sunglass bridge stands wherever he steps, because he lights his own way.",
-  "heads": ["#########",
-            "#.#######",
-            "#S..=..G#",
-            "#.#######",
-            "#Q#######",
-            "#########"],
-  "tails": ["#########",
-            "#.#######",
-            "#L.....G#",
-            "#.#######",
-            "#.#######",
-            "#########"],
-  "hints": ["The sunglass bridge needs light, and there's no lantern.", "Give the light altar your coin. You'll carry the light yourself.", null]
+  "par": 19,
+  "designNote": "Aha: Sol trades his half-coin for light, and his light is Lune's shadow. He walks the top row so Lune can cross her shadow bridge in his shadow, then lights his own sunglass bridge down to his goal.",
+  "heads": [
+    "##########",
+    "#..Q.....#",
+    "#.#.##..=#",
+    "#.#.##.G.#",
+    "#..=..S..#",
+    "##########"
+  ],
+  "tails": [
+    "##########",
+    "##^...-..#",
+    "#...#.##G#",
+    "#.L...#.##",
+    "#.......##",
+    "##########"
+  ],
+  "hints": [
+    "There's no lantern. Who could carry the light?",
+    "Sol takes the light altar, then walks the top row so his shadow covers Lune's bridge.",
+    null
+  ]
 }

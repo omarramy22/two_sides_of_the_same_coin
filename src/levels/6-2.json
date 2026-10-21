@@ -2,13 +2,27 @@
   "id": "6-2",
   "name": "Backwards",
   "role": "introduce",
-  "par": 8,
-  "designNote": "Aha: in the mirror Lune pushes backwards too. Sol walks right along his corridor; mirrored, Lune walks left, shoves her crate three tiles into her pit and crosses it to her goal.",
-  "heads": ["###########",
-            "##SM.....G#",
-            "###########"],
-  "tails": ["###########",
-            "#G.^..C.L##",
-            "###########"],
-  "hints": ["Lune's crate has to go left while Sol goes right.", "Turn the mirror on first, then keep walking right.", null]
+  "par": 19,
+  "designNote": "Aha: Lune stomps her balance stone first, then Sol visits the mirror shrine. Mirrored, every left takes Sol toward his goal and Lune toward hers, on opposite sides.",
+  "heads": [
+    "##########",
+    "##G^#..#.#",
+    "##.##....#",
+    "#....M/###",
+    "#S#.#.#..#",
+    "##########"
+  ],
+  "tails": [
+    "##########",
+    "##......L#",
+    "#..#.##.^#",
+    "#.#...|.G#",
+    "#......#.#",
+    "##########"
+  ],
+  "hints": [
+    "Sol's goal is up on the left; Lune's is on the right.",
+    "Lune stomps her stone first. Then Sol steps on the mirror shrine so left takes Lune right.",
+    null
+  ]
 }

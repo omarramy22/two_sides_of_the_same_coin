@@ -1,16 +1,30 @@
 {
   "id": "6-3",
-  "name": "Opposite Ways",
+  "name": "Close Behind",
   "role": "combine",
-  "par": 13,
-  "designNote": "Aha: lure first, mirror second. While Sol bumps his wall, Lune leads her Tarnish into her pit. Then Sol steps on the shrine, and the two walk away from each other to opposite goals; the sleeping Tarnish in Sol's top row sends him along the bottom.",
-  "heads": ["#########",
-            "#S..?..G#",
-            "#M......#",
-            "#########"],
-  "tails": ["#########",
-            "#G.....L#",
-            "#..^.@..#",
-            "#########"],
-  "hints": ["Lune's Tarnish needs dealing with before anyone walks far.", "Lure it into Lune's pit while Sol waits at the wall, then use the mirror to split up.", null]
+  "par": 23,
+  "designNote": "Aha: let the Tarnish chase Sol all the way round the loop and past the mirror shrine, then line Sol up with Lune just as it closes in. The flip puts it to sleep right behind him, and Lune's newly woken Tarnish is penned in its corner.",
+  "heads": [
+    "##########",
+    "#@.#.#M..#",
+    "#..#...#.#",
+    "#.....#..#",
+    "##.#.##.##",
+    "#S...##.G#",
+    "##########"
+  ],
+  "tails": [
+    "##########",
+    "###.?#####",
+    "#...C.####",
+    "#..#.G.#.#",
+    "##.#.#.###",
+    "#.....L.##",
+    "##########"
+  ],
+  "hints": [
+    "The Tarnish follows Sol everywhere. Lead it on a long walk.",
+    "Walk Sol round the loop with the Tarnish behind him, then line up with Lune as it catches up.",
+    null
+  ]
 }

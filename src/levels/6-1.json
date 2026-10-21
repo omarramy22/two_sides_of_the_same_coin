@@ -2,13 +2,27 @@
   "id": "6-1",
   "name": "Looking Glass",
   "role": "introduce",
-  "par": 7,
-  "designNote": "Aha: the mirror shrine swaps Lune's left and right. Once Sol steps on it, walking right takes Sol right and Lune left, so they can head for opposite ends.",
-  "heads": ["#########",
-            "#SM....G#",
-            "#########"],
-  "tails": ["#########",
-            "#G....L.#",
-            "#########"],
-  "hints": ["Lune's goal is the other way. How can 'right' take her left?", "Step Sol onto the mirror shrine. Then right moves Lune left.", null]
+  "par": 15,
+  "designNote": "Aha: Sol detours onto the mirror shrine, and from then on every step right takes Lune left. Lune first shoves her crate out of the way so the mirrored walk brings her home.",
+  "heads": [
+    "##########",
+    "#......#.#",
+    "#..#.#..##",
+    "#...M#.SG#",
+    "##.#..#..#",
+    "##########"
+  ],
+  "tails": [
+    "##########",
+    "#.....####",
+    "#.C......#",
+    "##...#...#",
+    "#G..L#..##",
+    "##########"
+  ],
+  "hints": [
+    "Sol's goal is right and Lune's is left. How can one move send them apart?",
+    "Lune pushes her crate aside, then Sol steps on the mirror shrine before heading right.",
+    null
+  ]
 }
