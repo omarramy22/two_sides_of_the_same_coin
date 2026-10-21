@@ -2,17 +2,31 @@
   "id": "6-5",
   "name": "The Wish",
   "role": "finale",
-  "par": 9,
-  "designNote": "Aha: the wish altars sit at the same spot in both worlds, so the coin can only be made whole with the halves lined up. Sol takes the mirror so they walk toward each other along the top; lining up puts Sol's Tarnish to sleep, and they step onto the altars together, both still holding their half-coins.",
-  "heads": ["###########",
-            "#S........#",
-            "#.###$###.#",
-            "#M.......@#",
-            "###########"],
-  "tails": ["###########",
-            "#........L#",
-            "#.###$###.#",
-            "#.........#",
-            "###########"],
-  "hints": ["Both wish altars are at the same place. How do you bring the halves together?", "Use the mirror and meet above the altars, then step down together.", null]
+  "par": 63,
+  "designNote": "Aha: everything at once. Shove the crates to free the balance stones, line up to flip the Tarnish, take the mirror shrine, rock the stones back and forth, and lure Lune's Tarnish into her pit before both step onto the wish altars together, still holding their coins.",
+  "heads": [
+    "###########",
+    "#.##.##...#",
+    "#.##/.b####",
+    "#.#.#.##.##",
+    "#C.#S..####",
+    "#.##.....@#",
+    "#...$#M.#.#",
+    "###########"
+  ],
+  "tails": [
+    "###########",
+    "#...#.B...#",
+    "#C..|.##..#",
+    "#.##L^#...#",
+    "#.#.#$..#.#",
+    "####..###?#",
+    "#.###.#.#.#",
+    "###########"
+  ],
+  "hints": [
+    "This one asks for everything you've learned, and a lot of moves.",
+    "After the mirror shrine, rock the balance stones and lure Lune's Tarnish into her pit before heading for the altars.",
+    null
+  ]
 }

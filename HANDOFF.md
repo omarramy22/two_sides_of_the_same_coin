@@ -57,6 +57,7 @@ All approved by the user unless marked.
 16. **The surviving kid grieves** (user request, 2026-10-20): `mood = 'grieve'` in rig.ts (eyes shut, arms in, sobs, tears) when the partner is caught or falls; the game over popup waits 1.6 s so it is seen.
 17. **Judging rubric** is in SPEC.md §0: Gameplay & Fun 60%, Presentation 20%, Audio 10%, Visual 10%, Theme pass/fail. Undo stays unlimited (judges play briefly; retries are a safety net).
 18. **Levels reordered for a rising curve** (user request, 2026-10-21): swapped 1-4/1-5, 2-1/2-2, 3-1/3-2, 4-1/4-2, 5-3/5-4 so par rises within each chapter. Players' saved best scores for those ids now point at the swapped level.
+19. **Chapters 5-6 redesigned for a rising curve; finale made extremely hard** (user request, 2026-10-21): 5-1, 5-2, 6-1..6-5 were found with a search that hill-climbs layouts and keeps only boards where every element changes par, then hand-checked and given notes and hints. The finale now takes 63 moves at best (was 9).
 
 ### User's design feedback (apply to every new level and mechanic)
 - Mechanics must feel **physically logical and fun, with visible cause → effect**. Chapter 2 fixed "strange" plates and seesaws with a physical metaphor: ropes over pulleys in the seam, a glint running from cause to effect, and character reactions.
@@ -91,16 +92,16 @@ All approved by the user unless marked.
 | 4-3 | Mind the Flood | develop | 17 | 1.7% | Lune hides in her gap before Sol's water reaches her crossing |
 | 4-4 | Open Water | twist | 20 | 0% | Tarnish can't swim; the cells Sol drains become his own Tarnish's path |
 | 4-5 | Riding the Tide | capstone | 15 | 0.9% | A crate holds the sluice open; Lune's crate floats into a raft |
-| 5-1 | Featherweight | introduce | 10 | 54% | Trade weight to cross the crack |
-| 5-2 | Lamplighter | introduce | 10 | 50% | Trade for light; carry it across the sunglass bridge |
+| 5-1 | Featherweight | introduce | 14 | 0% | the cracks break under weight |
+| 5-2 | Lamplighter | introduce | 19 | 0% | Sol trades his half-coin for light, and his light is Lune's shadow |
 | 5-3 | Walk Beside Me | twist | 17 | 0.1% | Lune's light is Sol's shadow bridge: she walks beside him |
 | 5-4 | Light Footed | develop | 19 | 0.2% | Weightless Sol crosses; the chasing Tarnish breaks through |
 | 5-5 | Two Gifts | capstone | 19 | 0% | Line up to calm her Tarnish; Sol takes weightlessness, Lune light |
-| 6-1 | Looking Glass | introduce | 7 | 76% | The shrine swaps Lune's left and right |
-| 6-2 | Backwards | introduce | 8 | 65% | Mirrored, Lune pushes her crate the other way |
-| 6-3 | Opposite Ways | combine | 13 | 0.1% | Lure her Tarnish into the pit, then mirror to split up |
-| 6-4 | Parked Light | capstone | 25 | 0.2% | Park the lantern over her bridge, walk back together, then mirror |
-| 6-5 | The Wish | finale | 9 | 0.1% | Mirror to meet above the twin wish altars; step down together with both coins |
+| 6-1 | Looking Glass | introduce | 15 | 0% | Sol detours onto the mirror shrine, and from then on every step right takes Lune left |
+| 6-2 | Backwards | introduce | 19 | 0% | Lune stomps her balance stone first, then Sol visits the mirror shrine |
+| 6-3 | Close Behind | combine | 23 | 0% | let the Tarnish chase Sol all the way round the loop and past the mirror shrine, then line Sol up with Lune just as it closes in |
+| 6-4 | Flip and Flip Again | capstone | 28 | 0% | Sol and Lune line up again and again, flipping the Tarnish asleep and awake to slip past each one in turn |
+| 6-5 | The Wish | finale | 63 | 0% | everything at once |
 
 `designNote` in each level JSON has the precise aha. When the solver's real solution differs from the intended one, trust the trace and rewrite the note (that happened with 2-4).
 

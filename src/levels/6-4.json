@@ -1,16 +1,30 @@
 {
   "id": "6-4",
-  "name": "Parked Light",
+  "name": "Flip and Flip Again",
   "role": "capstone",
-  "par": 25,
-  "designNote": "Aha: the lantern doesn't have to move while Lune crosses. Sol pushes the lantern all the way to the cell over Lune's bridge and leaves it there; they walk back left together and Lune crosses in its shadow. Then Sol takes the mirror so he can go right while Lune waits at her goal, and sinks the lantern in the pit on the way.",
-  "heads": ["#############",
-            "#S.*......^.#",
-            "#M######.##G#",
-            "#############"],
-  "tails": ["#############",
-            "#############",
-            "#G......-..L#",
-            "#############"],
-  "hints": ["Lune's shadow bridge needs the lantern above it while she's on it.", "Park the lantern over her bridge, walk back together, then use the mirror to part ways.", null]
+  "par": 28,
+  "designNote": "Aha: Sol and Lune line up again and again, flipping the Tarnish asleep and awake to slip past each one in turn. Only at the very end does Sol take the mirror shrine, so the last steps send them to opposite goals.",
+  "heads": [
+    "###########",
+    "#.##.##...#",
+    "#.....S.#.#",
+    "###.#?..M##",
+    "#...=G..###",
+    "#####.#.#.#",
+    "###########"
+  ],
+  "tails": [
+    "###########",
+    "#.....#.#.#",
+    "#..#.#....#",
+    "#.##.L....#",
+    "#.#..@.G#.#",
+    "#......#.##",
+    "###########"
+  ],
+  "hints": [
+    "You'll need to line up more than once.",
+    "Each time a Tarnish closes in, line up to put it to sleep. Save the mirror shrine for the end.",
+    null
+  ]
 }
